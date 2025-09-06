@@ -1,11 +1,7 @@
 ---
-layout: lucidflux
+layout: default
 permalink: /LucidFlux/
 title: LucidFlux - High-Resolution Image Generation
-extra_css:
-  - /assets/css/lucidflux.css
-extra_js:
-  - /assets/js/lucidflux.js
 ---
 
 <!-- 顶部浮动demo图片 - 更新版本 -->
