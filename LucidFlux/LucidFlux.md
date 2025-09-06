@@ -1,40 +1,40 @@
 ---
-layout: postercraft
-permalink: /PosterCraft/
-title: PosterCraft - Aesthetic Poster Generation
+layout: lucidflux
+permalink: /LucidFlux/
+title: LucidFlux - High-Resolution Image Generation
 extra_css:
-  - /assets/css/postercraft.css
+  - /assets/css/lucidflux.css
 extra_js:
-  - /assets/js/postercraft.js
+  - /assets/js/lucidflux.js
 ---
 
 <!-- 顶部浮动demo图片 - 更新版本 -->
 <div class="floating-demos">
     <!-- 第一组demo图片 -->
     <div class="demo-left">
-        <img src="/images/postercraft/demo/demo1.png" alt="AI Generated Poster Demo 1">
+        <img src="/images/lucidflux/demo/demo1.png" alt="AI Generated Poster Demo 1">
     </div>
     <div class="demo-right">
-        <img src="/images/postercraft/demo/demo2.png" alt="AI Generated Poster Demo 2">
+        <img src="/images/lucidflux/demo/demo2.png" alt="AI Generated Poster Demo 2">
     </div>
     
     <!-- 第二组demo图片 -->
     <div class="demo-second-left">
-        <img src="/images/postercraft/demo/demo11.png" alt="AI Generated Poster Demo 3">
+        <img src="/images/lucidflux/demo/demo11.png" alt="AI Generated Poster Demo 3">
     </div>
     <div class="demo-second-right">
-        <img src="/images/postercraft/demo/demo12.png" alt="AI Generated Poster Demo 4">
+        <img src="/images/lucidflux/demo/demo12.png" alt="AI Generated Poster Demo 4">
     </div>
 </div>
 
 <div class="hero">
     <div class="hero-content">
-        <!-- 主标题区域：PosterCraft + Logo -->
+        <!-- 主标题区域：lucidflux + Logo -->
         <div class="title-logo-section">
-            <h1 class="hero-title">PosterCraft:</h1>
+            <h1 class="hero-title">LucidFlux:</h1>
             <div class="inline-logo">
                 <div class="logo-glow-effect-inline"></div>
-                <img src="/images/postercraft/logo/logo_final.png" alt="PosterCraft Logo" class="main-logo-inline">
+                <img src="/images/lucidflux/logo/logo_final.png" alt="lucidflux Logo" class="main-logo-inline">
                 <div class="logo-sparkles-inline">
                     <span class="logo-sparkle logo-sparkle-1">✨</span>
                     <span class="logo-sparkle logo-sparkle-2">⭐</span>
@@ -45,7 +45,7 @@ extra_js:
         <!-- Paper信息 - 紧凑布局 -->
         <div class="paper-info-compact">
             <h3 class="paper-title-main">
-                Rethinking High-Quality Aesthetic Poster Generation in a Unified Framework
+                High-Resolution Image Generation with Flow Matching
             </h3>
             <div class="paper-badge-fancy">📄 Research Paper</div>
         </div>
@@ -87,22 +87,22 @@ extra_js:
                 <span>arXiv</span>
                 <div class="link-shine"></div>
             </a>
-            <a href="https://github.com/Ephemeral182/PosterCraft" class="paper-link-fancy github-link" target="_blank">
+            <a href="https://github.com/Ephemeral182/lucidflux" class="paper-link-fancy github-link" target="_blank">
                 <div class="link-icon-fancy">💻</div>
                 <span>GitHub</span>
                 <div class="link-shine"></div>
             </a>
-            <a href="https://huggingface.co/PosterCraft/PosterCraft-v1_RL" class="paper-link-fancy huggingface-link" target="_blank">
+            <a href="https://huggingface.co/lucidflux/lucidflux-v1_RL" class="paper-link-fancy huggingface-link" target="_blank">
                 <div class="link-icon-fancy">🤗</div>
                 <span>HuggingFace</span>
                 <div class="link-shine"></div>
             </a>
-            <a href="https://huggingface.co/spaces/Ephemeral182/PosterCraft" class="paper-link-fancy demo-link" target="_blank">
+            <a href="https://huggingface.co/spaces/Ephemeral182/lucidflux" class="paper-link-fancy demo-link" target="_blank">
                 <div class="link-icon-fancy">🚀</div>
                 <span>HF Demo</span>
                 <div class="link-shine"></div>
             </a>
-            <a href="https://huggingface.co/PosterCraft" class="paper-link-fancy dataset-link" target="_blank">
+            <a href="https://huggingface.co/lucidflux" class="paper-link-fancy dataset-link" target="_blank">
                 <div class="link-icon-fancy">📊</div>
                 <span>Datasets</span>
                 <div class="link-shine"></div>
@@ -117,28 +117,28 @@ extra_js:
     <div class="hero-visual">
         <div class="mosaic-grid">
             <div class="mosaic-item mosaic-1">
-                <img src="/images/postercraft/demo/demo3.png" alt="AI Generated Avatar 1">
+                <img src="/images/lucidflux/demo/demo3.png" alt="AI Generated Avatar 1">
             </div>
             <div class="mosaic-item mosaic-2">
-                <img src="/images/postercraft/demo/demo7.png" alt="AI Generated Avatar 2">
+                <img src="/images/lucidflux/demo/demo7.png" alt="AI Generated Avatar 2">
             </div>
             <div class="mosaic-item mosaic-9">
-                <img src="/images/postercraft/demo/demo6.png" alt="AI Generated Avatar 9">
+                <img src="/images/lucidflux/demo/demo6.png" alt="AI Generated Avatar 9">
             </div>
             <div class="mosaic-item mosaic-4">
-                <img src="/images/postercraft/demo/demo5.png" alt="AI Generated Avatar 4">
+                <img src="/images/lucidflux/demo/demo5.png" alt="AI Generated Avatar 4">
             </div>
             <div class="mosaic-item mosaic-5">
-                <img src="/images/postercraft/demo/demo4.png" alt="AI Generated Avatar 5">
+                <img src="/images/lucidflux/demo/demo4.png" alt="AI Generated Avatar 5">
             </div>
             <div class="mosaic-item mosaic-6">
-                <img src="/images/postercraft/demo/demo10.png" alt="AI Generated Avatar 6">
+                <img src="/images/lucidflux/demo/demo10.png" alt="AI Generated Avatar 6">
             </div>
             <div class="mosaic-item mosaic-7">
-                <img src="/images/postercraft/demo/demo8.png" alt="AI Generated Avatar 7">
+                <img src="/images/lucidflux/demo/demo8.png" alt="AI Generated Avatar 7">
             </div>
             <div class="mosaic-item mosaic-8">
-                <img src="/images/postercraft/demo/demo9.png" alt="AI Generated Avatar 8">
+                <img src="/images/lucidflux/demo/demo9.png" alt="AI Generated Avatar 8">
             </div>
         </div>
     </div>
@@ -172,11 +172,11 @@ extra_js:
 
 <div class="what-is-section" id="what-is">
     <div class="what-is-container">
-        <h2 class="what-is-title">What is PosterCraft?</h2>
+        <h2 class="what-is-title">What is LucidFlux?</h2>
         <div style="text-align: center;">
             <div class="what-is-emoji">🎨</div>
         </div>
-        <p class="what-is-subtitle">From your prompts to high-quality aesthetic posters, PosterCraft excels in precise text rendering, seamless integration of abstract art, striking layouts, and stylistic harmony.</p>
+        <p class="what-is-subtitle">From your prompts to high-resolution images, LucidFlux excels in flow matching for high-quality image generation with advanced diffusion models.</p>
         
         <!-- 新的横向布局 -->
         <div class="horizontal-demo-container">
@@ -202,7 +202,7 @@ extra_js:
                         
                         <div class="arrow-section">
                             <div class="magic-arrow-horizontal">
-                                <span class="arrow-text">PosterCraft</span>
+                                <span class="arrow-text">lucidflux</span>
                                 <div class="arrow-line-horizontal">
                                     <div class="arrow-head-horizontal"></div>
                                 </div>
@@ -211,7 +211,7 @@ extra_js:
                         
                         <div class="output-section">
                             <div class="output-frame-horizontal">
-                                <img src="/images/postercraft/demo/demo13.png" alt="Urban Canvas Street Art Expo Poster">
+                                <img src="/images/lucidflux/demo/demo13.png" alt="Urban Canvas Street Art Expo Poster">
                                 <div class="output-glow-horizontal"></div>
                             </div>
                         </div>
@@ -241,7 +241,7 @@ extra_js:
                         
                         <div class="arrow-section">
                             <div class="magic-arrow-horizontal">
-                                <span class="arrow-text">PosterCraft</span>
+                                <span class="arrow-text">lucidflux</span>
                                 <div class="arrow-line-horizontal">
                                     <div class="arrow-head-horizontal"></div>
                                 </div>
@@ -250,7 +250,7 @@ extra_js:
                         
                         <div class="output-section">
                             <div class="output-frame-horizontal">
-                                <img src="/images/postercraft/demo/demo18.png" alt="MIDNIGHT MASQUERADE Poster">
+                                <img src="/images/lucidflux/demo/demo18.png" alt="MIDNIGHT MASQUERADE Poster">
                                 <div class="output-glow-horizontal"></div>
                             </div>
                         </div>
@@ -265,7 +265,7 @@ extra_js:
 <div class="technical-overview-section" id="dataset-showcase">
     <div class="overview-container">
         <div class="overview-header">
-            <h2 class="overview-title">Specific Datasets for PosterCraft</h2>
+            <h2 class="overview-title">Specific Datasets for lucidflux</h2>
             <div class="overview-emoji">📚</div>
             <p class="overview-subtitle">Dive into the diverse and specific datasets that support training workflow to achieve high-quality aesthetic poster generation.</p>
         </div>
@@ -287,7 +287,7 @@ extra_js:
                         <p>A comprehensive text rendering dataset containing 2 million high-quality examples. Features multi-instance text rendering, diverse text selections (varying in size, count, placement, and rotation), and dynamic content generation through both template-based and random string approaches. Essential for developing robust text rendering capabilities in poster generation.</p>
                     </div>
                     <div class="ds-image-grid">
-                        <img src="/images/postercraft/refelction_data/demo_text.png" alt="Text-Render-2M Dataset Showcase" class="ds-showcase-image">
+                        <img src="/images/lucidflux/refelction_data/demo_text.png" alt="Text-Render-2M Dataset Showcase" class="ds-showcase-image">
                     </div>
                 </div>
 
@@ -298,7 +298,7 @@ extra_js:
                         <p>A meticulously curated collection of 100,000 high-quality posters with a comprehensive processing pipeline. Incorporates advanced filtering techniques (MD5, Hash), multi-modal scoring systems, Gemini-powered mask generation, and detailed captions. Forms the foundation for training aesthetic poster generation models.</p>
                     </div>
                     <div class="ds-image-grid">
-                        <img src="/images/postercraft/refelction_data/demo2.png" alt="HQ-Poster-100K Dataset Showcase" class="ds-showcase-image">
+                        <img src="/images/lucidflux/refelction_data/demo2.png" alt="HQ-Poster-100K Dataset Showcase" class="ds-showcase-image">
                     </div>
                 </div>
 
@@ -309,7 +309,7 @@ extra_js:
                         <p>A specialized preference learning dataset with 100,000 poster images. These images, generated from user prompts, undergo a rigorous evaluation using advanced aesthetic evaluators and Gemini to form preference pairs by distinguishing between high- and low-quality examples. This process is crucial for learning nuanced aesthetic preferences and generating human-aligned posters.</p>
                     </div>
                     <div class="ds-image-grid">
-                        <img src="/images/postercraft/refelction_data/demo3.png" alt="Poster-Preference-100K Dataset Showcase" class="ds-showcase-image">
+                        <img src="/images/lucidflux/refelction_data/demo3.png" alt="Poster-Preference-100K Dataset Showcase" class="ds-showcase-image">
                     </div>
                 </div>
 
@@ -320,7 +320,7 @@ extra_js:
                         <p>This dataset is built from 120,000 posters, which are used to form into reflection pairs. Each pair is accompanied by a corresponding text reflection that analyzes poster content and aesthetic style. By aligning rich visual information with their text reflections, the dataset enables iterative vision–language feedback refinement. It allows the model to learn from both modalities to obtain more aesthetically compelling posters.</p>
                     </div>
                     <div class="ds-image-grid">
-                        <img src="/images/postercraft/refelction_data/demo4.png" alt="Poster-Reflect-120K Dataset Showcase" class="ds-showcase-image">
+                        <img src="/images/lucidflux/refelction_data/demo4.png" alt="Poster-Reflect-120K Dataset Showcase" class="ds-showcase-image">
                     </div>
                 </div>
             </div>
@@ -341,7 +341,7 @@ extra_js:
         <div class="framework-main-showcase">
             <div class="framework-image-container">
                 <div class="framework-image-wrapper">
-                    <img src="/images/postercraft/overview/framework_fig_final/framework_fig_final.png" alt="PosterCraft Technical Framework" class="framework-image">
+                    <img src="/images/lucidflux/overview/framework_fig_final/framework_fig_final.png" alt="lucidflux Technical Framework" class="framework-image">
                     <div class="framework-glow"></div>
                     
                     <!-- 交互式热点 -->
@@ -463,8 +463,8 @@ extra_js:
                 <div class="comparison-item">
                     <div class="comparison-card">
                         <div class="image-container">
-                            <img src="/images/postercraft/text_opt/demo1_before.png" alt="Before Optimization" class="before-image">
-                            <img src="/images/postercraft/text_opt/demo1_after.png" alt="After Optimization" class="after-image">
+                            <img src="/images/lucidflux/text_opt/demo1_before.png" alt="Before Optimization" class="before-image">
+                            <img src="/images/lucidflux/text_opt/demo1_after.png" alt="After Optimization" class="after-image">
                             <div class="overlay-label before-label">Before</div>
                             <div class="overlay-label after-label">After</div>
                         </div>
@@ -479,8 +479,8 @@ extra_js:
                 <div class="comparison-item">
                     <div class="comparison-card">
                         <div class="image-container">
-                            <img src="/images/postercraft/text_opt/demo2_before.png" alt="Before Optimization" class="before-image">
-                            <img src="/images/postercraft/text_opt/demo2_after.png" alt="After Optimization" class="after-image">
+                            <img src="/images/lucidflux/text_opt/demo2_before.png" alt="Before Optimization" class="before-image">
+                            <img src="/images/lucidflux/text_opt/demo2_after.png" alt="After Optimization" class="after-image">
                             <div class="overlay-label before-label">Before</div>
                             <div class="overlay-label after-label">After</div>
                         </div>
@@ -495,8 +495,8 @@ extra_js:
                 <div class="comparison-item">
                     <div class="comparison-card">
                         <div class="image-container">
-                            <img src="/images/postercraft/text_opt/demo3_before.png" alt="Before Optimization" class="before-image">
-                            <img src="/images/postercraft/text_opt/demo3_after.png" alt="After Optimization" class="after-image">
+                            <img src="/images/lucidflux/text_opt/demo3_before.png" alt="Before Optimization" class="before-image">
+                            <img src="/images/lucidflux/text_opt/demo3_after.png" alt="After Optimization" class="after-image">
                             <div class="overlay-label before-label">Before</div>
                             <div class="overlay-label after-label">After</div>
                         </div>
@@ -511,8 +511,8 @@ extra_js:
                 <div class="comparison-item">
                     <div class="comparison-card">
                         <div class="image-container">
-                            <img src="/images/postercraft/text_opt/demo5_before.png" alt="Before Optimization" class="before-image">
-                            <img src="/images/postercraft/text_opt/demo5_after.png" alt="After Optimization" class="after-image">
+                            <img src="/images/lucidflux/text_opt/demo5_before.png" alt="Before Optimization" class="before-image">
+                            <img src="/images/lucidflux/text_opt/demo5_after.png" alt="After Optimization" class="after-image">
                             <div class="overlay-label before-label">Before</div>
                             <div class="overlay-label after-label">After</div>
                         </div>
@@ -537,7 +537,7 @@ extra_js:
                 <div class="longtext-item">
                     <div class="longtext-card">
                         <div class="longtext-image-frame">
-                            <img src="/images/postercraft/long_text/demo1.png" alt="Poster Demo 1" class="longtext-image">
+                            <img src="/images/lucidflux/long_text/demo1.png" alt="Poster Demo 1" class="longtext-image">
                             <div class="longtext-glow"></div>
                         </div>
                     </div>
@@ -546,7 +546,7 @@ extra_js:
                 <div class="longtext-item">
                     <div class="longtext-card">
                         <div class="longtext-image-frame">
-                            <img src="/images/postercraft/long_text/demo2.png" alt="Poster Demo 2" class="longtext-image">
+                            <img src="/images/lucidflux/long_text/demo2.png" alt="Poster Demo 2" class="longtext-image">
                             <div class="longtext-glow"></div>
                         </div>
                     </div>
@@ -555,7 +555,7 @@ extra_js:
                 <div class="longtext-item">
                     <div class="longtext-card">
                         <div class="longtext-image-frame">
-                            <img src="/images/postercraft/long_text/demo3.png" alt="Poster Demo 3" class="longtext-image">
+                            <img src="/images/lucidflux/long_text/demo3.png" alt="Poster Demo 3" class="longtext-image">
                             <div class="longtext-glow"></div>
                         </div>
                     </div>
@@ -564,7 +564,7 @@ extra_js:
                 <div class="longtext-item">
                     <div class="longtext-card">
                         <div class="longtext-image-frame">
-                            <img src="/images/postercraft/long_text/demo4.png" alt="Poster Demo 4" class="longtext-image">
+                            <img src="/images/lucidflux/long_text/demo4.png" alt="Poster Demo 4" class="longtext-image">
                             <div class="longtext-glow"></div>
                         </div>
                     </div>
@@ -601,7 +601,7 @@ extra_js:
                                         <span class="label-text">Before RL</span>
                                     </div>
                                     <div class="dpo-image-frame">
-                                        <img src="/images/postercraft/dpo_com/demo1.png" alt="Before RL Optimization 1" class="dpo-image">
+                                        <img src="/images/lucidflux/dpo_com/demo1.png" alt="Before RL Optimization 1" class="dpo-image">
                                         <div class="dpo-glow dpo-before-glow"></div>
                                     </div>
                                 </div>
@@ -623,7 +623,7 @@ extra_js:
                                         <span class="label-text">After RL</span>
                                     </div>
                                     <div class="dpo-image-frame">
-                                        <img src="/images/postercraft/dpo_com/demo1_after.png" alt="After RL Optimization 1" class="dpo-image">
+                                        <img src="/images/lucidflux/dpo_com/demo1_after.png" alt="After RL Optimization 1" class="dpo-image">
                                         <div class="dpo-glow dpo-after-glow"></div>
                                     </div>
                                 </div>
@@ -645,7 +645,7 @@ extra_js:
                                         <span class="label-text">Before RL</span>
                                     </div>
                                     <div class="dpo-image-frame">
-                                        <img src="/images/postercraft/dpo_com/demo2.png" alt="Before RL Optimization 2" class="dpo-image">
+                                        <img src="/images/lucidflux/dpo_com/demo2.png" alt="Before RL Optimization 2" class="dpo-image">
                                         <div class="dpo-glow dpo-before-glow"></div>
                                     </div>
                                 </div>
@@ -667,7 +667,7 @@ extra_js:
                                         <span class="label-text">After RL</span>
                                     </div>
                                     <div class="dpo-image-frame">
-                                        <img src="/images/postercraft/dpo_com/demo2_after.png" alt="After RL Optimization 2" class="dpo-image">
+                                        <img src="/images/lucidflux/dpo_com/demo2_after.png" alt="After RL Optimization 2" class="dpo-image">
                                         <div class="dpo-glow dpo-after-glow"></div>
                                     </div>
                                 </div>
@@ -689,7 +689,7 @@ extra_js:
                                         <span class="label-text">Before RL</span>
                                     </div>
                                     <div class="dpo-image-frame">
-                                        <img src="/images/postercraft/dpo_com/demo3.png" alt="Before RL Optimization 3" class="dpo-image">
+                                        <img src="/images/lucidflux/dpo_com/demo3.png" alt="Before RL Optimization 3" class="dpo-image">
                                         <div class="dpo-glow dpo-before-glow"></div>
                                     </div>
                                 </div>
@@ -711,7 +711,7 @@ extra_js:
                                         <span class="label-text">After RL</span>
                                     </div>
                                     <div class="dpo-image-frame">
-                                        <img src="/images/postercraft/dpo_com/demo3_after.png" alt="After RL Optimization 3" class="dpo-image">
+                                        <img src="/images/lucidflux/dpo_com/demo3_after.png" alt="After RL Optimization 3" class="dpo-image">
                                         <div class="dpo-glow dpo-after-glow"></div>
                                     </div>
                                 </div>
@@ -745,13 +745,13 @@ extra_js:
         <div class="reflection-header">
             <h2 class="reflection-title">Refinement with Reflection</h2>
             <div class="reflection-emoji">🔄</div>
-            <p class="reflection-subtitle">See how PosterCraft utilizes vision-language reflection to enhance poster quality based on content and aesthetic suggestions.</p>
+            <p class="reflection-subtitle">See how lucidflux utilizes vision-language reflection to enhance poster quality based on content and aesthetic suggestions.</p>
         </div>
         <div class="reflection-gallery">
             <!-- Demo 1: Underworld -->
             <div class="reflection-demo-item">
                 <div class="reflection-image-wrapper">
-                    <img src="/images/postercraft/reflection_comp/demo1_before.png" alt="Underworld Poster Before Reflection">
+                    <img src="/images/lucidflux/reflection_comp/demo1_before.png" alt="Underworld Poster Before Reflection">
                     <div class="reflection-image-label">BEFORE</div>
                 </div>
                 <div class="reflection-suggestions-card">
@@ -762,7 +762,7 @@ extra_js:
                     <p>Ensure <span class="highlight-sug-c4">consistent lighting and shadow placement on the character and environment</span> based on the <span class="highlight-sug-c4">presumed single light source (the moon)</span> and …</p>
                 </div>
                 <div class="reflection-image-wrapper">
-                    <img src="/images/postercraft/reflection_comp/demo1_after.png" alt="Underworld Poster After Reflection">
+                    <img src="/images/lucidflux/reflection_comp/demo1_after.png" alt="Underworld Poster After Reflection">
                     <div class="reflection-image-label">AFTER</div>
                 </div>
             </div>
@@ -770,7 +770,7 @@ extra_js:
             <!-- Demo 2: Harry Potter -->
             <div class="reflection-demo-item">
                 <div class="reflection-image-wrapper">
-                    <img src="/images/postercraft/reflection_comp/demo2_before.png" alt="Harry Potter Poster Before Reflection">
+                    <img src="/images/lucidflux/reflection_comp/demo2_before.png" alt="Harry Potter Poster Before Reflection">
                     <div class="reflection-image-label">BEFORE</div>
                 </div>
                 <div class="reflection-suggestions-card">
@@ -781,7 +781,7 @@ extra_js:
                     <p><span class="highlight-sug-c4">Enhance the dramatic lighting on the central figure</span>, <span class="highlight-sug-c2">increasing contrast on the face</span> to <span class="highlight-sug-c2">emphasize shadows and highlights</span> … <span class="highlight-sug-c3">Introduce more textured cloud details in the sky</span>, creating a <span class="highlight-sug-c3">moodier atmosphere</span>. Increase the overall contrast and sharpness of the image to...</p>
                 </div>
                 <div class="reflection-image-wrapper">
-                    <img src="/images/postercraft/reflection_comp/demo2_after.png" alt="Harry Potter Poster After Reflection">
+                    <img src="/images/lucidflux/reflection_comp/demo2_after.png" alt="Harry Potter Poster After Reflection">
                     <div class="reflection-image-label">AFTER</div>
                 </div>
             </div>
@@ -795,7 +795,7 @@ extra_js:
         <div class="experimental-header">
             <h2 class="experimental-title">Experimental Results</h2>
             <div class="experimental-emoji">📊</div>
-            <p class="experimental-subtitle">Comprehensive evaluation demonstrates PosterCraft's superior performance across multiple dimensions</p>
+            <p class="experimental-subtitle">Comprehensive evaluation demonstrates lucidflux's superior performance across multiple dimensions</p>
         </div>
         
         <div class="results-grid">
@@ -803,7 +803,7 @@ extra_js:
             <div class="result-section">
                 <div class="result-section-header">
                     <h3 class="result-section-title">Model Performance Comparison</h3>
-                    <p class="result-section-description">Quantitative evaluation across four critical dimensions, demonstrating PosterCraft's impressive performance across state-of-the-art poster generation models</p>
+                    <p class="result-section-description">Quantitative evaluation across four critical dimensions, demonstrating lucidflux's impressive performance across state-of-the-art poster generation models</p>
                 </div>
                 
                 <div class="performance-table-container">
@@ -860,7 +860,7 @@ extra_js:
                                 <td class="score-cell score-second">0.746</td>
                             </tr>
                             <tr style="border-top: 2px solid rgba(99, 102, 241, 0.4);">
-                                <td style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2)); color: #ffffff; font-weight: 800;"><strong>PosterCraft (ours)</strong></td>
+                                <td style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2)); color: #ffffff; font-weight: 800;"><strong>lucidflux (ours)</strong></td>
                                 <td class="score-cell score-best">0.787</td>
                                 <td class="score-cell score-best">0.774</td>
                                 <td class="score-cell score-best">0.735</td>
@@ -874,7 +874,7 @@ extra_js:
             <div class="result-section">
                 <div class="result-section-header">
                     <h3 class="result-section-title">User Study Results</h3>
-                    <p class="result-section-description">Human expert evaluation showcasing PosterCraft's win rate against baseline models across four critical dimensions</p>
+                    <p class="result-section-description">Human expert evaluation showcasing lucidflux's win rate against baseline models across four critical dimensions</p>
                 </div>
                 
                 <div class="winrate-comparison-container">
@@ -883,15 +883,15 @@ extra_js:
                         <div class="winrate-comparison-item">
                             <div class="winrate-item-header">
                                 <div class="winrate-model-name">
-                                    PosterCraft vs OpenCOLE 
+                                    lucidflux vs OpenCOLE 
                                     <span class="model-type model-open">Open</span>
                                 </div>
                                 <div class="winrate-category">Overall Performance</div>
                             </div>
                             <div class="winrate-bar-container">
                                 <div class="winrate-bar-track">
-                                    <div class="winrate-bar-postercraft" style="width: 83.7%;">
-                                        <span class="winrate-bar-label">PosterCraft</span>
+                                    <div class="winrate-bar-lucidflux" style="width: 83.7%;">
+                                        <span class="winrate-bar-label">lucidflux</span>
                                     </div>
                                     <div class="winrate-bar-opponent" style="width: 16.3%;">
                                         <span class="winrate-bar-label">OpenCOLE</span>
@@ -904,15 +904,15 @@ extra_js:
                         <div class="winrate-comparison-item">
                             <div class="winrate-item-header">
                                 <div class="winrate-model-name">
-                                    PosterCraft vs Playground-v2.5 
+                                    lucidflux vs Playground-v2.5 
                                     <span class="model-type model-open">Open</span>
                                 </div>
                                 <div class="winrate-category">Overall Performance</div>
                             </div>
                             <div class="winrate-bar-container">
                                 <div class="winrate-bar-track">
-                                    <div class="winrate-bar-postercraft" style="width: 69.7%;">
-                                        <span class="winrate-bar-label">PosterCraft</span>
+                                    <div class="winrate-bar-lucidflux" style="width: 69.7%;">
+                                        <span class="winrate-bar-label">lucidflux</span>
                                     </div>
                                     <div class="winrate-bar-opponent" style="width: 30.3%;">
                                         <span class="winrate-bar-label">Playground</span>
@@ -925,15 +925,15 @@ extra_js:
                         <div class="winrate-comparison-item">
                             <div class="winrate-item-header">
                                 <div class="winrate-model-name">
-                                    PosterCraft vs SD3.5 
+                                    lucidflux vs SD3.5 
                                     <span class="model-type model-open">Open</span>
                                 </div>
                                 <div class="winrate-category">Overall Performance</div>
                             </div>
                             <div class="winrate-bar-container">
                                 <div class="winrate-bar-track">
-                                    <div class="winrate-bar-postercraft" style="width: 64.1%;">
-                                        <span class="winrate-bar-label">PosterCraft</span>
+                                    <div class="winrate-bar-lucidflux" style="width: 64.1%;">
+                                        <span class="winrate-bar-label">lucidflux</span>
                                     </div>
                                     <div class="winrate-bar-opponent" style="width: 35.9%;">
                                         <span class="winrate-bar-label">SD3.5</span>
@@ -946,15 +946,15 @@ extra_js:
                         <div class="winrate-comparison-item">
                             <div class="winrate-item-header">
                                 <div class="winrate-model-name">
-                                    PosterCraft vs Flux1.dev 
+                                    lucidflux vs Flux1.dev 
                                     <span class="model-type model-open">Open</span>
                                 </div>
                                 <div class="winrate-category">Overall Performance</div>
                             </div>
                             <div class="winrate-bar-container">
                                 <div class="winrate-bar-track">
-                                    <div class="winrate-bar-postercraft" style="width: 60.8%;">
-                                        <span class="winrate-bar-label">PosterCraft</span>
+                                    <div class="winrate-bar-lucidflux" style="width: 60.8%;">
+                                        <span class="winrate-bar-label">lucidflux</span>
                                     </div>
                                     <div class="winrate-bar-opponent" style="width: 39.2%;">
                                         <span class="winrate-bar-label">Flux1.dev</span>
@@ -967,15 +967,15 @@ extra_js:
                         <div class="winrate-comparison-item">
                             <div class="winrate-item-header">
                                 <div class="winrate-model-name">
-                                    PosterCraft vs Ideogram-v2 
+                                    lucidflux vs Ideogram-v2 
                                     <span class="model-type model-closed">Close</span>
                                 </div>
                                 <div class="winrate-category">Overall Performance</div>
                             </div>
                             <div class="winrate-bar-container">
                                 <div class="winrate-bar-track">
-                                    <div class="winrate-bar-postercraft" style="width: 60.0%;">
-                                        <span class="winrate-bar-label">PosterCraft</span>
+                                    <div class="winrate-bar-lucidflux" style="width: 60.0%;">
+                                        <span class="winrate-bar-label">lucidflux</span>
                                     </div>
                                     <div class="winrate-bar-opponent" style="width: 40.0%;">
                                         <span class="winrate-bar-label">Ideogram</span>
@@ -988,15 +988,15 @@ extra_js:
                         <div class="winrate-comparison-item">
                             <div class="winrate-item-header">
                                 <div class="winrate-model-name">
-                                    PosterCraft vs BAGEL 
+                                    lucidflux vs BAGEL 
                                     <span class="model-type model-open">Open</span>
                                 </div>
                                 <div class="winrate-category">Overall Performance</div>
                             </div>
                             <div class="winrate-bar-container">
                                 <div class="winrate-bar-track">
-                                    <div class="winrate-bar-postercraft" style="width: 67.0%;">
-                                        <span class="winrate-bar-label">PosterCraft</span>
+                                    <div class="winrate-bar-lucidflux" style="width: 67.0%;">
+                                        <span class="winrate-bar-label">lucidflux</span>
                                     </div>
                                     <div class="winrate-bar-opponent" style="width: 33.0%;">
                                         <span class="winrate-bar-label">BAGEL</span>
@@ -1009,15 +1009,15 @@ extra_js:
                         <div class="winrate-comparison-item">
                             <div class="winrate-item-header">
                                 <div class="winrate-model-name">
-                                    PosterCraft vs Gemini2.0-Flash-Gen 
+                                    lucidflux vs Gemini2.0-Flash-Gen 
                                     <span class="model-type model-closed">Close</span>
                                 </div>
                                 <div class="winrate-category">Overall Performance</div>
                             </div>
                             <div class="winrate-bar-container">
                                 <div class="winrate-bar-track">
-                                    <div class="winrate-bar-postercraft" style="width: 45.2%;">
-                                        <span class="winrate-bar-label">PosterCraft</span>
+                                    <div class="winrate-bar-lucidflux" style="width: 45.2%;">
+                                        <span class="winrate-bar-label">lucidflux</span>
                                     </div>
                                     <div class="winrate-bar-opponent" style="width: 54.8%;">
                                         <span class="winrate-bar-label">Gemini2.0</span>
@@ -1029,7 +1029,7 @@ extra_js:
                     </div>
                     
                     <div style="margin-top: 2rem; text-align: center; color: #94a3b8; font-size: 0.9rem;">
-                        <p><strong>Note:</strong> Win rate visualization represents PosterCraft's overall performance against each baseline model in comprehensive human evaluation. Green bars show PosterCraft preference, gray bars show opponent preference. <em>Open</em> and <em>Close</em> denote open-source and closed-source models.</p>
+                        <p><strong>Note:</strong> Win rate visualization represents lucidflux's overall performance against each baseline model in comprehensive human evaluation. Green bars show lucidflux preference, gray bars show opponent preference. <em>Open</em> and <em>Close</em> denote open-source and closed-source models.</p>
                     </div>
                 </div>
             </div>
@@ -1049,70 +1049,70 @@ extra_js:
             <!-- Column 1 -->
             <div class="gallery-column gallery-column-1">
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo.png" alt="Rogue Planet X Poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo.png" alt="Rogue Planet X Poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Sci-Fi Thriller</div>
                         <div class="gallery-poster-title">Rogue Planet X</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo1.png" alt="Indie Visions Film Reel Poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo1.png" alt="Indie Visions Film Reel Poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Film Festival</div>
                         <div class="gallery-poster-title">Indie Visions</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo2.png" alt="Wandering Minstrels Guitars Poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo2.png" alt="Wandering Minstrels Guitars Poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Music Event</div>
                         <div class="gallery-poster-title">Wandering Minstrels</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo18.png" alt="RoboChef Kitchen Assistant Poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo18.png" alt="RoboChef Kitchen Assistant Poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Futuristic Tech</div>
                         <div class="gallery-poster-title">RoboChef 3000</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo17.png" alt="ChronoWrite Luxury Pens Poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo17.png" alt="ChronoWrite Luxury Pens Poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Luxury Branding</div>
                         <div class="gallery-poster-title">ChronoWrite Pens</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo16.png" alt="Lunar New Year Lantern Festival Poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo16.png" alt="Lunar New Year Lantern Festival Poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Cultural Celebration</div>
                         <div class="gallery-poster-title">Lunar Lantern Fest</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo27.png" alt="Fantasy Map Making Workshop Poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo27.png" alt="Fantasy Map Making Workshop Poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Fantasy Art</div>
                         <div class="gallery-poster-title">Map Making Workshop</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo23.png" alt="Echoes in the Empty Diner movie poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo23.png" alt="Echoes in the Empty Diner movie poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Indie Film</div>
                         <div class="gallery-poster-title">Echoes in the Empty Diner</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo21.png" alt="The Dark Knight Rises movie poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo21.png" alt="The Dark Knight Rises movie poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Superhero Movie</div>
                         <div class="gallery-poster-title">The Dark Knight Rises</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo19.png" alt="Utopia / Dystopia Film Showcase poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo19.png" alt="Utopia / Dystopia Film Showcase poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Film Showcase</div>
                         <div class="gallery-poster-title">Utopia / Dystopia</div>
@@ -1123,56 +1123,56 @@ extra_js:
             <!-- Column 2 -->
             <div class="gallery-column gallery-column-2">
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo3.png" alt="Patagonia Expedition Adventure Poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo3.png" alt="Patagonia Expedition Adventure Poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Adventure Travel</div>
                         <div class="gallery-poster-title">Patagonia Expedition</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo4.png" alt="Wasteland Drifters Survival Poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo4.png" alt="Wasteland Drifters Survival Poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Post-Apocalyptic</div>
                         <div class="gallery-poster-title">Wasteland Drifters</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo5.png" alt="Avalanche Peak Mountaineering Poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo5.png" alt="Avalanche Peak Mountaineering Poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Extreme Sports</div>
                         <div class="gallery-poster-title">Avalanche Peak</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo6.png" alt="Urban Legends Reawakened Horror Poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo6.png" alt="Urban Legends Reawakened Horror Poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Horror Anthology</div>
                         <div class="gallery-poster-title">Urban Legends</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo7.png" alt="Synthwave Odyssey Music Poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo7.png" alt="Synthwave Odyssey Music Poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Retrowave Music</div>
                         <div class="gallery-poster-title">Synthwave Odyssey</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo15.png" alt="Desert Bloom Music Festival Poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo15.png" alt="Desert Bloom Music Festival Poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Music & Arts Fest</div>
                         <div class="gallery-poster-title">Desert Bloom</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo20.png" alt="Pax Romana: Gladiator poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo20.png" alt="Pax Romana: Gladiator poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Historical Epic</div>
                         <div class="gallery-poster-title">Gladiator</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo26.png" alt="Neon Pulse cyberpunk city poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo26.png" alt="Neon Pulse cyberpunk city poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Cyberpunk Art</div>
                         <div class="gallery-poster-title">Neon Pulse</div>
@@ -1183,49 +1183,49 @@ extra_js:
             <!-- Column 3: Stack of images -->
             <div class="gallery-column gallery-column-3">
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo8.png" alt="Echoes of the Shattered Sun Sci-Fi Poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo8.png" alt="Echoes of the Shattered Sun Sci-Fi Poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Epic Sci-Fi</div>
                         <div class="gallery-poster-title">Echoes of the Sun</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo9.png" alt="The Wyrmking's Citadel of Sorrows Fantasy Poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo9.png" alt="The Wyrmking's Citadel of Sorrows Fantasy Poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Dark Fantasy RPG</div>
                         <div class="gallery-poster-title">Citadel of Sorrows</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo10.png" alt="Monster Under My Bed Children's Movie Poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo10.png" alt="Monster Under My Bed Children's Movie Poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Animated Feature</div>
                         <div class="gallery-poster-title">Monster Under My Bed</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo11.png" alt="The Nebula Odyssey Space Opera Poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo11.png" alt="The Nebula Odyssey Space Opera Poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Space Opera</div>
                         <div class="gallery-poster-title">Nebula Odyssey</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo24.png" alt="Origin: Heirloom Tomato Seeds advertisement poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo24.png" alt="Origin: Heirloom Tomato Seeds advertisement poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Product Advertisement</div>
                         <div class="gallery-poster-title">Origin Tomato Seeds</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo25.png" alt="Lord of the Rings: The Rings of Power series poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo25.png" alt="Lord of the Rings: The Rings of Power series poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Fantasy Series</div>
                         <div class="gallery-poster-title">The Rings of Power</div>
                     </div>
                 </div>
                 <div class="gallery-poster-item">
-                    <img src="/images/postercraft/gallery/gallery_demo22.png" alt="Iron Man 2 movie poster">
+                    <img src="/images/lucidflux/gallery/gallery_demo22.png" alt="Iron Man 2 movie poster">
                     <div class="gallery-poster-overlay">
                         <div class="gallery-poster-category">Superhero Movie</div>
                         <div class="gallery-poster-title">Iron Man 2</div>
