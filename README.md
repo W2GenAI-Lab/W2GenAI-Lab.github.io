@@ -28,7 +28,7 @@ Our mission is to push the boundaries of what's possible with generative AI whil
 
 ## Featured Projects
 
-### [🚀 LucidFlux](/LucidFlux/) - High-Resolution Image Generation
+### [🚀 LucidFlux](/LucidFlux/index.html) - High-Resolution Image Generation
 
 **Flow Matching for High-Quality Image Generation**
 

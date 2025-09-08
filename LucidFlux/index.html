@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LucidFlux - Advanced Image Generation with Flow Matching</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="/assets/css/lucidflux-html.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2 class="sidebar-title">LucidFlux</h2>
+        <ul>
+            <li><a href="#paper-info" class="nav-link"><i class="fas fa-file-alt"></i> Paper Information</a></li>
+            <li><a href="#overview" class="nav-link"><i class="fas fa-image"></i> Overview</a></li>
+            <li><a href="#technical-framework" class="nav-link"><i class="fas fa-cogs"></i> Technical Framework</a></li>
+            <li><a href="#results-gallery" class="nav-link"><i class="fas fa-images"></i> Results Gallery</a></li>
+            <li><a href="#performance" class="nav-link"><i class="fas fa-chart-bar"></i> Performance</a></li>
+            <li><a href="#applications" class="nav-link"><i class="fas fa-rocket"></i> Applications</a></li>
+            <li><a href="#contact-us" class="nav-link"><i class="fas fa-envelope"></i> Contact Us</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <!-- Paper Information Section -->
+        <section id="paper-info" class="paper-info">
+            <h1>LucidFlux: Universal Image Restoration with a Large-Scale Diffusion Transformer</h1>
+            <div class="authors">
+                <p>
+                    <span class="author"><a href="https://ephemeral182.github.io/" target="_blank">Sixiang Chen<sup>1,2,*</sup></a></span>,
+                    <span class="author"><a href="https://openreview.net/profile?id=~Jianyu_Lai1" target="_blank">Jianyu Lai<sup>1,*</sup></a></span>,
+                    <span class="author"><a href="https://scholar.google.com/citations?user=sj4FqEgAAAAJ&hl=zh-CN" target="_blank">Jialin Gao<sup>2,*</sup></a></span>,
+                    <span class="author"><a href="https://owen718.github.io/" target="_blank">Tian Ye<sup>1</sup></a></span>,
+                    <span class="author"><a href="https://haoyuchen.com/" target="_blank">Haoyu Chen<sup>1</sup></a></span>,
+                    <span class="author"><a href="https://openreview.net/profile?id=%7EHengyu_Shi1" target="_blank">Hengyu Shi<sup>2</sup></a></span>,
+                    <span class="author"><a href="https://shaoshitong.github.io/" target="_blank">Shitong Shao<sup>1</sup></a></span>,
+                    <span class="author"><a href="https://scholar.google.com.hk/citations?user=5F3tICwAAAAJ&hl=zh-CN" target="_blank">Yunlong Lin<sup>3</sup></a></span>,
+                    <span class="author"><a href="https://openreview.net/profile?id=~Song_Fei1" target="_blank">Song Fei<sup>1</sup></a></span>,
+                    <span class="author"><a href="https://ge-xing.github.io/" target="_blank">Zhaohu Xing<sup>1</sup></a></span>,
+                    <span class="author"><a href="https://jinyeying.github.io/" target="_blank">Yeying Jin<sup>4</sup></a></span>,
+                    <span class="author">Junfeng Luo<sup>2</sup></span>,
+                    <span class="author"><a href="https://scholar.google.com/citations?user=JXV5yrZxj5MC&hl=zh-CN" target="_blank">Xiaoming Wei<sup>2</sup></a></span>,
+                    <span class="author"><a href="https://sites.google.com/site/indexlzhu/home" target="_blank">Lei Zhu<sup>1,5,†</sup></a></span>
+                </p>
+                <p>
+                    <span class="affiliation"><sup>1</sup> The Hong Kong University of Science and Technology (Guangzhou)</span>,
+                    <span class="affiliation"><sup>2</sup> Meituan</span>,
+                    <span class="affiliation"><sup>3</sup> Xiamen University</span>,
+                    <span class="affiliation"><sup>4</sup> National University of Singapore</span>,
+                    <span class="affiliation"><sup>5</sup> The Hong Kong University of Science and Technology</span>
+                </p>
+            </div>
+            <div class="links">
+                <a href="https://arxiv.org/abs/2506.10741" target="_blank">Arxiv</a>
+                <a href="https://github.com/Ephemeral182/PosterCraft" target="_blank">GitHub</a>
+                <a href="https://huggingface.co/PosterCraft/PosterCraft-v1_RL" target="_blank">HuggingFace</a>
+                <a href="https://huggingface.co/spaces/Ephemeral182/PosterCraft" target="_blank">Demo</a>
+            </div>
+            <p>* Equal contribution &nbsp;&nbsp; † Corresponding author</p>
+        </section>
+
+        <!-- Overview Section -->
+        <section id="overview" class="overview-section">
+            <h2>Overview</h2>
+            <div class="overview-content">
+                <p>
+                    LucidFlux is an advanced image generation model that leverages flow matching technology 
+                    combined with diffusion models to generate high-resolution, high-quality images. 
+                    Our approach focuses on stable training dynamics, efficient memory usage, and superior image quality.
+                </p>
+                <p>
+                    The framework operates in a highly optimized latent space, drastically reducing computational demands 
+                    while maintaining exceptional image quality. Through advanced flow matching techniques and enhanced 
+                    U-Net architectures, LucidFlux achieves compelling efficiency and generates images up to 2048×2048 resolution.
+                </p>
+            </div>
+            
+            <!-- Key Features -->
+            <div class="key-features">
+                <div class="feature-item">
+                    <h4>🌊 Flow Matching</h4>
+                    <p>Advanced flow matching techniques combining diffusion models and normalizing flows for stable training and better mode coverage</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🎨 Enhanced U-Net</h4>
+                    <p>Enhanced U-Net backbone with attention mechanisms and multi-modal conditioning for superior generation quality</p>
+                </div>
+                <div class="feature-item">
+                    <h4>⚡ High Resolution</h4>
+                    <p>Progressive resolution scaling enabling high-resolution outputs up to 2048×2048 with computational efficiency</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🔧 Advanced Training</h4>
+                    <p>Advanced loss functions and optimization strategies ensuring stable training and faster convergence</p>
+                </div>
+            </div>
+
+            <!-- Architecture Image -->
+            <div class="architecture-showcase">
+                <div class="media-block">
+                    <img src="/LucidFlux/architecture/arch.png" alt="LucidFlux Architecture" style="width:100%;height:auto;border-radius:8px;object-fit:cover;box-shadow:0 4px 8px rgba(0,0,0,.1);">
+                    <figcaption style="margin-top:1rem;font-size:.95rem;color:#666;text-align:center;">
+                        <strong>LucidFlux Architecture.</strong> Advanced flow matching framework combining diffusion models with normalizing flows for superior image generation.
+                    </figcaption>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Framework Section -->
+        <section id="technical-framework" class="technical-framework">
+            <h2>Technical Framework</h2>
+            <div class="framework-content">
+                <div class="framework-text">
+                    <h3>Architecture Overview</h3>
+                    <p>
+                        LucidFlux implements a sophisticated flow matching architecture that combines the best 
+                        of diffusion models and normalizing flows. The framework features an enhanced U-Net backbone 
+                        with advanced attention mechanisms and multi-modal conditioning support.
+                    </p>
+                    <p>
+                        Our progressive resolution scaling approach enables high-resolution outputs while maintaining 
+                        computational efficiency, making it suitable for both research and production applications.
+                    </p>
+                    <p>
+                        Key innovations include heterogeneous model distillation, where a lightweight student model 
+                        inherits the generative power of a larger teacher model, and a two-stage synthesis pipeline 
+                        that ensures structural coherence and fine-grained detail.
+                    </p>
+                </div>
+                <div class="framework-image">
+                    <img src="/LucidFlux/architecture/arch.png" alt="Technical Framework">
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Gallery Section -->
+        <section id="results-gallery" class="gallery-section">
+            <h2>Results Gallery</h2>
+            
+            <!-- Image Gallery with Modal -->
+            <div class="gallery-grid">
+                <div class="gallery-item" data-index="0">
+                    <img src="/LucidFlux/gallery/concatenated_006.jpg" alt="Natural Landscape" loading="lazy">
+                    <div class="gallery-caption">Natural Landscape</div>
+                </div>
+                <div class="gallery-item" data-index="1">
+                    <img src="/LucidFlux/gallery/concatenated_013.jpg" alt="Artistic Portrait" loading="lazy">
+                    <div class="gallery-caption">Artistic Portrait</div>
+                </div>
+                <div class="gallery-item" data-index="2">
+                    <img src="/LucidFlux/gallery/concatenated_019.jpg" alt="Abstract Art" loading="lazy">
+                    <div class="gallery-caption">Abstract Art</div>
+                </div>
+                <div class="gallery-item" data-index="3">
+                    <img src="/LucidFlux/gallery/concatenated_040.jpg" alt="Architecture" loading="lazy">
+                    <div class="gallery-caption">Architecture</div>
+                </div>
+                <div class="gallery-item" data-index="4">
+                    <img src="/LucidFlux/gallery/concatenated_041.jpg" alt="Scene Composition" loading="lazy">
+                    <div class="gallery-caption">Scene Composition</div>
+                </div>
+                <div class="gallery-item" data-index="5">
+                    <img src="/LucidFlux/gallery/concatenated_079.jpg" alt="Nature Scene" loading="lazy">
+                    <div class="gallery-caption">Nature Scene</div>
+                </div>
+                <div class="gallery-item" data-index="6">
+                    <img src="/LucidFlux/gallery/concatenated_082.jpg" alt="Urban Landscape" loading="lazy">
+                    <div class="gallery-caption">Urban Landscape</div>
+                </div>
+                <div class="gallery-item" data-index="7">
+                    <img src="/LucidFlux/gallery/concatenated_111.jpg" alt="Concept Art" loading="lazy">
+                    <div class="gallery-caption">Concept Art</div>
+                </div>
+                <div class="gallery-item" data-index="8">
+                    <img src="/LucidFlux/gallery/concatenated_123.jpg" alt="Creative Design" loading="lazy">
+                    <div class="gallery-caption">Creative Design</div>
+                </div>
+                <div class="gallery-item" data-index="9">
+                    <img src="/LucidFlux/gallery/concatenated_137.jpg" alt="Digital Art" loading="lazy">
+                    <div class="gallery-caption">Digital Art</div>
+                </div>
+                <div class="gallery-item" data-index="10">
+                    <img src="/LucidFlux/gallery/concatenated_144.jpg" alt="Fantasy Scene" loading="lazy">
+                    <div class="gallery-caption">Fantasy Scene</div>
+                </div>
+                <div class="gallery-item" data-index="11">
+                    <img src="/LucidFlux/gallery/concatenated_183.jpg" alt="Character Design" loading="lazy">
+                    <div class="gallery-caption">Character Design</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Performance Section -->
+        <section id="performance" class="performance-section">
+            <h2>Performance Metrics</h2>
+            <div class="performance-metrics">
+                <div class="metrics-grid">
+                    <div class="metric">
+                        <div class="metric-value">12.3</div>
+                        <div class="metric-label">FID Score ↓</div>
+                        <div class="metric-desc">34% improvement</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">8.2</div>
+                        <div class="metric-label">Inception Score ↑</div>
+                        <div class="metric-desc">19% improvement</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">0.85</div>
+                        <div class="metric-label">CLIP Score ↑</div>
+                        <div class="metric-desc">9% improvement</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">2.1s</div>
+                        <div class="metric-label">Generation Time</div>
+                        <div class="metric-desc">2048×2048 resolution</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Applications Section -->
+        <section id="applications" class="applications-section">
+            <h2>Applications</h2>
+            <div class="applications-grid">
+                <div class="application">
+                    <h4>🎨 Digital Art</h4>
+                    <p>Create stunning digital artwork with advanced style transfer and artistic effects</p>
+                </div>
+                <div class="application">
+                    <h4>📸 Photo Enhancement</h4>
+                    <p>Enhance and restore images with superior quality and detail preservation</p>
+                </div>
+                <div class="application">
+                    <h4>🎬 Content Creation</h4>
+                    <p>Generate high-quality content for media, marketing, and entertainment</p>
+                </div>
+                <div class="application">
+                    <h4>🔬 Research</h4>
+                    <p>Advanced research in generative AI and computer vision applications</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact-us" class="contact-us">
+            <h2>Contact Us</h2>
+            <p>
+                For questions about LucidFlux, please contact the authors or visit our 
+                <a href="https://github.com/Ephemeral182/PosterCraft" target="_blank">GitHub repository</a>.
+            </p>
+            <p>
+                <strong>Corresponding Author:</strong> Lei Zhu (<a href="mailto:leizhu@ust.hk">leizhu@ust.hk</a>)
+            </p>
+        </section>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <img id="modalImage" src="" alt="">
+            <div id="modalCaption"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/assets/js/lucidflux-html.js"></script>
+</body>
+</html>
