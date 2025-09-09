@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![W2GenAI Lab]
+<!-- ![W2GenAI Lab] -->
 
 **Advancing the Frontiers of Generative AI Research**
 
