@@ -47,37 +47,211 @@
         
         <section id="comparison" class="comparison-section">
             <h2>Method Comparison</h2>
+            
+            <!-- Quantitative Results Table -->
+            <div class="quantitative-results">
+                <h3>Quantitative Results</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Benchmark</th>
+                                <th rowspan="2">Metric</th>
+                                <th colspan="7">Methods</th>
+                            </tr>
+                            <tr>
+                                <th>ResShift</th>
+                                <th>StableSR</th>
+                                <th>SinSR</th>
+                                <th>SeeSR</th>
+                                <th>DreamClear</th>
+                                <th>SUPIR</th>
+                                <th>LucidFlux<br>(Ours)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td rowspan="7">RealSR</td>
+                                <td>CLIP-IQA+ ↑</td>
+                                <td>0.5005</td>
+                                <td>0.4408</td>
+                                <td>0.5416</td>
+                                <td>0.6731</td>
+                                <td>0.5331</td>
+                                <td>0.5640</td>
+                                <td class="best-result">0.7074</td>
+                            </tr>
+                            <tr>
+                                <td>Q-Align ↑</td>
+                                <td>3.1045</td>
+                                <td>2.5087</td>
+                                <td>3.3615</td>
+                                <td>3.6073</td>
+                                <td>3.0044</td>
+                                <td>3.4682</td>
+                                <td class="best-result">3.7555</td>
+                            </tr>
+                            <tr>
+                                <td>MUSIQ ↑</td>
+                                <td>49.50</td>
+                                <td>39.98</td>
+                                <td>57.95</td>
+                                <td>67.57</td>
+                                <td>49.48</td>
+                                <td>55.68</td>
+                                <td class="best-result">70.20</td>
+                            </tr>
+                            <tr>
+                                <td>MANIQA ↑</td>
+                                <td>0.2976</td>
+                                <td>0.2356</td>
+                                <td>0.3753</td>
+                                <td>0.5087</td>
+                                <td>0.3092</td>
+                                <td>0.3426</td>
+                                <td class="best-result">0.5437</td>
+                            </tr>
+                            <tr>
+                                <td>NIMA ↑</td>
+                                <td>4.7026</td>
+                                <td>4.3639</td>
+                                <td>4.8282</td>
+                                <td>4.8957</td>
+                                <td>4.4948</td>
+                                <td>4.6401</td>
+                                <td class="best-result">5.1072</td>
+                            </tr>
+                            <tr>
+                                <td>CLIP-IQA ↑</td>
+                                <td>0.5283</td>
+                                <td>0.3521</td>
+                                <td>0.6601</td>
+                                <td class="best-result">0.6993</td>
+                                <td>0.5390</td>
+                                <td>0.4857</td>
+                                <td>0.6783</td>
+                            </tr>
+                            <tr>
+                                <td>NIQE ↓</td>
+                                <td>9.0674</td>
+                                <td>6.8733</td>
+                                <td>6.4682</td>
+                                <td>5.4594</td>
+                                <td>5.2873</td>
+                                <td>5.2819</td>
+                                <td class="best-result">4.2893</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="7">RealLQ250</td>
+                                <td>CLIP-IQA+ ↑</td>
+                                <td>0.5529</td>
+                                <td>0.5804</td>
+                                <td>0.6054</td>
+                                <td>0.7034</td>
+                                <td>0.6810</td>
+                                <td>0.6532</td>
+                                <td class="best-result">0.7406</td>
+                            </tr>
+                            <tr>
+                                <td>Q-Align ↑</td>
+                                <td>3.6318</td>
+                                <td>3.5586</td>
+                                <td>3.7451</td>
+                                <td>4.1423</td>
+                                <td>4.0640</td>
+                                <td>4.1347</td>
+                                <td class="best-result">4.3935</td>
+                            </tr>
+                            <tr>
+                                <td>MUSIQ ↑</td>
+                                <td>59.50</td>
+                                <td>57.25</td>
+                                <td>65.45</td>
+                                <td>70.38</td>
+                                <td>67.08</td>
+                                <td>65.81</td>
+                                <td class="best-result">73.01</td>
+                            </tr>
+                            <tr>
+                                <td>MANIQA ↑</td>
+                                <td>0.3397</td>
+                                <td>0.2937</td>
+                                <td>0.4230</td>
+                                <td>0.4895</td>
+                                <td>0.4400</td>
+                                <td>0.3826</td>
+                                <td class="best-result">0.5589</td>
+                            </tr>
+                            <tr>
+                                <td>NIMA ↑</td>
+                                <td>5.0624</td>
+                                <td>5.0538</td>
+                                <td>5.2397</td>
+                                <td>5.3146</td>
+                                <td>5.2200</td>
+                                <td>5.0806</td>
+                                <td class="best-result">5.4836</td>
+                            </tr>
+                            <tr>
+                                <td>CLIP-IQA ↑</td>
+                                <td>0.6129</td>
+                                <td>0.5160</td>
+                                <td class="best-result">0.7166</td>
+                                <td>0.7063</td>
+                                <td>0.6950</td>
+                                <td>0.5767</td>
+                                <td>0.7122</td>
+                            </tr>
+                            <tr>
+                                <td>NIQE ↓</td>
+                                <td>6.6326</td>
+                                <td>4.6236</td>
+                                <td>5.4425</td>
+                                <td>4.4383</td>
+                                <td>3.8700</td>
+                                <td class="best-result">3.6591</td>
+                                <td>3.6742</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Qualitative Results -->
+            <h3>Qualitative Results</h3>
             <p class="comparison-subtitle">Input | SinSR | SeeSR | SUPIR | DreamClear | LucidFlux (Ours)</p>
-            <div class="comparison-grid">
-                <div class="comparison-item">
-                    <img src="comparison/comparison_013.jpg" alt="Comparison 013" class="comparison-image">
-                </div>
-                <div class="comparison-item">
-                    <img src="comparison/comparison_040.jpg" alt="Comparison 040" class="comparison-image">
-                </div>
-                <div class="comparison-item">
-                    <img src="comparison/comparison_041.jpg" alt="Comparison 041" class="comparison-image">
-                </div>
-                <div class="comparison-item">
-                    <img src="comparison/comparison_079.jpg" alt="Comparison 079" class="comparison-image">
-                </div>
-                <div class="comparison-item">
-                    <img src="comparison/comparison_082.jpg" alt="Comparison 082" class="comparison-image">
-                </div>
-                <div class="comparison-item">
-                    <img src="comparison/comparison_111.jpg" alt="Comparison 111" class="comparison-image">
-                </div>
-                <div class="comparison-item">
-                    <img src="comparison/comparison_123.jpg" alt="Comparison 123" class="comparison-image">
-                </div>
-                <div class="comparison-item">
-                    <img src="comparison/comparison_137.jpg" alt="Comparison 137" class="comparison-image">
-                </div>
-                <div class="comparison-item">
-                    <img src="comparison/comparison_160.jpg" alt="Comparison 160" class="comparison-image">
-                </div>
-                <div class="comparison-item">
-                    <img src="comparison/comparison_166.jpg" alt="Comparison 166" class="comparison-image">
+            <div class="comparison-slider-container">
+                <div class="comparison-track">
+                    <div class="comparison-item">
+                        <img src="comparison/comparison_013.jpg" alt="Comparison 013" class="comparison-image">
+                    </div>
+                    <div class="comparison-item">
+                        <img src="comparison/comparison_040.jpg" alt="Comparison 040" class="comparison-image">
+                    </div>
+                    <div class="comparison-item">
+                        <img src="comparison/comparison_041.jpg" alt="Comparison 041" class="comparison-image">
+                    </div>
+                    <div class="comparison-item">
+                        <img src="comparison/comparison_079.jpg" alt="Comparison 079" class="comparison-image">
+                    </div>
+                    <div class="comparison-item">
+                        <img src="comparison/comparison_082.jpg" alt="Comparison 082" class="comparison-image">
+                    </div>
+                    <div class="comparison-item">
+                        <img src="comparison/comparison_111.jpg" alt="Comparison 111" class="comparison-image">
+                    </div>
+                    <div class="comparison-item">
+                        <img src="comparison/comparison_123.jpg" alt="Comparison 123" class="comparison-image">
+                    </div>
+                    <div class="comparison-item">
+                        <img src="comparison/comparison_137.jpg" alt="Comparison 137" class="comparison-image">
+                    </div>
+                    <div class="comparison-item">
+                        <img src="comparison/comparison_160.jpg" alt="Comparison 160" class="comparison-image">
+                    </div>
+                    <div class="comparison-item">
+                        <img src="comparison/comparison_166.jpg" alt="Comparison 166" class="comparison-image">
+                    </div>
                 </div>
             </div>
             <p class="comparison-note">* Numbers correspond to RealLQ250 dataset image indices</p>

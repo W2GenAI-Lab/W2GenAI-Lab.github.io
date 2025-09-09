@@ -1,6 +1,36 @@
 // 图片对比滑动功能
 document.addEventListener('DOMContentLoaded', function() {
+    // Setup infinite scrolling for comparison slider
+    setupComparisonSlider();
+    
     const imageComparisons = document.querySelectorAll('.image-comparison');
+
+    // Infinite scrolling for comparison slider
+    function setupComparisonSlider() {
+        const track = document.querySelector('.comparison-track');
+        if (!track) return;
+        
+        const items = track.querySelectorAll('.comparison-item');
+        if (items.length === 0) return;
+        
+        // Clone items for infinite scrolling
+        items.forEach(item => {
+            const clone = item.cloneNode(true);
+            track.appendChild(clone);
+        });
+        
+        // Pause on hover
+        const container = document.querySelector('.comparison-slider-container');
+        if (container) {
+            container.addEventListener('mouseenter', () => {
+                track.style.animationPlayState = 'paused';
+            });
+            
+            container.addEventListener('mouseleave', () => {
+                track.style.animationPlayState = 'running';
+            });
+        }
+    }
     
     imageComparisons.forEach(comparison => {
         const slider = comparison.querySelector('.comparison-slider');
