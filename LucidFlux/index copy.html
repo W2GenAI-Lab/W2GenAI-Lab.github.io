@@ -1,0 +1,623 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LucidFlux Gallery</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2 class="sidebar-title">UltraPixel</h2>
+        
+            <ul>
+                <li><a href="#paper-info" class="nav-link"><i class="fas fa-file-alt"></i> Paper Information</a></li>
+                <li><a href="#text-guided" class="nav-link"><i class="fas fa-paint-brush"></i> Text-to-Image </a></li>
+                <li><a href="#contact-us" class="nav-link"><i class="fas fa-envelope"></i> Contact Us</a></li>
+            </ul>
+        
+    </div>
+    <div class="content">
+        <div id="paper-info" class="paper-info">
+            <h1>LucidFlux: Caption-Free Universal Image Restoration with a Large-Scale Diffusion Transformer</h1>
+            <!-- <h1>NeurIPS 2024</h1> -->
+            <div class="authors">
+                <p>
+                    <span class="author"><a href="https://github.com/FeiSong123" target="_blank">Song Fei<sup>1, †</sup></a></span>, 
+                    <span class="author"><a href="https://owen718.github.io/" target="_blank">Tian Ye<sup>1 † ‡</sup></a></span>, 
+                    <span class="author"><a href="https://sites.google.com/site/indexlzhu/home" target="_blank">Lei Zhu<sup>1, 2 *</sup></a></span>
+                </p>
+                <p>
+                    <span class="affiliation"><sup>1</sup> The Hong Kong University of Science and Technology (Guangzhou)</span>, 
+                    <span class="affiliation"><sup>2</sup> The Hong Kong University of Science and Technology </span>
+                </p>
+            </div>
+            <div class="links">
+                <p><a href="https://github.com/W2GenAI-Lab/LucidFlux" target="_blank">Online demo 🤗</a></p>                
+                <p><a href="https://github.com/W2GenAI-Lab/LucidFlux" target="_blank">Paper (Full ver.)</a></p>
+                <p><a href="https://github.com/W2GenAI-Lab/LucidFlux" target="_blank">Arxiv (Compressed ver.)</a></p>
+                <p><a href="https://github.com/W2GenAI-Lab/LucidFlux" target="_blank">GitHub (catcathh's ver.)</a></p>
+            </div>
+            <p> † Equal contribution  ‡ Project Leader  * Corresponding author</p>
+            <!-- <p>Updates: Thank <a href="https://jingjingrenabc.github.io/ultrapixel/" target="_blank">catcathh</a> for reproducing this work with our help. The results of the replication are basically in line with our results.</p> -->
+            
+
+        
+        <section id="text-guided" class="gallery-section">
+            <h2>Text-to-Image </h2>
+            <div class="gallery">
+                
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src="images/court_002492.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2880x5760</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 4 ; grid-column: span 3; grid-row: span 4;">
+                    <img src="images/view_pick_54.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5760x3840</div>
+                      
+                </div>
+                
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src="images/laion2B-en-aesthetic-M000011_0017328307.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">4096x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src="images/000pick_151.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2160x3840</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 5 ; grid-column: span 3; grid-row: span 5;">
+                    <img src="images/pick_54.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5760x3840</div>
+                       
+                   
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 2 ; grid-column: span 2; grid-row: span 4;">
+                    <img src="images/pick_888.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5120x2560</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 2 ; grid-column: span 2; grid-row: span 4;">
+                    <img src="images/pick_893.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5120x2560</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 4 ; grid-column: span 3; grid-row: span 4;">
+                    <img src="images/pick_212.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5760x3840</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src="images/pick_234.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3072x6144</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src="images/333pick_435.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">4096x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src="images/pick_21.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">4096x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 4; grid-row: span 4;">
+                    <img src="images/pick_614.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5120x5120</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 4;">
+                    <img src="images/11pick_448.jpg " alt=" " class="gallery-image">
+                    <div class="resolution">5120x3840</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 4;">
+                    <img src="images/pick_141.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3840x2160</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src="images/pick_0.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2560x5120</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 2 ; grid-column: span 2; grid-row: span 4;">
+                    <img src="images/snow_001979.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5120x2560</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 4 / 3 ; grid-column: span 4; grid-row: span 3;">
+                    <img src="images/gggpick_245.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3840x5120</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src="images/pick99_1922.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2880x5760</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src="images/pick111_1609.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2880x5760</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src=" images/pick_1723.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2880x5760</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 2 ; grid-column: span 2; grid-row: span 4;">
+                    <img src=" images/hhpick_183.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5120x2560</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 2; grid-row: span 2;">
+                    <img src=" images/pick_919.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3072x3072</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 2; grid-row: span 2;">
+                    <img src=" images/pick_1187.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3072x3072</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 3 ; grid-column: span 2; grid-row: span 3;">
+                    <img src=" images/pick_845.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5120x2560</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 3 ; grid-column: span 2; grid-row: span 3;">
+                    <img src=" images/pick_903.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5120x2560</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src="images/pick_49hjhu.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3072x6144</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 2 ; grid-column: span 2; grid-row: span 4;">
+                    <img src="images/pic1111k_370.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5120x2560</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 4 / 3 ; grid-column: span 4; grid-row: span 3;">
+                    <img src="images/gggpick_81.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3840x5120</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 4 / 3 ; grid-column: span 4; grid-row: span 3;">
+                    <img src="images/pick_496.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3072x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 4; grid-row: span 4;">
+                    <img src="images/111pick_113.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">4096x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 5 ; grid-column: span 3; grid-row: span 5;">
+                    <img src="images/pick_62.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3840x2160</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 5 ; grid-column: span 3; grid-row: span 5;">
+                    <img src=" images/pick_1944.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5120x2560</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 4 / 2 ; grid-column: span 4; grid-row: span 2;">
+                    <img src=" images/pick111_1304.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2560x5120</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src=" images/pick444_1830.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3072x3072</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 5 ; grid-column: span 3; grid-row: span 5;">
+                    <img src=" images/pick99_1957.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5120x2560</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src=" images/pick111_213.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2880x5760</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src=" images/pick999_1940.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2880x5760</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src=" images/laion2B-en-aesthetic-M000146_0112706297.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">4096x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 4 / 3 ; grid-column: span 4; grid-row: span 3;">
+                    <img src=" images/pick_826.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3072x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src=" images/pick_531.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5120x5120</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src=" images/laion2B-en-aesthetic-M000130_0097331632.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">4096x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 4 / 3 ; grid-column: span 4; grid-row: span 3;">
+                    <img src=" images/pick_1848.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3840x5120</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src=" images/pick_20.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">4096x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 5 ; grid-column: span 3; grid-row: span 5;">
+                    <img src="images/pick99_1949.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5120x2560</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src=" images/pick_56.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3072x6144</div>
+                      
+                </div>
+                
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src=" images/pick_1598.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3072x3072</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src=" images/pick_182.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3072x6144</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src=" images/pick_365.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">4096x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 4 ; grid-column: span 3; grid-row: span 4;">
+                    <img src=" images/pick_1745.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5120x2560</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 4 / 3 ; grid-column: span 4; grid-row: span 3;">
+                    <img src=" images/pick_1973.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3840x5120</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 4 ; grid-column: span 3; grid-row: span 4;">
+                    <img src=" images/pick_443.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3840x2160</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 4 / 3 ; grid-column: span 4; grid-row: span 3;">
+                    <img src=" images/pick_755.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2560x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 4 ; grid-column: span 3; grid-row: span 4;">
+                    <img src=" images/pick_112.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3840x2160</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src=" images/laion2B-en-aesthetic-M000138_0106835185.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2880x5760</div>
+                      
+                </div>
+                
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src=" images/pick_152.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">4096x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 4 ; grid-column: span 3; grid-row: span 4;">
+                    <img src=" images/pick_60.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5120x3840</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src=" images/pick_40.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2880x5760</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src="images/pick_533.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">4096x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 4 / 3 ; grid-column: span 4; grid-row: span 3;">
+                    <img src=" images/pick_707.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2560x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 4 ; grid-column: span 3; grid-row: span 4;">
+                    <img src="images/444pick_482.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5760x3072</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src="images/pick111_884.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">4096x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 4 / 3 ; grid-column: span 4; grid-row: span 3;">
+                    <img src=" images/jjpick_823.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3840x5120</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src="images/pick_656.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">4096x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 5 ; grid-column: span 3; grid-row: span 5;">
+                    <img src="images/pick111_937.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2560x5120</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 4 / 3 ; grid-column: span 4; grid-row: span 3;">
+                    <img src=" images/sa_000428_sa_4796934.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2880x5760</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 2 ; grid-column: span 3; grid-row: span 2;">
+                    <img src=" images/rrrpick_145.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3072x6144</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src=" images/pick_235.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2880x5760</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src=" images/pick_1601.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2880x5760</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src=" images/pick_11174.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2160x3840</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 2 ; grid-column: span 2; grid-row: span 4;">
+                    <img src=" images/pick_1684.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5120x2560</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 4 / 3 ; grid-column: span 4; grid-row: span 3;">
+                    <img src=" images/ours_laion2B-en-aesthetic-M000014_0019136963.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2160x3840</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src=" images/jjjpick_240.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3072x6144</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 2 ; grid-column: span 2; grid-row: span 4;">
+                    <img src=" images/pick_802.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5120x2560</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src="images/laion2B-en-aesthetic-M000035_0032938951.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2880x5760</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 4 / 3 ; grid-column: span 4; grid-row: span 3;">
+                    <img src="images/pick_761.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2560x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 4; grid-row: span 4;">
+                    <img src="images/pick_603.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">4096x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src="images/pick_760.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">4096x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 4 ; grid-column: span 3; grid-row: span 4;">
+                    <img src="images/pick_133.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3840x5760</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 4; grid-row: span 4;">
+                    <img src="images/pick_175.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5120x5120</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 4 ; grid-column: span 3; grid-row: span 4;">
+                    <img src="images/pick_176.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3840x5760</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 4 ; grid-column: span 3; grid-row: span 4;">
+                    <img src="images/pick_150.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3840x5760</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 4 / 3 ; grid-column: span 4; grid-row: span 3;">
+                    <img src="images/pick_1847.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3840x5120</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src="images/pick_4.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">4096x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 5 ; grid-column: span 3; grid-row: span 5;">
+                    <img src="images/pick_1423.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2560x5120</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 4 / 3 ; grid-column: span 4; grid-row: span 3;">
+                    <img src="images/pick_16.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3840x5120</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 4 ; grid-column: span 3; grid-row: span 4;">
+                    <img src="images/pick_95.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3840x5760</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src="images/laion2B-en-aesthetic-M000074_0060733213.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2880x5760</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src="images/laion2B-en-aesthetic-M000137_0106603082.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">4096x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 2 ; grid-column: span 3; grid-row: span 2;">
+                    <img src="images/55pick_23.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3840x5120</div>
+                      
+                </div>
+                
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src="images/111pick_591.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3072x6144</div>
+                      
+                </div>
+                
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src="images/pick_ddd596.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5120x5120</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 5 ; grid-column: span 3; grid-row: span 5;">
+                    <img src="images/pick_44134.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3840x2160</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 4 / 3 ; grid-column: span 4; grid-row: span 3;">
+                    <img src="images/pick_918.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2160x3840</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src="images/pick_1826.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3072x3072</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 4 / 3 ; grid-column: span 4; grid-row: span 3;">
+                    <img src="images/pick_860.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3840x5120</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 4 ; grid-column: span 3; grid-row: span 5;">
+                    <img src="images/pick_303.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5120x2560</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src="images/pick_477.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">4096x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src="images/pick_299.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2160x3840</div>
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src="images/laion2B-en-aesthetic-M000030_0029526868.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2160x3840</div>
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src="images/ffffpick_361.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">5120x5120</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 1 ; grid-column: span 4; grid-row: span 2;">
+                    <img src="images/laion2B-en-aesthetic-M000122_0092428508.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2880x5760</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 3 / 2 ; grid-column: span 3; grid-row: span 2;">
+                    <img src="images/blue-headed_001535.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2160x3840</div>
+                      
+                </div>
+                
+                <div class="gallery-item" style=" --aspect-ratio: 1 / 1 ; grid-column: span 3; grid-row: span 3;">
+                    <img src="images/laion2B-en-aesthetic-M000127_0095648433.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">4096x4096</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 2 / 3 ; grid-column: span 2; grid-row: span 3;">
+                    <img src="images/4444pick_274.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">3840x2160</div>
+                      
+                </div>
+                <div class="gallery-item" style=" --aspect-ratio: 5 / 3 ; grid-column: span 5; grid-row: span 3;">
+                    <img src="images/222pick_54.jpg" alt=" " class="gallery-image">
+                    <div class="resolution">2880x5760</div>
+                      
+                </div>
+                
+                
+                
+                
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact-us" class="contact-us">
+            <h2>Contact Us</h2>
+            <p>
+                Feel free to contact Wenbo Li at fenglinglwb@gmail.com for cooperation, communication, or applying internships.
+            </p>
+        </section>
+        
+
+    </div>
+
+   <!-- Modal for image enlargement -->
+<!-- Modal for image enlargement -->
+    <!-- Modal for image enlargement -->
+<div id="modal" class="modal">
+    <span class="close">&times;</span>
+    <div class="modal-content-container">
+        <div class="modal-content" id="modal-img"></div>
+    </div>
+    <div id="caption"></div>
+    <a class="prev">&#10094;</a>
+    <a class="next">&#10095;</a>
+      
+    <div id="resolution" class="resolution"></div>
+    <div class="thumbnails">
+        <!-- Thumbnails will be generated dynamically by JavaScript -->
+    </div>
+</div>
+
+    
+    
+
+    <script src="script.js"></script>
+</body>
+</html>
