@@ -163,9 +163,10 @@ body {
 
 .gallery {
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    gap: 2px;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
     font-family: 'Montserrat', sans-serif;
+    padding: 20px;
 }
 
 .gallery-item {
@@ -175,12 +176,7 @@ body {
     border-radius: 5px;
     transition: transform 0.3s, box-shadow 0.3s;
     overflow: hidden;
-}
-
-.gallery-item::before {
-    content: '';
-    display: block;
-    padding-bottom: calc(100% / (var(--aspect-ratio)));
+    height: 400px;
 }
 
 .gallery-image {
