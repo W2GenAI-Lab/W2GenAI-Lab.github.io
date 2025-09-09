@@ -178,7 +178,7 @@ body {
 
 .comparison-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(1200px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(1000px, 1fr));
     gap: 40px;
     padding: 30px;
     justify-items: center;
