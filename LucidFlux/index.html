@@ -9,107 +9,47 @@
     <link rel="stylesheet" href="/assets/css/lucidflux-html.css">
 </head>
 <body>
-    <!-- Dynamic Background -->
-    <div class="background-container">
-        <div class="gradient-overlay"></div>
-        <div class="floating-orbs">
-            <div class="orb orb1"></div>
-            <div class="orb orb2"></div>
-            <div class="orb orb3"></div>
-            <div class="orb orb4"></div>
-            <div class="orb orb5"></div>
-        </div>
+    <div class="sidebar">
+        <h2 class="sidebar-title">LucidFlux</h2>
+        
+            <ul>
+                <li><a href="#paper-info" class="nav-link"><i class="fas fa-file-alt"></i> Paper Information</a></li>
+                <li><a href="#overview" class="nav-link"><i class="fas fa-eye"></i> Overview</a></li>
+                <li><a href="#demo" class="nav-link"><i class="fas fa-play"></i> Demo</a></li>
+                <li><a href="#results-gallery" class="nav-link"><i class="fas fa-images"></i> Results Gallery</a></li>
+                <li><a href="#technical-framework" class="nav-link"><i class="fas fa-cogs"></i> Technical Framework</a></li>
+                <li><a href="#performance" class="nav-link"><i class="fas fa-chart-line"></i> Performance</a></li>
+                <li><a href="#applications" class="nav-link"><i class="fas fa-palette"></i> Applications</a></li>
+                <li><a href="#contact-us" class="nav-link"><i class="fas fa-envelope"></i> Contact Us</a></li>
+            </ul>
+        
     </div>
-
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-content">
-            <div class="hero-title">
-                <h1 class="main-title">LucidFlux</h1>
-                <p class="subtitle">Advanced Image Generation with Flow Matching</p>
-                <div class="hero-buttons">
-                    <a href="#demo" class="primary-btn">
-                        <i class="fas fa-play"></i> Watch Demo
-                    </a>
-                    <a href="#paper-info" class="secondary-btn">
-                        <i class="fas fa-file-alt"></i> Read Paper
-                    </a>
-                </div>
+    <div class="content">
+        <div id="paper-info" class="paper-info">
+            <h1>LucidFlux: Universal Image Restoration with a Large-Scale Diffusion Transformer</h1>
+            <h1>ArXiv:2506.10741</h1>
+            <div class="authors">
+                <p>
+                    <span class="author"><a href="https://github.com/FeiSong123/FeiSong123.github.io" target="_blank">Song Fei<sup>1,†</sup></a></span>, 
+                    <span class="author"><a href="https://owen718.github.io/" target="_blank">Tian Ye<sup>1,†,‡</sup></a></span>, 
+                    <span class="author"><a href="https://sites.google.com/site/indexlzhu/home" target="_blank">Lei Zhu<sup>2,*</sup></a></span>
+                </p>
+                <p>
+                    <span class="affiliation"><sup>1</sup> The Hong Kong University of Science and Technology (Guangzhou)</span>, 
+                    <span class="affiliation"><sup>2</sup> The Hong Kong University of Science and Technology</span>
+                </p>
             </div>
-            <div class="floating-demo-images">
-                <div class="demo-image demo-image-1">
-                    <img src="/LucidFlux/gallery/concatenated_006.jpg" alt="Demo Image 1">
-                </div>
-                <div class="demo-image demo-image-2">
-                    <img src="/LucidFlux/gallery/concatenated_013.jpg" alt="Demo Image 2">
-                </div>
-                <div class="demo-image demo-image-3">
-                    <img src="/LucidFlux/gallery/concatenated_019.jpg" alt="Demo Image 3">
-                </div>
+            <div class="links">
+                <p><a href="https://arxiv.org/abs/2506.10741" target="_blank">Paper (PDF)</a></p>
+                <p><a href="https://github.com/Ephemeral182/PosterCraft" target="_blank">GitHub</a></p>
+                <p><a href="https://huggingface.co/PosterCraft/PosterCraft-v1_RL" target="_blank">Model</a></p>
+                <p><a href="https://huggingface.co/spaces/Ephemeral182/PosterCraft" target="_blank">Demo</a></p>
             </div>
+            <p>† Equal contribution &nbsp;&nbsp; ‡ Project Leader &nbsp;&nbsp; * Corresponding author</p>
         </div>
-    </section>
 
-    <!-- Paper Information Section -->
-    <section id="paper-info" class="paper-info">
-        <div class="container">
-            <h2 class="section-title">Research Paper</h2>
-            <div class="paper-card">
-                <div class="paper-header">
-                    <h3>LucidFlux: Universal Image Restoration with a Large-Scale Diffusion Transformer</h3>
-                    <div class="paper-meta">
-                        <span class="paper-date">June 2025</span>
-                        <span class="paper-venue">ArXiv:2506.10741</span>
-                    </div>
-                </div>
-                <div class="paper-authors">
-                    <div class="author-row">
-                        <span class="author">
-                            <a href="https://github.com/FeiSong123/FeiSong123.github.io" target="_blank">
-                                <img src="https://via.placeholder.com/40" alt="Song Fei" class="author-avatar">
-                                <span class="author-name">Song Fei<sup>1,†</sup></span>
-                            </a>
-                        </span>
-                        <span class="author">
-                            <a href="https://owen718.github.io/" target="_blank">
-                                <img src="https://via.placeholder.com/40" alt="Tian Ye" class="author-avatar">
-                                <span class="author-name">Tian Ye<sup>1,†,‡</sup></span>
-                            </a>
-                        </span>
-                        <span class="author">
-                            <a href="https://sites.google.com/site/indexlzhu/home" target="_blank">
-                                <img src="https://via.placeholder.com/40" alt="Lei Zhu" class="author-avatar">
-                                <span class="author-name">Lei Zhu<sup>2,*</sup></span>
-                            </a>
-                        </span>
-                    </div>
-                    <div class="affiliations">
-                        <p><sup>1</sup> The Hong Kong University of Science and Technology (Guangzhou)</p>
-                        <p><sup>2</sup> The Hong Kong University of Science and Technology</p>
-                    </div>
-                </div>
-                <div class="paper-links">
-                    <a href="https://arxiv.org/abs/2506.10741" target="_blank" class="paper-link">
-                        <i class="fas fa-file-pdf"></i> PDF
-                    </a>
-                    <a href="https://github.com/Ephemeral182/PosterCraft" target="_blank" class="paper-link">
-                        <i class="fab fa-github"></i> Code
-                    </a>
-                    <a href="https://huggingface.co/PosterCraft/PosterCraft-v1_RL" target="_blank" class="paper-link">
-                        <i class="fas fa-robot"></i> Model
-                    </a>
-                    <a href="https://huggingface.co/spaces/Ephemeral182/PosterCraft" target="_blank" class="paper-link">
-                        <i class="fas fa-external-link-alt"></i> Demo
-                    </a>
-                </div>
-                <div class="contribution-note">
-                    <p>† Equal contribution &nbsp;&nbsp; ‡ Project Leader &nbsp;&nbsp; * Corresponding author</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-        <!-- Overview Section -->
+        
+              <!-- Overview Section -->
         <section id="overview" class="overview-section">
             <div class="container">
                 <h2 class="section-title">Overview</h2>
@@ -234,7 +174,68 @@
             </div>
         </section>
 
-        <!-- Technical Framework Section -->
+        <!-- Results Gallery Section -->
+        <section id="results-gallery" class="gallery-section">
+            <div class="container">
+                <h2 class="section-title">Results Gallery</h2>
+                <div class="gallery-intro">
+                    <p>Explore the stunning results generated by LucidFlux across various domains and styles.</p>
+                </div>
+                
+                <!-- Interactive Gallery -->
+                <div class="gallery">
+                    <div class="gallery-item" style="--aspect-ratio: 1 / 1; grid-column: span 4; grid-row: span 4;">
+                        <img src="/LucidFlux/gallery/concatenated_006.jpg" alt="Natural Landscape" class="gallery-image">
+                        <div class="resolution">2048x2048</div>
+                    </div>
+                    <div class="gallery-item" style="--aspect-ratio: 1 / 1; grid-column: span 4; grid-row: span 4;">
+                        <img src="/LucidFlux/gallery/concatenated_013.jpg" alt="Artistic Portrait" class="gallery-image">
+                        <div class="resolution">2048x2048</div>
+                    </div>
+                    <div class="gallery-item" style="--aspect-ratio: 1 / 1; grid-column: span 4; grid-row: span 4;">
+                        <img src="/LucidFlux/gallery/concatenated_019.jpg" alt="Abstract Art" class="gallery-image">
+                        <div class="resolution">2048x2048</div>
+                    </div>
+                    <div class="gallery-item" style="--aspect-ratio: 2 / 1; grid-column: span 6; grid-row: span 3;">
+                        <img src="/LucidFlux/gallery/concatenated_040.jpg" alt="Architecture" class="gallery-image">
+                        <div class="resolution">4096x2048</div>
+                    </div>
+                    <div class="gallery-item" style="--aspect-ratio: 2 / 1; grid-column: span 6; grid-row: span 3;">
+                        <img src="/LucidFlux/gallery/concatenated_041.jpg" alt="Scene Composition" class="gallery-image">
+                        <div class="resolution">4096x2048</div>
+                    </div>
+                    <div class="gallery-item" style="--aspect-ratio: 3 / 4; grid-column: span 3; grid-row: span 4;">
+                        <img src="/LucidFlux/gallery/concatenated_079.jpg" alt="Nature Scene" class="gallery-image">
+                        <div class="resolution">1536x2048</div>
+                    </div>
+                    <div class="gallery-item" style="--aspect-ratio: 3 / 4; grid-column: span 3; grid-row: span 4;">
+                        <img src="/LucidFlux/gallery/concatenated_082.jpg" alt="Urban Landscape" class="gallery-image">
+                        <div class="resolution">1536x2048</div>
+                    </div>
+                    <div class="gallery-item" style="--aspect-ratio: 3 / 4; grid-column: span 3; grid-row: span 4;">
+                        <img src="/LucidFlux/gallery/concatenated_111.jpg" alt="Concept Art" class="gallery-image">
+                        <div class="resolution">1536x2048</div>
+                    </div>
+                    <div class="gallery-item" style="--aspect-ratio: 3 / 4; grid-column: span 3; grid-row: span 4;">
+                        <img src="/LucidFlux/gallery/concatenated_123.jpg" alt="Creative Design" class="gallery-image">
+                        <div class="resolution">1536x2048</div>
+                    </div>
+                    <div class="gallery-item" style="--aspect-ratio: 1 / 1; grid-column: span 4; grid-row: span 4;">
+                        <img src="/LucidFlux/gallery/concatenated_137.jpg" alt="Digital Art" class="gallery-image">
+                        <div class="resolution">2048x2048</div>
+                    </div>
+                    <div class="gallery-item" style="--aspect-ratio: 1 / 1; grid-column: span 4; grid-row: span 4;">
+                        <img src="/LucidFlux/gallery/concatenated_144.jpg" alt="Fantasy Scene" class="gallery-image">
+                        <div class="resolution">2048x2048</div>
+                    </div>
+                    <div class="gallery-item" style="--aspect-ratio: 1 / 1; grid-column: span 4; grid-row: span 4;">
+                        <img src="/LucidFlux/gallery/concatenated_183.jpg" alt="Character Design" class="gallery-image">
+                        <div class="resolution">2048x2048</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+              <!-- Technical Framework Section -->
         <section id="technical-framework" class="technical-framework">
             <div class="container">
                 <h2 class="section-title">Technical Framework</h2>
@@ -271,248 +272,6 @@
                                 inherits the generative power of a larger teacher model, and a two-stage synthesis pipeline 
                                 that ensures structural coherence and fine-grained detail.
                             </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Results Gallery Section -->
-        <section id="results-gallery" class="gallery-section">
-            <div class="container">
-                <h2 class="section-title">Results Gallery</h2>
-                <div class="gallery-intro">
-                    <p>Explore the stunning results generated by LucidFlux across various domains and styles.</p>
-                </div>
-                
-                <!-- Interactive Gallery -->
-                <div class="gallery-grid">
-                    <div class="gallery-item" data-index="0">
-                        <div class="gallery-image">
-                            <img src="/LucidFlux/gallery/concatenated_006.jpg" alt="Natural Landscape" loading="lazy">
-                            <div class="gallery-overlay">
-                                <div class="overlay-content">
-                                    <h4>Natural Landscape</h4>
-                                    <p>Flow matching enhances natural scenery</p>
-                                    <div class="gallery-actions">
-                                        <button class="view-btn">
-                                            <i class="fas fa-search-plus"></i>
-                                        </button>
-                                        <button class="like-btn">
-                                            <i class="fas fa-heart"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="gallery-item" data-index="1">
-                        <div class="gallery-image">
-                            <img src="/LucidFlux/gallery/concatenated_013.jpg" alt="Artistic Portrait" loading="lazy">
-                            <div class="gallery-overlay">
-                                <div class="overlay-content">
-                                    <h4>Artistic Portrait</h4>
-                                    <p>High-quality portrait generation</p>
-                                    <div class="gallery-actions">
-                                        <button class="view-btn">
-                                            <i class="fas fa-search-plus"></i>
-                                        </button>
-                                        <button class="like-btn">
-                                            <i class="fas fa-heart"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="gallery-item" data-index="2">
-                        <div class="gallery-image">
-                            <img src="/LucidFlux/gallery/concatenated_019.jpg" alt="Abstract Art" loading="lazy">
-                            <div class="gallery-overlay">
-                                <div class="overlay-content">
-                                    <h4>Abstract Art</h4>
-                                    <p>Creative abstract compositions</p>
-                                    <div class="gallery-actions">
-                                        <button class="view-btn">
-                                            <i class="fas fa-search-plus"></i>
-                                        </button>
-                                        <button class="like-btn">
-                                            <i class="fas fa-heart"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="gallery-item" data-index="3">
-                        <div class="gallery-image">
-                            <img src="/LucidFlux/gallery/concatenated_040.jpg" alt="Architecture" loading="lazy">
-                            <div class="gallery-overlay">
-                                <div class="overlay-content">
-                                    <h4>Architecture</h4>
-                                    <p>Architectural visualization</p>
-                                    <div class="gallery-actions">
-                                        <button class="view-btn">
-                                            <i class="fas fa-search-plus"></i>
-                                        </button>
-                                        <button class="like-btn">
-                                            <i class="fas fa-heart"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="gallery-item" data-index="4">
-                        <div class="gallery-image">
-                            <img src="/LucidFlux/gallery/concatenated_041.jpg" alt="Scene Composition" loading="lazy">
-                            <div class="gallery-overlay">
-                                <div class="overlay-content">
-                                    <h4>Scene Composition</h4>
-                                    <p>Complex scene generation</p>
-                                    <div class="gallery-actions">
-                                        <button class="view-btn">
-                                            <i class="fas fa-search-plus"></i>
-                                        </button>
-                                        <button class="like-btn">
-                                            <i class="fas fa-heart"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="gallery-item" data-index="5">
-                        <div class="gallery-image">
-                            <img src="/LucidFlux/gallery/concatenated_079.jpg" alt="Nature Scene" loading="lazy">
-                            <div class="gallery-overlay">
-                                <div class="overlay-content">
-                                    <h4>Nature Scene</h4>
-                                    <p>Realistic nature environments</p>
-                                    <div class="gallery-actions">
-                                        <button class="view-btn">
-                                            <i class="fas fa-search-plus"></i>
-                                        </button>
-                                        <button class="like-btn">
-                                            <i class="fas fa-heart"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="gallery-item" data-index="6">
-                        <div class="gallery-image">
-                            <img src="/LucidFlux/gallery/concatenated_082.jpg" alt="Urban Landscape" loading="lazy">
-                            <div class="gallery-overlay">
-                                <div class="overlay-content">
-                                    <h4>Urban Landscape</h4>
-                                    <p>Urban environment generation</p>
-                                    <div class="gallery-actions">
-                                        <button class="view-btn">
-                                            <i class="fas fa-search-plus"></i>
-                                        </button>
-                                        <button class="like-btn">
-                                            <i class="fas fa-heart"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="gallery-item" data-index="7">
-                        <div class="gallery-image">
-                            <img src="/LucidFlux/gallery/concatenated_111.jpg" alt="Concept Art" loading="lazy">
-                            <div class="gallery-overlay">
-                                <div class="overlay-content">
-                                    <h4>Concept Art</h4>
-                                    <p>Professional concept design</p>
-                                    <div class="gallery-actions">
-                                        <button class="view-btn">
-                                            <i class="fas fa-search-plus"></i>
-                                        </button>
-                                        <button class="like-btn">
-                                            <i class="fas fa-heart"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="gallery-item" data-index="8">
-                        <div class="gallery-image">
-                            <img src="/LucidFlux/gallery/concatenated_123.jpg" alt="Creative Design" loading="lazy">
-                            <div class="gallery-overlay">
-                                <div class="overlay-content">
-                                    <h4>Creative Design</h4>
-                                    <p>Innovative design solutions</p>
-                                    <div class="gallery-actions">
-                                        <button class="view-btn">
-                                            <i class="fas fa-search-plus"></i>
-                                        </button>
-                                        <button class="like-btn">
-                                            <i class="fas fa-heart"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="gallery-item" data-index="9">
-                        <div class="gallery-image">
-                            <img src="/LucidFlux/gallery/concatenated_137.jpg" alt="Digital Art" loading="lazy">
-                            <div class="gallery-overlay">
-                                <div class="overlay-content">
-                                    <h4>Digital Art</h4>
-                                    <p>High-quality digital artwork</p>
-                                    <div class="gallery-actions">
-                                        <button class="view-btn">
-                                            <i class="fas fa-search-plus"></i>
-                                        </button>
-                                        <button class="like-btn">
-                                            <i class="fas fa-heart"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="gallery-item" data-index="10">
-                        <div class="gallery-image">
-                            <img src="/LucidFlux/gallery/concatenated_144.jpg" alt="Fantasy Scene" loading="lazy">
-                            <div class="gallery-overlay">
-                                <div class="overlay-content">
-                                    <h4>Fantasy Scene</h4>
-                                    <p>Imaginative fantasy worlds</p>
-                                    <div class="gallery-actions">
-                                        <button class="view-btn">
-                                            <i class="fas fa-search-plus"></i>
-                                        </button>
-                                        <button class="like-btn">
-                                            <i class="fas fa-heart"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="gallery-item" data-index="11">
-                        <div class="gallery-image">
-                            <img src="/LucidFlux/gallery/concatenated_183.jpg" alt="Character Design" loading="lazy">
-                            <div class="gallery-overlay">
-                                <div class="overlay-content">
-                                    <h4>Character Design</h4>
-                                    <p>Detailed character creation</p>
-                                    <div class="gallery-actions">
-                                        <button class="view-btn">
-                                            <i class="fas fa-search-plus"></i>
-                                        </button>
-                                        <button class="like-btn">
-                                            <i class="fas fa-heart"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -689,26 +448,29 @@
                 </div>
             </div>
         </section>
+        
+
     </div>
 
-    <!-- Image Modal -->
-    <div id="imageModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <img id="modalImage" src="" alt="">
-            <div id="modalCaption"></div>
-            <div class="modal-navigation">
-                <button class="modal-nav prev">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-                <button class="modal-nav next">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
-        </div>
+   <!-- Modal for image enlargement -->
+<div id="modal" class="modal">
+    <span class="close">&times;</span>
+    <div class="modal-content-container">
+        <div class="modal-content" id="modal-img"></div>
     </div>
+    <div id="caption"></div>
+    <a class="prev">&#10094;</a>
+    <a class="next">&#10095;</a>
+      
+    <div id="resolution" class="resolution"></div>
+    <div class="thumbnails">
+        <!-- Thumbnails will be generated dynamically by JavaScript -->
+    </div>
+</div>
 
-    <!-- Scripts -->
+    
+    
+
     <script src="/assets/js/lucidflux-html.js"></script>
 </body>
 </html>
