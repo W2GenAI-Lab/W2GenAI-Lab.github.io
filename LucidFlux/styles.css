@@ -163,7 +163,8 @@ body {
     color: #666;
     margin-bottom: 10px;
     font-family: 'Montserrat', sans-serif;
-    font-size: 1.1em;
+    font-size: 1.5em;
+    font-weight: 600;
 }
 
 .comparison-note {
@@ -283,6 +284,12 @@ thead tr:last-child {
     border-bottom: 1px solid #333;
 }
 
+/* Separator between RealSR and RealLQ250 benchmarks */
+.benchmark-separator {
+    border-top: 1px solid #333;
+    border-bottom: none;
+}
+
 /* Remove row hover effects for academic look */
 tbody tr:hover {
     background-color: transparent;
@@ -331,6 +338,31 @@ tbody tr:hover {
     display: block;
     object-fit: contain;
     max-height: 600px;
+}
+
+.framework-section {
+    margin-bottom: 40px;
+    margin-top: 40px;
+}
+
+.framework-section h2 {
+    font-size: 1.5em;
+    font-weight: 800;
+    margin-bottom: 20px;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+}
+
+.framework-content {
+    text-align: center;
+    padding: 20px;
+}
+
+.framework-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .gallery-section {
