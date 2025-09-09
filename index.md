@@ -12,7 +12,7 @@ permalink: /
 
 **Advancing the Frontiers of Generative AI Research**
 
-[🏠 Home](#) | [📧 Contact](#) | [📚 Publications](#)
+[🏠 Home](https://w2genai-lab.github.io/)
 
 </div>
 
@@ -26,48 +26,27 @@ Our mission is to push the boundaries of what's possible with generative AI whil
 
 ## Research Areas
 
-- 🎨 **Image Generation**: High-resolution text-to-image models
-- 🌊 **Flow Matching**: Advanced generative modeling techniques
-- 🔬 **Diffusion Models**: State-of-the-art generative architectures
-- ⚡ **Efficient AI**: Optimized training and inference methods
-- 🎯 **Multimodal AI**: Combining vision, language, and other modalities
+- 🎨 **AIGC Technology**: Supporting the art creation industry and digital asset generation through advances in AIGC (Artificial Intelligence Generated Content) technology.
+- 🌊 **Visual Quality**: Exploring visual challenges in photography to create images with superior quality.
 
-## Featured Projects
+## Our Projects
 
-### [🚀 LucidFlux](/LucidFlux/) - High-Resolution Image Generation
+### [🚀 Kontext Style](https://huggingface.co/Kontext-Style) - High-quality LoRA adapters for FLUX.1 Kontext. Unleash your creativity with seamless artistic style transfer and exceptional image generation.
+### [🚀 LucidFlux](/LucidFlux/index.html) - Universal Image Restoration with a Large-Scale Diffusion Transformer
 
-**Flow Matching for High-Quality Image Generation**
-
-LucidFlux is our flagship image generation model that leverages advanced flow matching techniques combined with diffusion models to produce high-resolution, high-quality images.
-
-**Key Features:**
-- High-resolution output (up to 2048×2048)
-- Stable training with flow matching
-- Efficient memory usage
-- Superior image quality and diversity
-
-### [🔬 Research Papers](#)
-
-Our latest research contributions to the field of generative AI.
-
-### [🛠️ Tools & Resources](#)
-
-Open-source tools and datasets for the AI research community.
-
----
 
 ## Contact Us
 
 Interested in collaborating or learning more about our research? Get in touch!
 
-- 📧 **Email**: [contact@w2genai-lab.com](mailto:contact@w2genai-lab.com)
+- 📧 **Email**: [contact@w2genai-lab.com](tye610@connect.hkust-gz.edu.cn)
 - 🐙 **GitHub**: [W2GenAI-Lab](https://github.com/W2GenAI-Lab)
-- 📄 **Publications**: [Coming Soon]()
+<!-- - 📄 **Publications**: [Coming Soon]() -->
 
 ---
 
 <div align="center">
   
-*© 2024 W2GenAI Lab. All rights reserved.*
+*© 2025 W2GenAI Lab. All rights reserved.*
 
 </div>

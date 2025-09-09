@@ -145,6 +145,64 @@ body {
     
 }
 
+.comparison-section {
+    margin-bottom: 40px;
+    margin-top: 40px;
+}
+
+.comparison-section h2 {
+    font-size: 1.5em;
+    font-weight: 800;
+    margin-bottom: 10px;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+}
+
+.comparison-subtitle {
+    text-align: center;
+    color: #666;
+    margin-bottom: 10px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1em;
+}
+
+.comparison-note {
+    text-align: center;
+    color: #888;
+    font-size: 0.9em;
+    font-style: italic;
+    margin-bottom: 20px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(800px, 1fr));
+    gap: 30px;
+    padding: 20px;
+    justify-items: center;
+}
+
+.comparison-item {
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.comparison-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.comparison-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+}
+
 .gallery-section {
     margin-bottom: 40px; /* 增加底部间距 */
     margin-top: 40px; /* 增加顶部间距 */
