@@ -383,14 +383,14 @@ tbody tr:hover {
 
 /* Overview section styles */
 .overview-section {
-    margin-bottom: 40px;
-    margin-top: 40px;
+    margin-bottom: 30px;
+    margin-top: 30px;
 }
 
 .overview-section h2 {
-    font-size: 1.5em;
-    font-weight: 800;
-    margin-bottom: 20px;
+    font-size: 1.4em;
+    font-weight: 700;
+    margin-bottom: 15px;
     font-family: 'Montserrat', sans-serif;
     text-align: center;
 }
@@ -398,37 +398,37 @@ tbody tr:hover {
 .overview-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    padding: 20px;
-    max-width: 800px;
+    gap: 15px;
+    padding: 15px;
+    max-width: 600px;
     margin: 0 auto;
 }
 
 .overview-item {
     background-color: #ffffff;
-    border-radius: 12px;
+    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    aspect-ratio: 1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    aspect-ratio: 4/3;
     position: relative;
 }
 
 .overview-item:hover {
-    transform: scale(1.02);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    transform: scale(1.01);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 }
 
 .overview-image {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
-    transition: transform 0.3s ease;
+    transition: transform 0.2s ease;
 }
 
 .overview-item:hover .overview-image {
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 
 @media (max-width: 768px) {
@@ -441,14 +441,14 @@ tbody tr:hover {
 
 /* Individual styles section */
 .styles-section {
-    margin-bottom: 40px;
-    margin-top: 40px;
+    margin-bottom: 30px;
+    margin-top: 30px;
 }
 
 .styles-section h2 {
-    font-size: 1.5em;
-    font-weight: 800;
-    margin-bottom: 30px;
+    font-size: 1.4em;
+    font-weight: 700;
+    margin-bottom: 20px;
     font-family: 'Montserrat', sans-serif;
     text-align: center;
 }
@@ -456,13 +456,14 @@ tbody tr:hover {
 .styles-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 30px;
-    padding: 0 20px;
+    gap: 20px;
+    padding: 0 15px;
 }
 
 @media (max-width: 1200px) {
     .styles-grid {
         grid-template-columns: 1fr;
+        gap: 15px;
     }
 }
 
@@ -487,23 +488,23 @@ tbody tr:hover {
 
 .style-display {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .style-display:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
 }
 
 .style-container {
     position: relative;
     width: 100%;
-    height: 450px;
+    height: 350px;
     background: rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
+    border-radius: 8px;
     overflow: hidden;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -529,42 +530,42 @@ tbody tr:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 15px;
-    padding: 0 10px;
+    margin-top: 10px;
+    padding: 0 5px;
 }
 
 .nav-btn {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.9);
     border: none;
     color: #333;
-    font-size: 16px;
+    font-size: 14px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .nav-btn:hover:not(:disabled) {
     background: rgba(255, 255, 255, 1);
-    transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .nav-btn:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
 }
 
 .image-indicator {
     color: rgba(255, 255, 255, 0.9);
     font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
     text-align: center;
-    min-width: 50px;
+    min-width: 40px;
 }
