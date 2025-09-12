@@ -29,4 +29,4 @@ Our mission is to push the boundaries of what's possible with generative AI whil
 ### [🚀 LucidFlux](/LucidFlux/index.html) - Universal Image Restoration with a Large-Scale Diffusion Transformer
 
 ## Contact Us
-Feel free to contact Lei Zhu at leizhu@ust.hk for cooperation, communication, or applying internships.
+Feel free to contact Tian Ye at tye610@connect.hkust-gz.edu.cn for cooperation, communication.

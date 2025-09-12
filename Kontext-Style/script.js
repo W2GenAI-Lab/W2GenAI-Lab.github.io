@@ -55,70 +55,59 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 图片导航功能
     function initImageNavigation() {
-        document.querySelectorAll('.style-gallery').forEach(gallery => {
-            const mainImage = gallery.querySelector('.style-main .style-image');
-            const images = Array.from(gallery.querySelectorAll('.thumb'));
-            const prevBtn = gallery.querySelector('.style-nav.prev');
-            const nextBtn = gallery.querySelector('.style-nav.next');
+        document.querySelectorAll('.style-display').forEach(display => {
+            const container = display.querySelector('.style-container');
+            const images = Array.from(container.querySelectorAll('.style-image'));
+            const prevBtn = display.querySelector('.prev-btn');
+            const nextBtn = display.querySelector('.next-btn');
+            const currentSlideSpan = display.querySelector('.current-slide');
+            const totalSlidesSpan = display.querySelector('.total-slides');
             
             if (images.length === 0) return;
             
             let currentIndex = 0;
             
             function showImage(index) {
-                // 更新主图
-                const newImageSrc = images[index].src;
-                const newImageAlt = images[index].alt;
-                
-                // 创建新的主图元素
-                const newMainImage = mainImage.cloneNode(true);
-                newMainImage.src = newImageSrc;
-                newMainImage.alt = newImageAlt;
-                
-                // 替换主图
-                mainImage.parentNode.replaceChild(newMainImage, mainImage);
-                
-                // 更新缩略图状态
                 images.forEach(img => img.classList.remove('active'));
                 images[index].classList.add('active');
                 
-                currentIndex = index;
+                currentSlideSpan.textContent = index + 1;
+                totalSlidesSpan.textContent = images.length;
                 
-                // 添加点击事件到新的主图
-                newMainImage.addEventListener('click', () => {
-                    currentImageIndex = galleryImages.indexOf(newMainImage);
-                    showModal(newMainImage);
-                });
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === images.length - 1;
+                
+                currentIndex = index;
             }
             
             prevBtn.addEventListener('click', () => {
-                const newIndex = (currentIndex - 1 + images.length) % images.length;
-                showImage(newIndex);
+                if (currentIndex > 0) {
+                    showImage(currentIndex - 1);
+                }
             });
             
             nextBtn.addEventListener('click', () => {
-                const newIndex = (currentIndex + 1) % images.length;
-                showImage(newIndex);
+                if (currentIndex < images.length - 1) {
+                    showImage(currentIndex + 1);
+                }
             });
             
-            // 缩略图点击事件
-            images.forEach((thumb, index) => {
-                thumb.addEventListener('click', () => {
-                    showImage(index);
+            // 图片点击事件（模态框）
+            images.forEach((img, index) => {
+                img.addEventListener('click', () => {
+                    currentImageIndex = galleryImages.indexOf(img);
+                    showModal(img);
                 });
             });
             
-            // 主图点击事件（模态框）
-            mainImage.addEventListener('click', () => {
-                currentImageIndex = galleryImages.indexOf(mainImage);
-                showModal(mainImage);
+            // 键盘导航
+            display.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft' && currentIndex > 0) prevBtn.click();
+                if (e.key === 'ArrowRight' && currentIndex < images.length - 1) nextBtn.click();
             });
             
-            // 键盘导航
-            gallery.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowLeft') prevBtn.click();
-                if (e.key === 'ArrowRight') nextBtn.click();
-            });
+            // 初始化显示
+            showImage(0);
         });
     }
     
