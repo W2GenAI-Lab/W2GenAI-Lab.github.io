@@ -379,89 +379,6 @@ tbody tr:hover {
 }
 
 
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background-color: rgba(0, 0, 0, 0.9);
-}
-
-.modal-content-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    width: calc(100% - 100px); /* 留出空间给缩略图 */
-    overflow: auto;
-    position: relative;
-}
-
-.modal-content {
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
-    transition: transform 0.3s ease; /* 添加平滑的缩放动画 */
-    cursor: grab; /* 添加抓手光标 */
-    width: auto; /* 确保初始宽度 */
-    height: auto; /* 确保初始高度 */
-    max-width: 100%;
-    max-height: 100%;
-}
-
-.modal-content:active {
-    cursor: grabbing; /* 添加拖动光标 */
-}
-
-.close {
-    position: absolute;
-    top: 15px;
-    right: 35px;
-    color: #fff;
-    font-size: 40px;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.close:hover,
-.close:focus {
-    color: #bbb;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.thumbnails {
-    position: fixed;
-    top: 50%;
-    right: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    max-height: 80%;
-    overflow-y: auto;
-    transform: translateY(-50%);
-    z-index: 2;
-}
-
-.thumbnails img {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    cursor: pointer;
-    transition: transform 0.3s ease-in-out;
-}
-
-.thumbnails img:hover {
-    transform: scale(1.1);
-}
-
-.thumbnail-active {
-    border: 2px solid #007acc;
-}
 
 
 /* Overview section styles */
@@ -480,18 +397,21 @@ tbody tr:hover {
 
 .overview-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
     padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .overview-item {
     background-color: #ffffff;
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
-    height: 150px;
+    aspect-ratio: 1;
+    position: relative;
 }
 
 .overview-item:hover {
@@ -504,6 +424,19 @@ tbody tr:hover {
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: transform 0.3s ease;
+}
+
+.overview-item:hover .overview-image {
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .overview-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 15px;
+    }
 }
 
 /* Individual styles section */
