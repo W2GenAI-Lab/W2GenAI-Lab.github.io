@@ -398,25 +398,25 @@ tbody tr:hover {
 .overview-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    padding: 15px;
-    max-width: 600px;
+    gap: 20px;
+    padding: 20px;
+    max-width: 800px;
     margin: 0 auto;
 }
 
 .overview-item {
     background-color: #ffffff;
-    border-radius: 8px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease;
-    aspect-ratio: 4/3;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    aspect-ratio: 1;
     position: relative;
 }
 
 .overview-item:hover {
-    transform: scale(1.01);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: scale(1.02);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 .overview-image {
@@ -424,11 +424,11 @@ tbody tr:hover {
     height: 100%;
     object-fit: contain;
     display: block;
-    transition: transform 0.2s ease;
+    transition: transform 0.3s ease;
 }
 
 .overview-item:hover .overview-image {
-    transform: scale(1.02);
+    transform: scale(1.05);
 }
 
 @media (max-width: 768px) {
