@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontext Style - W2GenAI Lab</title>
+    <link rel="stylesheet" href="Kontext-Style/styles.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-title">Kontext Style</div>
+        <ul>
+            <li><a href="#gallery" class="active"><i class="fas fa-images"></i> Gallery</a></li>
+            <li><a href="#visualization"><i class="fas fa-eye"></i> Visualization</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div class="paper-info">
+            <h1>Kontext Style</h1>
+            <div class="affiliations">
+                High-quality LoRA adapters for FLUX.1 Kontext - Artistic Style Transfer
+            </div>
+        </div>
+
+        <div class="gallery-section" id="gallery">
+            <h2>Style Gallery</h2>
+            
+            <div class="gallery">
+                <div class="gallery-item">
+                    <div class="image-comparison">
+                        <img src="Kontext-Style/gallery/pexels-photo-1700656/3d_chibi.png" alt="3D Chibi Style" class="gallery-image">
+                        <div class="comparison-slider">
+                            <div class="slider-handle">
+                                <span class="slider-arrow">◀ ▶</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="style-info">
+                        <h4>3D Chibi</h4>
+                        <p>Cute 3D character style transformation</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="image-comparison">
+                        <img src="Kontext-Style/gallery/pexels-photo-1700656/american_cartoon.png" alt="American Cartoon Style" class="gallery-image">
+                        <div class="comparison-slider">
+                            <div class="slider-handle">
+                                <span class="slider-arrow">◀ ▶</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="style-info">
+                        <h4>American Cartoon</h4>
+                        <p>Classic western animation style</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="image-comparison">
+                        <img src="Kontext-Style/gallery/pexels-photo-1700656/chinese_ink.png" alt="Chinese Ink Style" class="gallery-image">
+                        <div class="comparison-slider">
+                            <div class="slider-handle">
+                                <span class="slider-arrow">◀ ▶</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="style-info">
+                        <h4>Chinese Ink</h4>
+                        <p>Traditional ink painting artistry</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="image-comparison">
+                        <img src="Kontext-Style/gallery/pexels-photo-1700656/ghibli.png" alt="Ghibli Style" class="gallery-image">
+                        <div class="comparison-slider">
+                            <div class="slider-handle">
+                                <span class="slider-arrow">◀ ▶</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="style-info">
+                        <h4>Ghibli</h4>
+                        <p>Studio Ghibli anime aesthetic</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="image-comparison">
+                        <img src="Kontext-Style/gallery/pexels-photo-185364/Oil_Painting.png" alt="Oil Painting Style" class="gallery-image">
+                        <div class="comparison-slider">
+                            <div class="slider-handle">
+                                <span class="slider-arrow">◀ ▶</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="style-info">
+                        <h4>Oil Painting</h4>
+                        <p>Classical oil painting technique</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="image-comparison">
+                        <img src="Kontext-Style/gallery/pexels-photo-185364/Van_Gogh.png" alt="Van Gogh Style" class="gallery-image">
+                        <div class="comparison-slider">
+                            <div class="slider-handle">
+                                <span class="slider-arrow">◀ ▶</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="style-info">
+                        <h4>Van Gogh</h4>
+                        <p>Impressionist artistic style</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="visualization-section" id="visualization">
+            <h2>Complete Style Collection</h2>
+            
+            <div class="comparison-grid">
+                <div class="comparison-item">
+                    <img src="Kontext-Style/visualization/1.png" alt="Style Collection Overview 1" class="comparison-image">
+                </div>
+                <div class="comparison-item">
+                    <img src="Kontext-Style/visualization/2.png" alt="Style Collection Overview 2" class="comparison-image">
+                </div>
+                <div class="comparison-item">
+                    <img src="Kontext-Style/visualization/3.png" alt="Style Collection Overview 3" class="comparison-image">
+                </div>
+                <div class="comparison-item">
+                    <img src="Kontext-Style/visualization/4.png" alt="Style Collection Overview 4" class="comparison-image">
+                </div>
+            </div>
+        </div>
+
+      </div>
+
+    <!-- Modal for full-size images -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content-container">
+            <span class="close">&times;</span>
+            <img class="modal-content" id="modalImage">
+        </div>
+    </div>
+
+    <script src="Kontext-Style/script.js"></script>
+</body>
+</html>
