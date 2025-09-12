@@ -480,8 +480,8 @@ tbody tr:hover {
 
 .overview-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
     padding: 20px;
 }
 
@@ -491,6 +491,7 @@ tbody tr:hover {
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
+    height: 150px;
 }
 
 .overview-item:hover {
@@ -500,7 +501,8 @@ tbody tr:hover {
 
 .overview-image {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
     display: block;
 }
 
@@ -521,21 +523,15 @@ tbody tr:hover {
 .style-showcase {
     background-color: #ffffff;
     border-radius: 12px;
-    padding: 25px;
+    padding: 20px;
     margin-bottom: 30px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.style-showcase:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .style-showcase h3 {
     font-size: 1.4em;
     font-weight: 600;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     color: #007acc;
     text-align: center;
     font-family: 'Montserrat', sans-serif;
@@ -543,25 +539,48 @@ tbody tr:hover {
     padding-bottom: 10px;
 }
 
-.style-images {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+.style-scroll-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    height: 200px;
+}
+
+.style-scroll {
+    display: flex;
     gap: 15px;
-    justify-items: center;
+    padding: 15px;
+    height: 100%;
+    animation: scrollLeft 20s linear infinite;
+}
+
+.style-scroll:hover {
+    animation-play-state: paused;
 }
 
 .style-image {
-    width: 100%;
-    max-width: 250px;
-    height: 200px;
+    height: 170px;
+    width: auto;
+    min-width: 250px;
     object-fit: cover;
     border-radius: 8px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
+    transition: transform 0.3s ease;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
 }
 
 .style-image:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes scrollLeft {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
 }
