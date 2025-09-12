@@ -520,6 +520,19 @@ tbody tr:hover {
     text-align: center;
 }
 
+.styles-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    padding: 0 20px;
+}
+
+@media (max-width: 1200px) {
+    .styles-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
 .style-showcase {
     background-color: #ffffff;
     border-radius: 12px;
@@ -539,82 +552,134 @@ tbody tr:hover {
     padding-bottom: 10px;
 }
 
-.style-viewer {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
+.style-gallery {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px;
     padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.style-image-container {
+.style-gallery:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+}
+
+.style-main {
     position: relative;
     width: 100%;
-    height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    height: 500px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.style-image {
-    max-width: 100%;
-    max-height: 100%;
+.style-main .style-image {
+    width: 100%;
+    height: 100%;
     object-fit: contain;
     border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    display: none;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    opacity: 0;
+    transform: scale(1.05);
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
-.style-image.active {
-    display: block;
+.style-main .style-image.active {
+    opacity: 1;
+    transform: scale(1);
 }
 
-.style-image:hover {
-    transform: scale(1.02);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-}
-
-.nav-btn {
+.style-controls {
     position: absolute;
     top: 50%;
+    left: 0;
+    right: 0;
     transform: translateY(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    border: none;
-    width: 40px;
-    height: 40px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    pointer-events: none;
+}
+
+.style-nav {
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
-    font-size: 18px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    color: #333;
+    font-size: 20px;
     cursor: pointer;
-    z-index: 10;
-    transition: background-color 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.3s ease;
+    pointer-events: all;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.nav-btn:hover {
-    background-color: rgba(0, 0, 0, 0.8);
+.style-nav:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
-.prev-btn {
-    left: 10px;
+.style-nav:active {
+    transform: scale(0.95);
 }
 
-.next-btn {
-    right: 10px;
+.style-thumbnails {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    overflow-x: auto;
+    padding: 5px 0;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
 }
 
-.image-counter {
-    text-align: center;
-    margin-top: 10px;
-    font-size: 14px;
-    color: #666;
-    font-family: 'Montserrat', sans-serif;
+.style-thumbnails::-webkit-scrollbar {
+    height: 4px;
+}
+
+.style-thumbnails::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+.style-thumbnails::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+}
+
+.style-thumbnails::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.thumb {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    object-fit: cover;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    flex-shrink: 0;
+    opacity: 0.7;
+}
+
+.thumb:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.thumb.active {
+    border-color: #fff;
+    opacity: 1;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
 }

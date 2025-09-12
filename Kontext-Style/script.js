@@ -55,21 +55,40 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 图片导航功能
     function initImageNavigation() {
-        document.querySelectorAll('.style-showcase').forEach(showcase => {
-            const images = showcase.querySelectorAll('.style-image');
-            const prevBtn = showcase.querySelector('.prev-btn');
-            const nextBtn = showcase.querySelector('.next-btn');
-            const counter = showcase.querySelector('.image-counter');
+        document.querySelectorAll('.style-gallery').forEach(gallery => {
+            const mainImage = gallery.querySelector('.style-main .style-image');
+            const images = Array.from(gallery.querySelectorAll('.thumb'));
+            const prevBtn = gallery.querySelector('.style-nav.prev');
+            const nextBtn = gallery.querySelector('.style-nav.next');
             
             if (images.length === 0) return;
             
             let currentIndex = 0;
             
             function showImage(index) {
+                // 更新主图
+                const newImageSrc = images[index].src;
+                const newImageAlt = images[index].alt;
+                
+                // 创建新的主图元素
+                const newMainImage = mainImage.cloneNode(true);
+                newMainImage.src = newImageSrc;
+                newMainImage.alt = newImageAlt;
+                
+                // 替换主图
+                mainImage.parentNode.replaceChild(newMainImage, mainImage);
+                
+                // 更新缩略图状态
                 images.forEach(img => img.classList.remove('active'));
                 images[index].classList.add('active');
-                counter.textContent = `${index + 1} / ${images.length}`;
+                
                 currentIndex = index;
+                
+                // 添加点击事件到新的主图
+                newMainImage.addEventListener('click', () => {
+                    currentImageIndex = galleryImages.indexOf(newMainImage);
+                    showModal(newMainImage);
+                });
             }
             
             prevBtn.addEventListener('click', () => {
@@ -82,8 +101,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 showImage(newIndex);
             });
             
+            // 缩略图点击事件
+            images.forEach((thumb, index) => {
+                thumb.addEventListener('click', () => {
+                    showImage(index);
+                });
+            });
+            
+            // 主图点击事件（模态框）
+            mainImage.addEventListener('click', () => {
+                currentImageIndex = galleryImages.indexOf(mainImage);
+                showModal(mainImage);
+            });
+            
             // 键盘导航
-            showcase.addEventListener('keydown', (e) => {
+            gallery.addEventListener('keydown', (e) => {
                 if (e.key === 'ArrowLeft') prevBtn.click();
                 if (e.key === 'ArrowRight') nextBtn.click();
             });
