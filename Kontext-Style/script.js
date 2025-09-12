@@ -53,6 +53,43 @@ document.addEventListener('DOMContentLoaded', function() {
         modal.style.display = 'none';
     }
     
+    // 图片导航功能
+    function initImageNavigation() {
+        document.querySelectorAll('.style-showcase').forEach(showcase => {
+            const images = showcase.querySelectorAll('.style-image');
+            const prevBtn = showcase.querySelector('.prev-btn');
+            const nextBtn = showcase.querySelector('.next-btn');
+            const counter = showcase.querySelector('.image-counter');
+            
+            if (images.length === 0) return;
+            
+            let currentIndex = 0;
+            
+            function showImage(index) {
+                images.forEach(img => img.classList.remove('active'));
+                images[index].classList.add('active');
+                counter.textContent = `${index + 1} / ${images.length}`;
+                currentIndex = index;
+            }
+            
+            prevBtn.addEventListener('click', () => {
+                const newIndex = (currentIndex - 1 + images.length) % images.length;
+                showImage(newIndex);
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                const newIndex = (currentIndex + 1) % images.length;
+                showImage(newIndex);
+            });
+            
+            // 键盘导航
+            showcase.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') prevBtn.click();
+                if (e.key === 'ArrowRight') nextBtn.click();
+            });
+        });
+    }
+    
     // 事件监听
     document.querySelectorAll('.style-image, .overview-image').forEach(img => {
         img.addEventListener('click', function() {
@@ -91,4 +128,5 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 初始化
     collectGalleryImages();
+    initImageNavigation();
 });
