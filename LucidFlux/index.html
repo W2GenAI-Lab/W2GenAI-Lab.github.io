@@ -1227,7 +1227,7 @@
                     <table>
                         <thead>
                             <tr>
-                                <th rowspan="2">Benchmark</th>
+                                <th colspan="2" rowspan="2">Benchmark</th>
                                 <th rowspan="2">Metric</th>
                                 <th colspan="7">Methods</th>
                             </tr>
@@ -1240,10 +1240,21 @@
                                 <th>SUPIR</th>
                                 <th>LucidFlux<br>(Ours)</th>
                             </tr>
+                            <tr>
+                                <th colspan="3">Caption-Free</th>
+                                <td>✓</td>
+                                <td>✓</td>
+                                <td>✓</td>
+                                <td>✗</td>
+                                <td>✗</td>
+                                <td>✗</td>
+                                <td>✓</td>
+                            </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="benchmark-col" rowspan="7">RealSR</td>
+                                <td rowspan="21">Real-world</td>
+                                <td class="benchmark-col" rowspan="7">DRealSR</td>
                                 <td class="metric-col">CLIP-IQA+ ↑</td>
                                 <td class="method-col">0.4655</td>
                                 <td class="method-col">0.3732</td>
@@ -1384,8 +1395,9 @@
                                 <td class="method-col best-result">3.6591</td>
                                 <td class="method-col">3.6742</td>
                             </tr>
-                            <tr class="benchmark-separator">
-                                <td class="benchmark-col" rowspan="7">DIV2K-Val</td>
+                            <tr>
+                                <td rowspan="20">Synthetic</td>
+                                <td class="benchmark-col" rowspan="10">DIV2K-Val</td>
                                 <td class="metric-col">CLIP-IQA+ ↑</td>
                                 <td class="method-col">0.5583</td>
                                 <td class="method-col">0.5760</td>
@@ -1589,7 +1601,7 @@
                         </tbody>
                     </table>
                     <div class="table-caption">
-                        <span class="table-number">Table 1:</span> Quantitative comparison across different IQA metrics on RealSR, RealLQ250, DIV2K-Val, and LSDIR-Val datasets. Best results are highlighted in bold.
+                        <span class="table-number">Table 1:</span> Quantitative comparison across different IQA metrics on RealSR, RealLQ250, DIV2K-Val, LSDIR-Val, and DRealSR datasets. Best results are highlighted in bold.
                     </div>
                 </div>
             </div>
