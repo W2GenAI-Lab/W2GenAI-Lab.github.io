@@ -290,6 +290,13 @@ thead tr:last-child {
     border-bottom: none;
 }
 
+/* Vertical separator between category and benchmark name */
+.category-separator {
+    border-right: 1px solid #333;
+    width: 1px;
+    padding: 0 !important;
+}
+
 /* Remove row hover effects for academic look */
 tbody tr:hover {
     background-color: transparent;
