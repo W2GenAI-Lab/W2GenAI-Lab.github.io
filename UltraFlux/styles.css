@@ -89,6 +89,12 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
+.content .info-section {
+    max-width: 1150px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .project-info {
     text-align: left;
 }
