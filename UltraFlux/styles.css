@@ -202,8 +202,8 @@ body {
 }
 
 .gallery-item {
-    flex: 0 0 40%;
-    min-width: 40%;
+    flex: 0 0 38%;
+    min-width: 38%;
     position: relative;
     border-radius: 14px;
     overflow: hidden;
@@ -234,10 +234,8 @@ body {
 }
 
 .gallery-item.active {
-    flex: 0 0 55%;
-    min-width: 55%;
     opacity: 1;
-    transform: scale(1.05);
+    transform: scale(1.18);
     filter: saturate(1);
     box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
 }
@@ -249,7 +247,7 @@ body {
 .gallery-item.prev,
 .gallery-item.next {
     opacity: 0.75;
-    transform: scale(0.95);
+    transform: scale(0.9);
     filter: saturate(0.9);
 }
 
