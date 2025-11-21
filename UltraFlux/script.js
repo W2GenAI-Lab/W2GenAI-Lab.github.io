@@ -52,60 +52,9 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function initAutoGallery() {
-        const carousel = document.querySelector('.gallery-showcase .gallery-carousel');
-        if (!carousel) return;
-
-        const track = carousel.querySelector('.gallery-track');
-        const items = Array.from(track.querySelectorAll('.gallery-item'));
-        if (items.length === 0) return;
-
-        let current = 0;
-
-        let slideWidth = items[0].getBoundingClientRect().width;
-        const styles = getComputedStyle(track);
-        const gap = parseFloat(styles.columnGap || styles.gap || 0);
-
-        const recalc = () => {
-            slideWidth = items[0].getBoundingClientRect().width;
-            centerActive();
-        };
-
-        const centerActive = () => {
-            if (window.innerWidth <= 900) {
-                track.style.transform = '';
-                return;
-            }
-            
-            const offset = current * (slideWidth + gap);
-            const adjustment = (carousel.clientWidth - slideWidth) / 2;
-            track.style.transform = `translateX(-${offset - adjustment}px)`;
-        };
-
-        const updateClasses = () => {
-            items.forEach(item => item.classList.remove('active', 'prev', 'next'));
-
-            const prevIndex = (current - 1 + items.length) % items.length;
-            const nextIndex = (current + 1) % items.length;
-
-            items[current].classList.add('active');
-            items[prevIndex].classList.add('prev');
-            items[nextIndex].classList.add('next');
-
-            centerActive();
-        };
-
-        updateClasses();
-
-        const intervalId = setInterval(() => {
-            current = (current + 1) % items.length;
-            updateClasses();
-        }, 5000);
-
-        window.addEventListener('resize', recalc);
-    }
+    // 当前版本未使用自动画廊
     
     // 初始化
     initImageNavigation();
-    initAutoGallery();
+    // initAutoGallery 已禁用
 });
