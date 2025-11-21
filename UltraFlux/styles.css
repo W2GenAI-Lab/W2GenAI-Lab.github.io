@@ -193,11 +193,13 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
     transform: scale(1);
+    position: relative;
 }
 
 .gallery-grid img:hover {
-    transform: translateY(-3px) scale(1.05);
+    transform: translateY(-3px) scale(1.8);
     box-shadow: 0 10px 22px rgba(0, 0, 0, 0.15);
+    z-index: 5;
 }
 
 @media (max-width: 1024px) {
