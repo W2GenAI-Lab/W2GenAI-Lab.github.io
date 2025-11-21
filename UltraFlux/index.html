@@ -13,19 +13,31 @@
         <h2 class="sidebar-title">UltraFlux</h2>
         <ul>
             <li><a href="#project-info" class="nav-link"><i class="fas fa-info-circle"></i> Project Overview</a></li>
-            <li><a href="#authors" class="nav-link"><i class="fas fa-users"></i> Authors</a></li>
             <li><a href="#why-ultraflux" class="nav-link"><i class="fas fa-star"></i> Why UltraFlux</a></li>
             <li><a href="#dataset" class="nav-link"><i class="fas fa-database"></i> Dataset</a></li>
             <li><a href="#model-training" class="nav-link"><i class="fas fa-cogs"></i> Model & Training</a></li>
-            <li><a href="#results" class="nav-link"><i class="fas fa-chart-line"></i> Results</a></li>
             <li><a href="#resources" class="nav-link"><i class="fas fa-toolbox"></i> Resources</a></li>
-            <li><a href="#updates" class="nav-link"><i class="fas fa-sync-alt"></i> Updates</a></li>
             <li><a href="#contact-us" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
         </ul>
     </div>
     <div class="content">
         <section id="project-info" class="project-info info-section">
             <h1>UltraFlux: Data-Model Co-Design for High-quality Native 4K Text-to-Image Generation across Diverse Aspect Ratios</h1>
+            <div class="authors">
+                <p>
+                    <span class="author"><a href="https://owen718.github.io/" target="_blank">Tian Ye<sup>1, * ‡</sup></a></span>,
+                    <span class="author"><a href="https://feisong123.github.io" target="_blank">Song Fei<sup>1, *</sup></a></span>,
+                    <span class="author"><a href="https://sites.google.com/site/indexlzhu/home" target="_blank">Lei Zhu<sup>1, 2, †</sup></a></span>
+                </p>
+                <p>
+                    <span class="affiliation"><sup>1</sup> The Hong Kong University of Science and Technology (Guangzhou)</span>,
+                    <span class="affiliation"><sup>2</sup> The Hong Kong University of Science and Technology</span>
+                </p>
+            </div>
+            <p class="contrib-note">*Equal Contribution ‡Project Leader †Corresponding Author</p>
+        </section>
+
+        <section class="info-section project-summary">
             <p class="lead">UltraFlux is a diffusion transformer that extends Flux backbones to native 4K synthesis with consistent quality across a wide range of aspect ratios.</p>
             <p>The project unifies data, architecture, objectives, and optimization so that positional encoding, VAE compression, and loss design reinforce each other rather than compete.</p>
             <div class="links">
@@ -40,18 +52,29 @@
             </div>
         </section>
 
-        <section id="authors" class="info-section authors-section">
-            <h2>Authors</h2>
-            <div class="authors-list">
-                <p><a href="https://owen718.github.io/" target="_blank">Tian Ye</a><sup>1</sup><span class="author-note">*‡</span></p>
-                <p><a href="https://feisong123.github.io" target="_blank">Song Fei</a><sup>1</sup><span class="author-note">*</span></p>
-                <p><a href="https://sites.google.com/site/indexlzhu/home" target="_blank">Lei Zhu</a><sup>1,2</sup><span class="author-note">†</span></p>
+        <section class="info-section gallery-showcase" aria-label="UltraFlux gallery carousel">
+            <h2>Native 4K Gallery</h2>
+            <p class="gallery-subtitle">自动轮播展示 UltraFlux 在不同题材与构图上的一致细节表现</p>
+            <div class="gallery-carousel">
+                <div class="gallery-track">
+                    <div class="gallery-item"><img src="fig/ultra_flux_01.jpeg" alt="UltraFlux sample 1"></div>
+                    <div class="gallery-item"><img src="fig/ultra_flux_02.jpeg" alt="UltraFlux sample 2"></div>
+                    <div class="gallery-item"><img src="fig/ultra_flux_03.jpeg" alt="UltraFlux sample 3"></div>
+                    <div class="gallery-item"><img src="fig/ultra_flux_04.jpeg" alt="UltraFlux sample 4"></div>
+                    <div class="gallery-item"><img src="fig/ultra_flux_05.jpeg" alt="UltraFlux sample 5"></div>
+                    <div class="gallery-item"><img src="fig/ultra_flux_06.jpeg" alt="UltraFlux sample 6"></div>
+                    <div class="gallery-item"><img src="fig/ultra_flux_07.jpeg" alt="UltraFlux sample 7"></div>
+                    <div class="gallery-item"><img src="fig/ultra_flux_08.jpeg" alt="UltraFlux sample 8"></div>
+                    <div class="gallery-item"><img src="fig/ultra_flux_09.jpeg" alt="UltraFlux sample 9"></div>
+                    <div class="gallery-item"><img src="fig/ultra_flux_10.jpeg" alt="UltraFlux sample 10"></div>
+                    <div class="gallery-item"><img src="fig/ultra_flux_11.jpeg" alt="UltraFlux sample 11"></div>
+                    <div class="gallery-item"><img src="fig/ultra_flux_12.jpeg" alt="UltraFlux sample 12"></div>
+                    <div class="gallery-item"><img src="fig/ultra_flux_13.jpeg" alt="UltraFlux sample 13"></div>
+                    <div class="gallery-item"><img src="fig/ultra_flux_14.jpeg" alt="UltraFlux sample 14"></div>
+                    <div class="gallery-item"><img src="fig/ultra_flux_15.jpeg" alt="UltraFlux sample 15"></div>
+                    <div class="gallery-item"><img src="fig/ultra_flux_16.jpeg" alt="UltraFlux sample 16"></div>
+                </div>
             </div>
-            <div class="affiliations">
-                <p><sup>1</sup>The Hong Kong University of Science and Technology (Guangzhou)</p>
-                <p><sup>2</sup>The Hong Kong University of Science and Technology</p>
-            </div>
-            <p class="contrib-note">*Equal Contribution ‡Project Leader †Corresponding Author</p>
         </section>
 
         <section id="why-ultraflux" class="info-section">
@@ -83,16 +106,6 @@
             </ol>
         </section>
 
-        <section id="results" class="info-section">
-            <h2>Results</h2>
-            <p>UltraFlux surpasses recent native-4K and training-free scaling baselines on standard 4K benchmarks spanning:</p>
-            <ul>
-                <li>Image fidelity at 4096×4096 and beyond.</li>
-                <li>Aesthetic preference scores judged by humans and VLM proxies.</li>
-                <li>Text-image alignment metrics across diverse aspect ratios.</li>
-            </ul>
-        </section>
-
         <section id="resources" class="info-section">
             <h2>Resources</h2>
             <p>We will release the full stack upon publication, including:</p>
@@ -103,23 +116,9 @@
             </ul>
         </section>
 
-        <section id="updates" class="info-section updates-section">
-            <h2>Updates</h2>
-            <p>To foster research and the open-source community we will gradually open-source training, inference, weights, and datasets. Thank you for the patience and support!</p>
-            <ul class="updates-list">
-                <li class="done"><span class="status-indicator">✔</span> Release GitHub repo.</li>
-                <li class="done"><span class="status-indicator">✔</span> Release inference code (<code>inf_ultraflux.py</code>).</li>
-                <li class="pending"><span class="status-indicator">…</span> Release training code.</li>
-                <li class="done"><span class="status-indicator">✔</span> Release model checkpoints.</li>
-                <li class="pending"><span class="status-indicator">…</span> Release arXiv paper.</li>
-                <li class="pending"><span class="status-indicator">…</span> Release Hugging Face Space demo.</li>
-                <li class="done"><span class="status-indicator">✔</span> Release dataset (MultiAspect-4K-1M).</li>
-            </ul>
-        </section>
-
         <section id="contact-us" class="contact-us info-section">
             <h2>Contact</h2>
-            <p>For collaboration or questions please reach out to <strong>sfei285@connect.hkust-gz.edu.cn</strong> or <strong>tye610@connect.hkust-gz.edu.cn</strong>.</p>
+            <p>For collaboration or questions please reach out to <strong>tye610@connect.hkust-gz.edu.cn</strong>.</p>
         </section>
     </div>
 
