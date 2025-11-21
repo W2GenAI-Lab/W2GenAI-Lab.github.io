@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UltraFlux: Data-Model Co-Design for High-quality Native 4K Text-to-Image Generation across Diverse Aspect Ratios</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2 class="sidebar-title">UltraFlux</h2>
+        <ul>
+            <li><a href="#project-info" class="nav-link"><i class="fas fa-info-circle"></i> Project Overview</a></li>
+            <li><a href="#authors" class="nav-link"><i class="fas fa-users"></i> Authors</a></li>
+            <li><a href="#why-ultraflux" class="nav-link"><i class="fas fa-star"></i> Why UltraFlux</a></li>
+            <li><a href="#dataset" class="nav-link"><i class="fas fa-database"></i> Dataset</a></li>
+            <li><a href="#model-training" class="nav-link"><i class="fas fa-cogs"></i> Model & Training</a></li>
+            <li><a href="#results" class="nav-link"><i class="fas fa-chart-line"></i> Results</a></li>
+            <li><a href="#resources" class="nav-link"><i class="fas fa-toolbox"></i> Resources</a></li>
+            <li><a href="#updates" class="nav-link"><i class="fas fa-sync-alt"></i> Updates</a></li>
+            <li><a href="#contact-us" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <section id="project-info" class="project-info info-section">
+            <h1>UltraFlux: Data-Model Co-Design for High-quality Native 4K Text-to-Image Generation across Diverse Aspect Ratios</h1>
+            <p class="lead">UltraFlux is a diffusion transformer that extends Flux backbones to native 4K synthesis with consistent quality across a wide range of aspect ratios.</p>
+            <p>The project unifies data, architecture, objectives, and optimization so that positional encoding, VAE compression, and loss design reinforce each other rather than compete.</p>
+            <div class="links">
+                <p><a href="https://github.com/W2GenAI-Lab/UltraFlux" target="_blank">GitHub</a></p>
+                <p><a href="https://huggingface.co/Owen777/UltraFlux-v1" target="_blank">Hugging Face (Model)</a></p>
+                <p><a href="https://huggingface.co/Owen777/UltraFlux-v1-TechReport/resolve/main/Techreport_UltraFlux.pdf" target="_blank">Tech Report</a></p>
+                <p><a href="https://w2genai-lab.github.io/" target="_blank">Homepage</a></p>
+            </div>
+            <div class="hero-image">
+                <img src="fig/git_image_full.jpg" alt="UltraFlux native 4K samples across diverse aspect ratios">
+                <p class="image-caption">UltraFlux native 4K renders spanning landscapes, portraits, food, still life, and mosaic-like artistic scenes.</p>
+            </div>
+        </section>
+
+        <section id="authors" class="info-section authors-section">
+            <h2>Authors</h2>
+            <div class="authors-list">
+                <p><a href="https://owen718.github.io/" target="_blank">Tian Ye</a><sup>1</sup><span class="author-note">*‡</span></p>
+                <p><a href="https://feisong123.github.io" target="_blank">Song Fei</a><sup>1</sup><span class="author-note">*</span></p>
+                <p><a href="https://sites.google.com/site/indexlzhu/home" target="_blank">Lei Zhu</a><sup>1,2</sup><span class="author-note">†</span></p>
+            </div>
+            <div class="affiliations">
+                <p><sup>1</sup>The Hong Kong University of Science and Technology (Guangzhou)</p>
+                <p><sup>2</sup>The Hong Kong University of Science and Technology</p>
+            </div>
+            <p class="contrib-note">*Equal Contribution ‡Project Leader †Corresponding Author</p>
+        </section>
+
+        <section id="why-ultraflux" class="info-section">
+            <h2>Why UltraFlux?</h2>
+            <ul>
+                <li><strong>4K positional robustness.</strong> Resonance 2D RoPE with YaRN retains training-window awareness while remaining band- and aspect-ratio aware to avoid ghosting.</li>
+                <li><strong>Detail-preserving compression.</strong> A lightweight, non-adversarial post-training routine sharpens Flux VAE reconstructions at 4K without sacrificing throughput.</li>
+                <li><strong>4K-aware objectives.</strong> The SNR-Aware Huber Wavelet Training Objective balances gradients across timesteps and frequency bands which keeps latent space detail intact.</li>
+                <li><strong>Aesthetic-aware scheduling.</strong> Stage-wise Aesthetic Curriculum Learning routes high-aesthetic supervision to the high-noise steps so the model prior favors vivid details.</li>
+            </ul>
+        </section>
+
+        <section id="dataset" class="info-section">
+            <h2>MultiAspect-4K-1M Dataset</h2>
+            <ul>
+                <li><strong>Scale and coverage.</strong> One million native and near-4K images with controlled aspect-ratio sampling cover wide, square, and portrait regimes evenly.</li>
+                <li><strong>Content balance.</strong> Dual-channel collection debiases landscape-heavy sources to bring in more human-centric content.</li>
+                <li><strong>Rich metadata.</strong> Every sample includes bilingual captions, subject tags, CLIP/VLM-based quality scores, aesthetic grades, and classic IQA metrics for targeted sampling.</li>
+            </ul>
+        </section>
+
+        <section id="model-training" class="info-section">
+            <h2>Model & Training Recipe</h2>
+            <ol>
+                <li><strong>Backbone.</strong> Flux-style DiT trained directly on MultiAspect-4K-1M with token-efficient blocks plus Resonance 2D RoPE + YaRN for AR-aware positional encoding.</li>
+                <li><strong>Objective.</strong> The SNR-Aware Huber Wavelet loss aligns gradient magnitudes with 4K statistics, reinforcing high-frequency fidelity under strong VAE compression.</li>
+                <li><strong>Curriculum.</strong> SACL injects high-aesthetic data primarily into high-noise timesteps so the model prior captures human-desired structure early in the denoising trajectory.</li>
+                <li><strong>VAE Post-training.</strong> A non-adversarial fine-tuning pass boosts 4K reconstruction quality while keeping inference cost low.</li>
+            </ol>
+        </section>
+
+        <section id="results" class="info-section">
+            <h2>Results</h2>
+            <p>UltraFlux surpasses recent native-4K and training-free scaling baselines on standard 4K benchmarks spanning:</p>
+            <ul>
+                <li>Image fidelity at 4096×4096 and beyond.</li>
+                <li>Aesthetic preference scores judged by humans and VLM proxies.</li>
+                <li>Text-image alignment metrics across diverse aspect ratios.</li>
+            </ul>
+        </section>
+
+        <section id="resources" class="info-section">
+            <h2>Resources</h2>
+            <p>We will release the full stack upon publication, including:</p>
+            <ul>
+                <li>MultiAspect-4K-1M dataset with metadata loaders.</li>
+                <li>Training pipelines.</li>
+                <li>Evaluation code covering fidelity, aesthetic, and alignment metrics.</li>
+            </ul>
+        </section>
+
+        <section id="updates" class="info-section updates-section">
+            <h2>Updates</h2>
+            <p>To foster research and the open-source community we will gradually open-source training, inference, weights, and datasets. Thank you for the patience and support!</p>
+            <ul class="updates-list">
+                <li class="done"><span class="status-indicator">✔</span> Release GitHub repo.</li>
+                <li class="done"><span class="status-indicator">✔</span> Release inference code (<code>inf_ultraflux.py</code>).</li>
+                <li class="pending"><span class="status-indicator">…</span> Release training code.</li>
+                <li class="done"><span class="status-indicator">✔</span> Release model checkpoints.</li>
+                <li class="pending"><span class="status-indicator">…</span> Release arXiv paper.</li>
+                <li class="pending"><span class="status-indicator">…</span> Release Hugging Face Space demo.</li>
+                <li class="done"><span class="status-indicator">✔</span> Release dataset (MultiAspect-4K-1M).</li>
+            </ul>
+        </section>
+
+        <section id="contact-us" class="contact-us info-section">
+            <h2>Contact</h2>
+            <p>For collaboration or questions please reach out to <strong>sfei285@connect.hkust-gz.edu.cn</strong> or <strong>tye610@connect.hkust-gz.edu.cn</strong>.</p>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
