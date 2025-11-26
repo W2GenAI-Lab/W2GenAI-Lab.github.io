@@ -7,11 +7,42 @@ body {
     line-height: 1.6;
 }
 
+html { scroll-behavior: smooth; }
+
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 90px 20px 20px; /* leave room for sticky navbar */
 }
+
+/* Top Navbar */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #ffffffcc; /* slightly translucent */
+    backdrop-filter: saturate(180%) blur(6px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    padding: 12px 20px;
+}
+
+.brand {
+    font-weight: 700;
+    color: #667eea;
+    letter-spacing: 0.5px;
+}
+
+.nav-links a {
+    margin-left: 16px;
+    color: #444;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.nav-links a:hover { color: #667eea; }
 
 .header {
     text-align: center;
@@ -140,4 +171,46 @@ body {
     color: white;
     font-size: 1.2em;
     font-weight: bold;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.btn:hover { filter: brightness(1.05); }
+
+/* Featured UltraFlux section */
+.featured {
+    border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+.featured-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 24px;
+    align-items: center;
+}
+
+.featured-media img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.featured-text p {
+    margin-top: 8px;
+}
+
+@media (max-width: 900px) {
+    .featured-grid { grid-template-columns: 1fr; }
+    .container { padding-top: 76px; }
+    .nav-links { display: none; }
 }
