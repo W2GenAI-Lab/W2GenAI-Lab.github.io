@@ -26,19 +26,24 @@ Our mission is to push the boundaries of what's possible with generative AI whil
 ## Our Projects
 ## Projects
 - 🚀 UltraFlux — Data-Model Co-Design for High-quality Native 4K Text-to-Image Generation across Diverse Aspect Ratios
-  - Page: [UltraFlux](/UltraFlux/index.html)
+  - Page: [UltraFlux](https://w2genai-lab.github.io/UltraFlux)
   - Code: https://github.com/W2GenAI-Lab/UltraFlux
+  - HF: https://huggingface.co/Owen777/UltraFlux-v1
+
 
 - 🚀 Kontext-Style — High-quality LoRA adapters for FLUX.1 Kontext; seamless style transfer and creative generation
-  - Page: [Kontext-Style](/Kontext-Style/index.html)
+  - Page: [Kontext-Style](https://w2genai-lab.github.io/Kontext-Style/)
+  - Code: https://github.com/W2GenAI-Lab/Kontext-Style
   - HF: https://huggingface.co/Kontext-Style
 
 - 🚀 LucidFlux — Caption-Free Universal Image Restoration with a Large-Scale Diffusion Transformer
-  - Page: [LucidFlux](/LucidFlux/index.html)
+  - Page: [LucidFlux](https://w2genai-lab.github.io/LucidFlux/)
   - Code: https://github.com/W2GenAI-Lab/LucidFlux
+  - HF: https://huggingface.co/W2GenAI/LucidFlux
 
 - 🚀 Nano-Banana-Figure — LoRA for Qwen-Image-Edit (Real/Anime/Pet → Figure/Collectible)
-  - Page: [Nano-Banana-Figure](/Nano-Banana-Figure/index.html)
+  - Page: [Nano-Banana-Figure](https://w2genai-lab.github.io/Nano-Banana-Figure/)
+  - Code: https://github.com/W2GenAI-Lab/Nano-Banana-Figure
   - HF: https://huggingface.co/W2GenAI/Nano-Banana-Figure-LoRA
 
 ## Contact Us
