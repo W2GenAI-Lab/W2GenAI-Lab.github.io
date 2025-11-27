@@ -33,6 +33,7 @@ html { scroll-behavior: smooth; }
     font-weight: 700;
     color: #667eea;
     letter-spacing: 0.5px;
+    text-decoration: none; /* clickable brand without underline */
 }
 
 .nav-links a {
