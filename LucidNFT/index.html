@@ -20,6 +20,7 @@
             <li><a href="#method" class="nav-link"><i class="fas fa-cogs"></i> Method</a></li>
             <li><a href="#dataset" class="nav-link"><i class="fas fa-database"></i> LucidLR Dataset</a></li>
             <li><a href="#results" class="nav-link"><i class="fas fa-chart-line"></i> Results</a></li>
+            <li><a href="#gallery" class="nav-link"><i class="fas fa-images"></i> Gallery</a></li>
             <li><a href="#contact-us" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
         </ul>
     </div>
@@ -76,7 +77,6 @@
             </div>
             <div class="table-wrapper">
                 <table class="table-consistency">
-                    <caption>Cosine similarity between LR-HR image pairs under correct pairing and cross-bench swapped pairing. LucidConsistency improves alignment on correctly paired data while maintaining low similarity under mismatched pairing.</caption>
                     <thead>
                         <tr>
                             <th>Domain</th>
@@ -116,6 +116,9 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="table-caption">
+                    <span class="table-number">Table 2:</span> Cosine similarity between LR-HR image pairs under correct pairing and cross-bench swapped pairing. LucidConsistency improves alignment on correctly paired data while maintaining low similarity under mismatched pairing.
+                </div>
             </div>
         </section>
 
@@ -128,7 +131,6 @@
             </div>
             <div class="table-wrapper">
                 <table class="table-dataset">
-                    <caption>Comparison of representative real-world datasets used in Real-ISR. Existing datasets are mainly designed for benchmarking and contain limited samples, while LucidLR provides large-scale real-world degradations suitable for preference-optimization-based training.</caption>
                     <thead>
                         <tr>
                             <th>Dataset</th>
@@ -169,6 +171,9 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="table-caption">
+                    <span class="table-number">Table 1:</span> Comparison of representative real-world datasets used in Real-ISR. Existing datasets are mainly designed for benchmarking and contain limited samples, while LucidLR provides large-scale real-world degradations suitable for preference-optimization-based training.
+                </div>
             </div>
         </section>
 
@@ -626,6 +631,63 @@
                 </div>
             </div>
         </section>
+
+        <section id="gallery" class="info-section grid-gallery">
+            <h2>Gallery</h2>
+            <p class="image-caption">Click an LQ input to open an interactive slider comparison (LQ vs LucidFlux or LucidFlux(+LucidNFT)).</p>
+
+            <div class="lq-gallery">
+                <button class="lq-card" type="button" data-example="016" data-lq="gallery/016_lq.jpg" data-base="gallery/016_lucidflux.jpg" data-nft="gallery/016_lucidnft.jpg">
+                    <img src="gallery/016_lq.jpg" alt="Example 016 LQ input">
+                    <div class="lq-meta">
+                        <span class="lq-title">Example 016</span>
+                        <span class="lq-sub">LQ input</span>
+                    </div>
+                </button>
+
+                <button class="lq-card" type="button" data-example="137" data-lq="gallery/137_lq.jpg" data-base="gallery/137_lucidflux.jpg" data-nft="gallery/137_lucidnft.jpg">
+                    <img src="gallery/137_lq.jpg" alt="Example 137 LQ input">
+                    <div class="lq-meta">
+                        <span class="lq-title">Example 137</span>
+                        <span class="lq-sub">LQ input</span>
+                    </div>
+                </button>
+
+                <button class="lq-card" type="button" data-example="223" data-lq="gallery/223_lq.png" data-base="gallery/223_lucidflux.jpg" data-nft="gallery/223_lucidnft.jpg">
+                    <img src="gallery/223_lq.png" alt="Example 223 LQ input">
+                    <div class="lq-meta">
+                        <span class="lq-title">Example 223</span>
+                        <span class="lq-sub">LQ input</span>
+                    </div>
+                </button>
+            </div>
+        </section>
+
+        <div id="gallery-modal" class="gallery-modal" aria-hidden="true" role="dialog">
+            <div class="gallery-modal__backdrop" data-gallery-close></div>
+            <div class="gallery-modal__panel" role="document" aria-label="Gallery comparison">
+                <button class="gallery-modal__close" type="button" aria-label="Close" data-gallery-close>&times;</button>
+                <div class="gallery-modal__header">
+                    <div class="gallery-modal__title" id="gallery-modal-title">Example</div>
+                    <div class="gallery-modal__toggles" role="tablist" aria-label="Choose output">
+                        <button class="gallery-toggle active" type="button" data-after="base" aria-selected="true">LucidFlux</button>
+                        <button class="gallery-toggle" type="button" data-after="nft" aria-selected="false">LucidFlux(+LucidNFT)</button>
+                    </div>
+                </div>
+
+                <div class="image-comparison gallery-comparison" id="gallery-comparison">
+                    <img src="" alt="Before (LQ input)" class="before-image" id="gallery-before">
+                    <img src="" alt="After output" class="after-image" id="gallery-after">
+                    <div class="comparison-slider" id="gallery-slider" aria-label="Comparison slider">
+                        <div class="slider-handle">
+                            <div class="slider-arrow">◀ ▶</div>
+                        </div>
+                    </div>
+                    <div class="compare-tag before">LQ</div>
+                    <div class="compare-tag after" id="gallery-after-tag">LucidFlux</div>
+                </div>
+            </div>
+        </div>
 
         <section id="contact-us" class="contact-us info-section">
             <h2>Contact</h2>
