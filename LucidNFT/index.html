@@ -16,7 +16,7 @@
         <h2 class="sidebar-title">LucidNFT</h2>
         <ul>
             <li><a href="#project-info" class="nav-link"><i class="fas fa-info-circle"></i> Project Overview</a></li>
-            <li><a href="#highlights" class="nav-link"><i class="fas fa-star"></i> Key Highlights</a></li>
+            <li><a href="#highlights" class="nav-link"><i class="fas fa-star"></i> Why LucidNFT</a></li>
             <li><a href="#method" class="nav-link"><i class="fas fa-cogs"></i> Method</a></li>
             <li><a href="#dataset" class="nav-link"><i class="fas fa-database"></i> LucidLR Dataset</a></li>
             <li><a href="#results" class="nav-link"><i class="fas fa-chart-line"></i> Results</a></li>
@@ -45,7 +45,7 @@
         </section>
 
         <section class="info-section project-summary">
-            <p class="lead">LucidNFT is a multi-reward reinforcement learning framework for flow-matching Real-ISR that improves perceptual quality while preserving LR-anchored faithfulness under diverse real-world degradations.</p>
+            <p class="lead"><strong>LucidNFT</strong> is a multi-reward <strong>Preference Optimization</strong> framework for flow-matching <strong>Real-ISR</strong> that improves perceptual quality while preserving <strong>LR-anchored faithfulness</strong> under diverse real-world degradations.</p>
             <div class="links">
                 <p><a href="https://arxiv.org/pdf/2603.05947" target="_blank">Paper</a></p>
                 <p><a href="https://github.com/W2GenAI-Lab/LucidNFT" target="_blank">GitHub</a></p>
@@ -57,9 +57,9 @@
             <h2>Why LucidNFT?</h2>
             <ul>
                 <li><strong>Faithfulness is hard to assess without HR ground truth.</strong> In real-world super-resolution, restored outputs may look realistic yet deviate from the semantic and structural evidence contained in the degraded LR input.</li>
-                <li><strong>Naive multi-reward optimization weakens preference learning.</strong> When heterogeneous rewards are scalarized before normalization, objective-wise contrasts can be compressed within each rollout group, causing advantage collapse.</li>
+                <li><strong>Naive multi-reward optimization weakens preference optimization in Real-ISR.</strong> Preference optimization compares multiple stochastic rollouts conditioned on the same LR input; scalarizing heterogeneous rewards before normalization can compress objective-wise contrasts within each rollout group, causing advantage collapse.</li>
                 <li><strong>No-reference perceptual metrics are not enough.</strong> Metrics designed for perceptual quality can reward over-sharpening or hallucinated textures, but they do not directly measure LR-anchored faithfulness.</li>
-                <li><strong>Existing real-world datasets are limited for RL alignment.</strong> Benchmark datasets are typically small or capture-limited, which restricts rollout diversity and reduces the quality of preference signals under real degradations.</li>
+                <li><strong>Existing real-world datasets are limited for preference optimization.</strong> Benchmark datasets are typically small or capture-limited, which restricts rollout diversity and reduces the quality of preference signals under real degradations.</li>
             </ul>
         </section>
 
@@ -68,53 +68,51 @@
             <ol>
                 <li><strong>LucidConsistency.</strong> A frozen Qwen3-VL embedding backbone plus a lightweight trainable projection head aligns LR and HR semantics in a shared representation space, producing a degradation-robust consistency score.</li>
                 <li><strong>Decoupled advantage normalization.</strong> Instead of scalarizing all rewards first, LucidNFT normalizes each reward objective per rollout group and only then fuses them, preserving perceptual-faithfulness contrasts; the fused advantage is finally mapped to the bounded reward weight used by DiffusionNFT.</li>
-                <li><strong>LucidLR-supported RL fine-tuning.</strong> Diverse real-world low-quality images provide more informative rollouts and stronger preference supervision than small benchmark-only datasets.</li>
+                <li><strong>LucidLR-supported preference optimization.</strong> Diverse real-world low-quality images provide more informative rollouts and stronger preference supervision than small benchmark-only datasets.</li>
             </ol>
             <div class="hero-image">
-                <img src="fig/lucidconsistency.png" alt="Overview of LucidConsistency training and inference">
+                <img class="img-60" src="fig/lucidconsistency.png" alt="Overview of LucidConsistency training and inference">
                 <p class="image-caption">Overview of LucidConsistency. Left: inference stage where embeddings of the LR input and SR output are extracted and their semantic consistency is computed. Right: training stage where LR-HR pairs are used to optimize the projection head.</p>
             </div>
             <div class="table-wrapper">
-                <table>
+                <table class="table-consistency">
                     <caption>Cosine similarity between LR-HR image pairs under correct pairing and cross-bench swapped pairing. LucidConsistency improves alignment on correctly paired data while maintaining low similarity under mismatched pairing.</caption>
                     <thead>
                         <tr>
                             <th>Domain</th>
                             <th>Dataset Pairing</th>
-                            <th>Baseline</th>
-                            <th>LucidConsistency</th>
+                            <th class="num">Baseline</th>
+                            <th class="num">LucidConsistency</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Synthetic</td>
+                            <td class="center">Synthetic</td>
                             <td>LSDIR-Val (paired)</td>
-                            <td>0.759</td>
-                            <td>0.890 (+0.131)</td>
+                            <td class="num">0.759</td>
+                            <td class="num">0.890 (+0.131)</td>
                         </tr>
                         <tr>
-                            <td>Real-World</td>
+                            <td class="center" rowspan="2">Real-World</td>
                             <td>RealSR</td>
-                            <td>0.799</td>
-                            <td>0.925 (+0.126)</td>
+                            <td class="num">0.799</td>
+                            <td class="num">0.925 (+0.126)</td>
                         </tr>
                         <tr>
-                            <td>Real-World</td>
                             <td>DRealSR</td>
-                            <td>0.786</td>
-                            <td>0.921 (+0.135)</td>
+                            <td class="num">0.786</td>
+                            <td class="num">0.921 (+0.135)</td>
                         </tr>
                         <tr>
-                            <td>Cross-Bench</td>
+                            <td class="center" rowspan="2">Cross-Bench</td>
                             <td>RealSR LR ↔ DRealSR HR</td>
-                            <td>0.144</td>
-                            <td>0.100 (-0.044)</td>
+                            <td class="num">0.144</td>
+                            <td class="num">0.100 (-0.044)</td>
                         </tr>
                         <tr>
-                            <td>Cross-Bench</td>
                             <td>DRealSR LR ↔ RealSR HR</td>
-                            <td>0.140</td>
-                            <td>0.131 (-0.009)</td>
+                            <td class="num">0.140</td>
+                            <td class="num">0.131 (-0.009)</td>
                         </tr>
                     </tbody>
                 </table>
@@ -123,56 +121,51 @@
 
         <section id="dataset" class="info-section">
             <h2>LucidLR Dataset</h2>
-            <ul>
-                <li><strong>Purpose.</strong> LucidLR is designed for RL and unsupervised Real-ISR training rather than only benchmarking.</li>
-                <li><strong>Scale.</strong> The dataset contains roughly 20K real-world low-quality images, substantially larger than common real-image benchmarks such as RealSR, DRealSR, and RealLQ250.</li>
-                <li><strong>Source.</strong> Images are collected from Wikimedia Commons categories related to naturally degraded imagery, including blur and other real capture artifacts.</li>
-                <li><strong>Impact.</strong> More diverse degradations lead to more informative stochastic rollouts, which directly improves the quality of multi-reward preference optimization.</li>
-            </ul>
+            <p>LucidLR is a 20K-image real-world low-quality collection curated for preference optimization and unsupervised Real-ISR fine-tuning, collected from Wikimedia Commons with diverse natural degradations (e.g., blur and compression artifacts). Compared with small benchmark-oriented datasets, LucidLR increases degradation coverage and rollout diversity, improving the quality of preference signals for multi-reward optimization.</p>
             <div class="hero-image">
                 <img src="fig/lucidlr.png" alt="Representative examples from LucidLR">
                 <p class="image-caption">Representative examples from LucidLR.</p>
             </div>
             <div class="table-wrapper">
-                <table>
-                    <caption>Comparison of representative real-world datasets used in Real-ISR. Existing datasets are mainly designed for benchmarking and contain limited samples, while LucidLR provides large-scale real-world degradations suitable for RL-based training.</caption>
+                <table class="table-dataset">
+                    <caption>Comparison of representative real-world datasets used in Real-ISR. Existing datasets are mainly designed for benchmarking and contain limited samples, while LucidLR provides large-scale real-world degradations suitable for preference-optimization-based training.</caption>
                     <thead>
                         <tr>
                             <th>Dataset</th>
                             <th>Pairing</th>
                             <th>Primary Usage</th>
                             <th>Type</th>
-                            <th># Images</th>
+                            <th class="num"># Images</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>RealSR</td>
-                            <td>Paired</td>
+                            <td class="center">Paired</td>
                             <td>Testing / Benchmark</td>
-                            <td>Real-captured</td>
-                            <td>100</td>
+                            <td class="center">Real-captured</td>
+                            <td class="num">100</td>
                         </tr>
                         <tr>
                             <td>DRealSR</td>
-                            <td>Paired</td>
+                            <td class="center">Paired</td>
                             <td>Testing / Benchmark</td>
-                            <td>Real-captured</td>
-                            <td>93</td>
+                            <td class="center">Real-captured</td>
+                            <td class="num">93</td>
                         </tr>
                         <tr>
                             <td>RealLQ250</td>
-                            <td>Unpaired</td>
+                            <td class="center">Unpaired</td>
                             <td>Testing / Benchmark</td>
-                            <td>Real-world</td>
-                            <td>250</td>
+                            <td class="center">Real-world</td>
+                            <td class="num">250</td>
                         </tr>
                         <tr>
                             <td><strong>LucidLR (ours)</strong></td>
-                            <td>Unpaired</td>
-                            <td>RL / Unsupervised Training</td>
-                            <td>Real-world</td>
-                            <td>20K</td>
+                            <td class="center">Unpaired</td>
+                            <td>Preference Optimization / Unsupervised Training</td>
+                            <td class="center">Real-world</td>
+                            <td class="num">20K</td>
                         </tr>
                     </tbody>
                 </table>
@@ -182,7 +175,7 @@
         <section id="results" class="info-section">
             <h2>Results and Findings</h2>
             <ul>
-                <li><strong>Stable optimization.</strong> Training curves in the paper show both LucidConsistency and perceptual IQA rewards improve steadily during RL fine-tuning on LucidFlux.</li>
+                <li><strong>Stable optimization.</strong> Training curves in the paper show both LucidConsistency and perceptual IQA rewards improve steadily during preference optimization on LucidFlux.</li>
                 <li><strong>Consistent benchmark gains.</strong> On RealLQ250, DRealSR, and RealSR, LucidFlux + LucidNFT improves most no-reference IQA metrics over the LucidFlux baseline, including CLIP-IQA+, Q-Align, MUSIQ, UniPercept IQA, and NIQE.</li>
                 <li><strong>Better perceptual-faithfulness trade-off.</strong> The method improves visual quality without relying on a faithfulness-only objective that could encourage under-restoration.</li>
             </ul>
@@ -192,104 +185,445 @@
             </div>
             <div class="hero-image">
                 <img src="fig/training_curve.png" alt="Training dynamics of LucidNFT on LucidFlux">
-                <p class="image-caption">Training dynamics of LucidNFT on LucidFlux. From left to right: training LucidConsistency score, evaluation LucidConsistency score, training UniPercept IQA score, and evaluation UniPercept IQA score. The smoothed curves exhibit a consistent upward trend, indicating stable multi-reward optimization during RL.</p>
+                <p class="image-caption">Training dynamics of LucidNFT on LucidFlux. From left to right: training LucidConsistency score, evaluation LucidConsistency score, training UniPercept IQA score, and evaluation UniPercept IQA score. The smoothed curves exhibit a consistent upward trend, indicating stable multi-reward optimization during preference optimization.</p>
             </div>
             <div class="hero-image">
                 <img src="visualization/visualization_1.png" alt="Visual comparison of LucidNFT against Real-ISR baselines">
                 <p class="image-caption">Visual comparison on RealLQ250. LucidNFT further improves semantic consistency and perceptual quality over the baseline LucidFlux, producing more faithful structures and richer texture details.</p>
             </div>
-            <div class="table-wrapper">
-                <table>
-                    <caption>Quantitative comparison with state-of-the-art Real-ISR methods on RealLQ250, DRealSR, and RealSR. Higher is better for all metrics except NIQE. The table below highlights selected gains of LucidFlux(+LucidNFT) relative to the LucidFlux baseline.</caption>
-                    <thead>
-                        <tr>
-                            <th>Benchmark</th>
-                            <th>Metric</th>
-                            <th>LucidFlux</th>
-                            <th>LucidFlux(+LucidNFT)</th>
-                            <th>Delta</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>RealLQ250</td>
-                            <td>CLIP-IQA+</td>
-                            <td>0.7208</td>
-                            <td>0.7465</td>
-                            <td>+0.0257</td>
-                        </tr>
-                        <tr>
-                            <td>RealLQ250</td>
-                            <td>Q-Align</td>
-                            <td>4.4052</td>
-                            <td>4.4855</td>
-                            <td>+0.0803</td>
-                        </tr>
-                        <tr>
-                            <td>RealLQ250</td>
-                            <td>MUSIQ</td>
-                            <td>72.3351</td>
-                            <td>73.4475</td>
-                            <td>+1.1124</td>
-                        </tr>
-                        <tr>
-                            <td>RealLQ250</td>
-                            <td>NIQE</td>
-                            <td>3.7410</td>
-                            <td>3.2532</td>
-                            <td>-0.4878</td>
-                        </tr>
-                        <tr>
-                            <td>RealLQ250</td>
-                            <td>UniPercept IQA</td>
-                            <td>70.9300</td>
-                            <td>73.4790</td>
-                            <td>+2.5490</td>
-                        </tr>
-                        <tr>
-                            <td>DRealSR</td>
-                            <td>MUSIQ</td>
-                            <td>64.6025</td>
-                            <td>68.1545</td>
-                            <td>+3.5520</td>
-                        </tr>
-                        <tr>
-                            <td>DRealSR</td>
-                            <td>NIQE</td>
-                            <td>5.0742</td>
-                            <td>4.1788</td>
-                            <td>-0.8954</td>
-                        </tr>
-                        <tr>
-                            <td>DRealSR</td>
-                            <td>UniPercept IQA</td>
-                            <td>59.9032</td>
-                            <td>63.7782</td>
-                            <td>+3.8750</td>
-                        </tr>
-                        <tr>
-                            <td>RealSR</td>
-                            <td>MUSIQ</td>
-                            <td>67.8962</td>
-                            <td>70.5625</td>
-                            <td>+2.6663</td>
-                        </tr>
-                        <tr>
-                            <td>RealSR</td>
-                            <td>NIQE</td>
-                            <td>4.8134</td>
-                            <td>3.9526</td>
-                            <td>-0.8608</td>
-                        </tr>
-                        <tr>
-                            <td>RealSR</td>
-                            <td>UniPercept IQA</td>
-                            <td>60.0925</td>
-                            <td>64.7588</td>
-                            <td>+4.6663</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="quantitative-results">
+                <h3>Quantitative Results</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th rowspan="2">Benchmark</th>
+                                <th rowspan="2">Metric</th>
+                                <th colspan="10">Methods</th>
+                            </tr>
+                            <tr>
+                                <th>ResShift</th>
+                                <th>StableSR</th>
+                                <th>SinSR</th>
+                                <th>DiffBIRv2</th>
+                                <th>SeeSR</th>
+                                <th>DreamClear</th>
+                                <th>SUPIR</th>
+                                <th>DiT4SR</th>
+                                <th>LucidFlux</th>
+                                <th>LucidFlux(+LucidNFT)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="benchmark-col" rowspan="10">RealLQ250</td>
+                                <td class="metric-col">CLIP-IQA+ &uarr;</td>
+                                <td class="method-col">0.5529</td>
+                                <td class="method-col">0.5804</td>
+                                <td class="method-col">0.6054</td>
+                                <td class="method-col">0.6919</td>
+                                <td class="method-col">0.7034</td>
+                                <td class="method-col">0.6813</td>
+                                <td class="method-col">0.6532</td>
+                                <td class="method-col">0.7098</td>
+                                <td class="method-col">0.7208</td>
+                                <td class="method-col best-result">0.7465 <span class="delta">(+0.0257)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">Q-Align &uarr;</td>
+                                <td class="method-col">3.6318</td>
+                                <td class="method-col">3.5583</td>
+                                <td class="method-col">3.7451</td>
+                                <td class="method-col">3.9755</td>
+                                <td class="method-col">4.1423</td>
+                                <td class="method-col">4.0647</td>
+                                <td class="method-col">4.1347</td>
+                                <td class="method-col">4.2270</td>
+                                <td class="method-col">4.4052</td>
+                                <td class="method-col best-result">4.4855 <span class="delta">(+0.0803)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">MUSIQ &uarr;</td>
+                                <td class="method-col">59.5032</td>
+                                <td class="method-col">57.2517</td>
+                                <td class="method-col">65.4543</td>
+                                <td class="method-col">67.5313</td>
+                                <td class="method-col">70.3757</td>
+                                <td class="method-col">67.0899</td>
+                                <td class="method-col">65.8133</td>
+                                <td class="method-col">71.6682</td>
+                                <td class="method-col">72.3351</td>
+                                <td class="method-col best-result">73.4475 <span class="delta">(+1.1124)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">MANIQA &uarr;</td>
+                                <td class="method-col">0.3397</td>
+                                <td class="method-col">0.2937</td>
+                                <td class="method-col">0.4230</td>
+                                <td class="method-col">0.4900</td>
+                                <td class="method-col">0.4895</td>
+                                <td class="method-col">0.4405</td>
+                                <td class="method-col">0.3826</td>
+                                <td class="method-col">0.4607</td>
+                                <td class="method-col">0.5227</td>
+                                <td class="method-col best-result">0.5443 <span class="delta">(+0.0216)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">NIMA &uarr;</td>
+                                <td class="method-col">5.0624</td>
+                                <td class="method-col">5.0538</td>
+                                <td class="method-col">5.2397</td>
+                                <td class="method-col">5.3132</td>
+                                <td class="method-col">5.3146</td>
+                                <td class="method-col">5.2209</td>
+                                <td class="method-col">5.0806</td>
+                                <td class="method-col">5.4765</td>
+                                <td class="method-col best-result">5.6050</td>
+                                <td class="method-col">5.5669 <span class="delta">(-0.0381)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">CLIP-IQA &uarr;</td>
+                                <td class="method-col">0.6129</td>
+                                <td class="method-col">0.5160</td>
+                                <td class="method-col">0.7166</td>
+                                <td class="method-col">0.7137</td>
+                                <td class="method-col">0.7063</td>
+                                <td class="method-col">0.6957</td>
+                                <td class="method-col">0.5767</td>
+                                <td class="method-col">0.7141</td>
+                                <td class="method-col">0.6855</td>
+                                <td class="method-col best-result">0.7233 <span class="delta">(+0.0378)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">NIQE &darr;</td>
+                                <td class="method-col">6.6326</td>
+                                <td class="method-col">4.6236</td>
+                                <td class="method-col">5.4425</td>
+                                <td class="method-col">5.1193</td>
+                                <td class="method-col">4.4383</td>
+                                <td class="method-col">3.8709</td>
+                                <td class="method-col">3.6591</td>
+                                <td class="method-col">3.5556</td>
+                                <td class="method-col">3.7410</td>
+                                <td class="method-col best-result">3.2532 <span class="delta">(-0.4878)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">UniPercept IQA &uarr;</td>
+                                <td class="method-col">58.9290</td>
+                                <td class="method-col">57.6015</td>
+                                <td class="method-col">62.7525</td>
+                                <td class="method-col">65.4760</td>
+                                <td class="method-col">69.2015</td>
+                                <td class="method-col">68.8465</td>
+                                <td class="method-col">68.6430</td>
+                                <td class="method-col">73.0740</td>
+                                <td class="method-col">70.9300</td>
+                                <td class="method-col best-result">73.4790 <span class="delta">(+2.5490)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">VisualQuality-R1 &uarr;</td>
+                                <td class="method-col">4.0911</td>
+                                <td class="method-col">3.9474</td>
+                                <td class="method-col">3.9044</td>
+                                <td class="method-col">4.3428</td>
+                                <td class="method-col">4.5118</td>
+                                <td class="method-col">4.4430</td>
+                                <td class="method-col">4.4265</td>
+                                <td class="method-col">4.6146</td>
+                                <td class="method-col">4.5474</td>
+                                <td class="method-col best-result">4.6510 <span class="delta">(+0.1036)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">LucidConsistency &uarr;</td>
+                                <td class="method-col">0.9340</td>
+                                <td class="method-col best-result">0.9496</td>
+                                <td class="method-col">0.9232</td>
+                                <td class="method-col">0.9430</td>
+                                <td class="method-col">0.9352</td>
+                                <td class="method-col">0.9467</td>
+                                <td class="method-col">0.9376</td>
+                                <td class="method-col">0.9359</td>
+                                <td class="method-col">0.9334</td>
+                                <td class="method-col">0.9366 <span class="delta">(+0.0032)</span></td>
+                            </tr>
+
+                            <tr class="benchmark-separator">
+                                <td colspan="12"></td>
+                            </tr>
+
+                            <tr>
+                                <td class="benchmark-col" rowspan="10">DRealSR</td>
+                                <td class="metric-col">CLIP-IQA+ &uarr;</td>
+                                <td class="method-col">0.4655</td>
+                                <td class="method-col">0.3732</td>
+                                <td class="method-col">0.5402</td>
+                                <td class="method-col">0.6476</td>
+                                <td class="method-col">0.6258</td>
+                                <td class="method-col">0.4462</td>
+                                <td class="method-col">0.5494</td>
+                                <td class="method-col">0.6537</td>
+                                <td class="method-col">0.6516</td>
+                                <td class="method-col best-result">0.6867 <span class="delta">(+0.0351)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">Q-Align &uarr;</td>
+                                <td class="method-col">2.6312</td>
+                                <td class="method-col">2.1243</td>
+                                <td class="method-col">3.1336</td>
+                                <td class="method-col">3.0487</td>
+                                <td class="method-col">3.2746</td>
+                                <td class="method-col">2.4214</td>
+                                <td class="method-col">3.4722</td>
+                                <td class="method-col">3.6008</td>
+                                <td class="method-col">3.7141</td>
+                                <td class="method-col best-result">3.8423 <span class="delta">(+0.1282)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">MUSIQ &uarr;</td>
+                                <td class="method-col">40.9795</td>
+                                <td class="method-col">29.6691</td>
+                                <td class="method-col">53.9139</td>
+                                <td class="method-col">60.0759</td>
+                                <td class="method-col">61.3222</td>
+                                <td class="method-col">35.1912</td>
+                                <td class="method-col">54.9280</td>
+                                <td class="method-col">63.8051</td>
+                                <td class="method-col">64.6025</td>
+                                <td class="method-col best-result">68.1545 <span class="delta">(+3.5520)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">MANIQA &uarr;</td>
+                                <td class="method-col">0.2688</td>
+                                <td class="method-col">0.2402</td>
+                                <td class="method-col">0.3456</td>
+                                <td class="method-col">0.4900</td>
+                                <td class="method-col">0.4505</td>
+                                <td class="method-col">0.2676</td>
+                                <td class="method-col">0.3483</td>
+                                <td class="method-col">0.4419</td>
+                                <td class="method-col">0.4678</td>
+                                <td class="method-col best-result">0.5004 <span class="delta">(+0.0326)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">NIMA &uarr;</td>
+                                <td class="method-col">4.3179</td>
+                                <td class="method-col">3.9049</td>
+                                <td class="method-col">4.6227</td>
+                                <td class="method-col">4.6543</td>
+                                <td class="method-col">4.6402</td>
+                                <td class="method-col">3.9369</td>
+                                <td class="method-col">4.5064</td>
+                                <td class="method-col">4.9913</td>
+                                <td class="method-col">4.9560</td>
+                                <td class="method-col best-result">4.9968 <span class="delta">(+0.0408)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">CLIP-IQA &uarr;</td>
+                                <td class="method-col">0.4964</td>
+                                <td class="method-col">0.3383</td>
+                                <td class="method-col">0.6632</td>
+                                <td class="method-col">0.6782</td>
+                                <td class="method-col">0.6760</td>
+                                <td class="method-col">0.4361</td>
+                                <td class="method-col">0.5310</td>
+                                <td class="method-col">0.6732</td>
+                                <td class="method-col">0.6673</td>
+                                <td class="method-col best-result">0.7073 <span class="delta">(+0.0400)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">NIQE &darr;</td>
+                                <td class="method-col">10.3006</td>
+                                <td class="method-col">8.6023</td>
+                                <td class="method-col">6.9800</td>
+                                <td class="method-col">6.4853</td>
+                                <td class="method-col">6.4503</td>
+                                <td class="method-col">7.0164</td>
+                                <td class="method-col">5.9092</td>
+                                <td class="method-col">5.7001</td>
+                                <td class="method-col">5.0742</td>
+                                <td class="method-col best-result">4.1788 <span class="delta">(-0.8954)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">UniPercept IQA &uarr;</td>
+                                <td class="method-col">37.3199</td>
+                                <td class="method-col">26.0659</td>
+                                <td class="method-col">49.2755</td>
+                                <td class="method-col">46.2298</td>
+                                <td class="method-col">50.3414</td>
+                                <td class="method-col">34.2473</td>
+                                <td class="method-col">55.1371</td>
+                                <td class="method-col">58.1290</td>
+                                <td class="method-col">59.9032</td>
+                                <td class="method-col best-result">63.7782 <span class="delta">(+3.8750)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">VisualQuality-R1 &uarr;</td>
+                                <td class="method-col">3.0231</td>
+                                <td class="method-col">1.8758</td>
+                                <td class="method-col">3.3868</td>
+                                <td class="method-col">3.4796</td>
+                                <td class="method-col">3.6116</td>
+                                <td class="method-col">2.5655</td>
+                                <td class="method-col">3.7349</td>
+                                <td class="method-col">3.9603</td>
+                                <td class="method-col">3.9955</td>
+                                <td class="method-col best-result">4.1455 <span class="delta">(+0.1500)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">LucidConsistency &uarr;</td>
+                                <td class="method-col">0.8897</td>
+                                <td class="method-col best-result">0.9413</td>
+                                <td class="method-col">0.8604</td>
+                                <td class="method-col">0.7725</td>
+                                <td class="method-col">0.8926</td>
+                                <td class="method-col">0.9403</td>
+                                <td class="method-col">0.8909</td>
+                                <td class="method-col">0.8886</td>
+                                <td class="method-col">0.7998</td>
+                                <td class="method-col">0.7916 <span class="delta">(-0.0082)</span></td>
+                            </tr>
+
+                            <tr class="benchmark-separator">
+                                <td colspan="12"></td>
+                            </tr>
+
+                            <tr>
+                                <td class="benchmark-col" rowspan="10">RealSR</td>
+                                <td class="metric-col">CLIP-IQA+ &uarr;</td>
+                                <td class="method-col">0.5005</td>
+                                <td class="method-col">0.4408</td>
+                                <td class="method-col">0.5416</td>
+                                <td class="method-col">0.6543</td>
+                                <td class="method-col">0.6731</td>
+                                <td class="method-col">0.5331</td>
+                                <td class="method-col">0.5640</td>
+                                <td class="method-col">0.6753</td>
+                                <td class="method-col">0.6669</td>
+                                <td class="method-col best-result">0.7151 <span class="delta">(+0.0482)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">Q-Align &uarr;</td>
+                                <td class="method-col">3.1041</td>
+                                <td class="method-col">2.5086</td>
+                                <td class="method-col">3.3614</td>
+                                <td class="method-col">3.3156</td>
+                                <td class="method-col">3.6073</td>
+                                <td class="method-col">3.0040</td>
+                                <td class="method-col">3.4682</td>
+                                <td class="method-col">3.7106</td>
+                                <td class="method-col">3.8728</td>
+                                <td class="method-col best-result">3.9918 <span class="delta">(+0.1190)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">MUSIQ &uarr;</td>
+                                <td class="method-col">49.4988</td>
+                                <td class="method-col">39.9816</td>
+                                <td class="method-col">57.9502</td>
+                                <td class="method-col">61.7751</td>
+                                <td class="method-col">67.5660</td>
+                                <td class="method-col">49.4766</td>
+                                <td class="method-col">55.6807</td>
+                                <td class="method-col">67.9828</td>
+                                <td class="method-col">67.8962</td>
+                                <td class="method-col best-result">70.5625 <span class="delta">(+2.6663)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">MANIQA &uarr;</td>
+                                <td class="method-col">0.2976</td>
+                                <td class="method-col">0.2356</td>
+                                <td class="method-col">0.3753</td>
+                                <td class="method-col">0.4745</td>
+                                <td class="method-col">0.5087</td>
+                                <td class="method-col">0.3092</td>
+                                <td class="method-col">0.3426</td>
+                                <td class="method-col">0.4533</td>
+                                <td class="method-col">0.4889</td>
+                                <td class="method-col best-result">0.5284 <span class="delta">(+0.0395)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">NIMA &uarr;</td>
+                                <td class="method-col">4.7026</td>
+                                <td class="method-col">4.3639</td>
+                                <td class="method-col">4.8282</td>
+                                <td class="method-col">4.8193</td>
+                                <td class="method-col">4.8957</td>
+                                <td class="method-col">4.4948</td>
+                                <td class="method-col">4.6401</td>
+                                <td class="method-col">5.0590</td>
+                                <td class="method-col best-result">5.1813</td>
+                                <td class="method-col">5.1810 <span class="delta">(-0.0003)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">CLIP-IQA &uarr;</td>
+                                <td class="method-col">0.5283</td>
+                                <td class="method-col">0.3521</td>
+                                <td class="method-col">0.6601</td>
+                                <td class="method-col">0.6806</td>
+                                <td class="method-col best-result">0.6993</td>
+                                <td class="method-col">0.5390</td>
+                                <td class="method-col">0.4857</td>
+                                <td class="method-col">0.6631</td>
+                                <td class="method-col">0.6359</td>
+                                <td class="method-col">0.6936 <span class="delta">(+0.0577)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">NIQE &darr;</td>
+                                <td class="method-col">9.0674</td>
+                                <td class="method-col">6.8733</td>
+                                <td class="method-col">6.4682</td>
+                                <td class="method-col">6.0700</td>
+                                <td class="method-col">5.4594</td>
+                                <td class="method-col">5.2873</td>
+                                <td class="method-col">5.2819</td>
+                                <td class="method-col">5.0912</td>
+                                <td class="method-col">4.8134</td>
+                                <td class="method-col best-result">3.9526 <span class="delta">(-0.8608)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">UniPercept IQA &uarr;</td>
+                                <td class="method-col">46.5538</td>
+                                <td class="method-col">35.9550</td>
+                                <td class="method-col">52.3237</td>
+                                <td class="method-col">53.6550</td>
+                                <td class="method-col">58.0538</td>
+                                <td class="method-col">46.7850</td>
+                                <td class="method-col">56.6063</td>
+                                <td class="method-col">63.2025</td>
+                                <td class="method-col">60.0925</td>
+                                <td class="method-col best-result">64.7588 <span class="delta">(+4.6663)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">VisualQuality-R1 &uarr;</td>
+                                <td class="method-col">3.4492</td>
+                                <td class="method-col">2.7112</td>
+                                <td class="method-col">3.5158</td>
+                                <td class="method-col">3.8928</td>
+                                <td class="method-col">4.0635</td>
+                                <td class="method-col">3.5028</td>
+                                <td class="method-col">3.7821</td>
+                                <td class="method-col">4.1953</td>
+                                <td class="method-col">4.1376</td>
+                                <td class="method-col best-result">4.3389 <span class="delta">(+0.2013)</span></td>
+                            </tr>
+                            <tr>
+                                <td class="metric-col">LucidConsistency &uarr;</td>
+                                <td class="method-col">0.8933</td>
+                                <td class="method-col best-result">0.9398</td>
+                                <td class="method-col">0.8652</td>
+                                <td class="method-col">0.9013</td>
+                                <td class="method-col">0.8873</td>
+                                <td class="method-col">0.9261</td>
+                                <td class="method-col">0.8915</td>
+                                <td class="method-col">0.8902</td>
+                                <td class="method-col">0.9008</td>
+                                <td class="method-col">0.9038 <span class="delta">(+0.0030)</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-caption">
+                    <span class="table-number">Table 3:</span> Quantitative comparison with state-of-the-art Real-ISR methods on RealLQ250, DRealSR, and RealSR. Higher is better for all metrics except NIQE. Values in the last column show improvements relative to the LucidFlux baseline.
+                </div>
             </div>
         </section>
 

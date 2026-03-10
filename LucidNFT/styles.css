@@ -168,6 +168,18 @@ body {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+.hero-image img.img-60 {
+    width: 60%;
+    display: block;
+    margin: 0 auto;
+}
+
+@media (max-width: 640px) {
+    .hero-image img.img-60 {
+        width: 100%;
+    }
+}
+
 .image-caption {
     font-size: 0.8em;
     color: #555;
@@ -185,6 +197,19 @@ body {
     border-collapse: collapse;
     min-width: 680px;
     font-size: 0.9em;
+}
+
+.table-wrapper .num {
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+.table-wrapper .center {
+    text-align: center;
+}
+
+.table-wrapper td.center {
+    vertical-align: middle;
 }
 
 .table-wrapper caption {
@@ -360,7 +385,7 @@ body {
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
-/* Academic Three-Line Table Styles */
+/* Academic Three-Line Table Styles (scoped; avoid leaking into .table-wrapper) */
 .quantitative-results {
     margin-bottom: 40px;
 }
@@ -380,7 +405,7 @@ body {
     padding: 10px 0;
 }
 
-table {
+.table-container table {
     border-collapse: collapse;
     width: 70%;
     min-width: 800px;
@@ -392,12 +417,13 @@ table {
 }
 
 /* Three-line table styling */
-table {
+.table-container table {
     border-top: 2px solid #333;
     border-bottom: 2px solid #333;
 }
 
-th, td {
+.table-container th,
+.table-container td {
     padding: 2px 4px;
     text-align: center;
     border: none;
@@ -405,11 +431,11 @@ th, td {
 }
 
 /* Header row styling */
-thead tr {
+.table-container thead tr {
     border-bottom: 1px solid #333;
 }
 
-th {
+.table-container th {
     font-weight: 600;
     color: #333;
     background-color: transparent;
@@ -438,12 +464,18 @@ th {
     font-weight: bold;
 }
 
+.delta {
+    font-size: 0.75em;
+    color: #555;
+    white-space: nowrap;
+}
+
 /* Row separators for different benchmarks */
-thead tr:first-child {
+.table-container thead tr:first-child {
     border-bottom: 1px solid #333;
 }
 
-thead tr:last-child {
+.table-container thead tr:last-child {
     border-bottom: 1px solid #333;
 }
 
@@ -454,8 +486,14 @@ thead tr:last-child {
 }
 
 /* Remove row hover effects for academic look */
-tbody tr:hover {
+.table-container tbody tr:hover {
     background-color: transparent;
+}
+
+.table-container .benchmark-separator td {
+    padding: 0;
+    height: 8px;
+    border-top: 1px solid #333;
 }
 
 /* Caption styling */
