@@ -25,11 +25,15 @@ Our mission is to push the boundaries of what's possible with generative AI whil
 
 ## Our Projects
 ## Projects
+- 🚀 LucidNFT — LR-Anchored Multi-Reward Preference Optimization for Generative Real-World Super-Resolution
+  - Page: [LucidNFT](https://w2genai-lab.github.io/LucidNFT)
+  - Code: https://github.com/W2GenAI-Lab/LucidNFT
+  - HF: https://huggingface.co/W2GenAI/LucidNFT
+
 - 🚀 UltraFlux — Data-Model Co-Design for High-quality Native 4K Text-to-Image Generation across Diverse Aspect Ratios
   - Page: [UltraFlux](https://w2genai-lab.github.io/UltraFlux)
   - Code: https://github.com/W2GenAI-Lab/UltraFlux
   - HF: https://huggingface.co/Owen777/UltraFlux-v1
-
 
 - 🚀 Kontext-Style — High-quality LoRA adapters for FLUX.1 Kontext; seamless style transfer and creative generation
   - Page: [Kontext-Style](https://w2genai-lab.github.io/Kontext-Style/)
