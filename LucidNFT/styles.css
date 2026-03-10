@@ -251,8 +251,35 @@ body {
     position: relative;
 }
 
-.lq-card:hover img,
-.lq-card:focus-visible img {
+.lq-media {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.lq-thumb {
+    display: block;
+}
+
+.lq-hover-compare {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.22s ease 0.12s, transform 0.22s ease 0.12s;
+    pointer-events: none;
+    z-index: 6;
+}
+
+.lq-card:hover .lq-hover-compare,
+.lq-card:focus-visible .lq-hover-compare {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.lq-card:hover .lq-thumb,
+.lq-card:focus-visible .lq-thumb {
     transform: translateY(-3px) scale(1.18);
     box-shadow: 0 10px 22px rgba(0, 0, 0, 0.15);
     z-index: 5;
@@ -481,6 +508,17 @@ body {
     right: 12px;
 }
 
+.inline-comparison {
+    height: 100%;
+}
+
+.inline-comparison .before-image,
+.inline-comparison .after-image {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
 .table-wrapper {
     width: 100%;
     overflow-x: auto;
@@ -529,6 +567,11 @@ body {
     background-color: #f8fbff;
     color: #0f3f66;
     font-weight: 700;
+    text-align: center;
+}
+
+.table-wrapper th.left,
+.table-wrapper td.left {
     text-align: left;
 }
 

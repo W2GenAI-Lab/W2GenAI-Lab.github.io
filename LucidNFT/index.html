@@ -81,7 +81,7 @@
                     <thead>
                         <tr>
                             <th>Domain</th>
-                            <th>Dataset Pairing</th>
+                            <th>Pairing</th>
                             <th class="num">Baseline</th>
                             <th class="num">LucidConsistency</th>
                         </tr>
@@ -191,6 +191,10 @@
             <div class="hero-image">
                 <img src="visualization/visualization_1.png" alt="Visual comparison of LucidNFT against Real-ISR baselines">
                 <p class="image-caption">Visual comparison on RealLQ250. LucidNFT further improves semantic consistency and perceptual quality over the baseline LucidFlux, producing more faithful structures and richer texture details.</p>
+            </div>
+            <div class="hero-image">
+                <img src="visualization/visualization_2.png" alt="Additional visual comparison of LucidNFT against Real-ISR baselines">
+                <p class="image-caption">Additional visual comparison showing that LucidFlux(+LucidNFT) better preserves LR-consistent structures while recovering richer details across diverse real-world degradations.</p>
             </div>
             <div class="quantitative-results">
                 <h3>Quantitative Results</h3>
@@ -628,74 +632,79 @@
 
         <section id="gallery" class="info-section grid-gallery">
             <h2>Gallery</h2>
-            <p class="image-caption">Click an LQ input to open an interactive slider comparison (LQ vs LucidFlux or LucidFlux(+LucidNFT)).</p>
+            <p class="image-caption">Hover to enlarge the LR input, then compare LucidFlux vs LucidFlux(+LucidNFT) with an interactive slider.</p>
 
             <div class="lq-gallery">
-                <button class="lq-card" type="button" data-example="016" data-lq="gallery/016_lq.jpg" data-base="gallery/016_lucidflux.jpg" data-nft="gallery/016_lucidnft.jpg">
-                    <img src="gallery/016_lq.jpg" alt="Example 016 LQ input">
+                <div class="lq-card" tabindex="0" role="button" aria-label="Example 016 gallery item" data-example="016">
+                    <div class="lq-media">
+                        <img class="lq-thumb" src="gallery/016_lq.jpg" alt="Example 016 LR input">
+                        <div class="lq-hover-compare" aria-hidden="true">
+                            <div class="image-comparison inline-comparison">
+                                <img src="gallery/016_lucidflux.jpg" alt="LucidFlux output" class="before-image">
+                                <img src="gallery/016_lucidnft.jpg" alt="LucidFlux(+LucidNFT) output" class="after-image">
+                                <div class="comparison-slider" aria-label="Comparison slider">
+                                    <div class="slider-handle">
+                                        <div class="slider-arrow">◀ ▶</div>
+                                    </div>
+                                </div>
+                                <div class="compare-tag before">LucidFlux</div>
+                                <div class="compare-tag after">LucidFlux(+LucidNFT)</div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="lq-meta">
                         <span class="lq-title">Example 016</span>
-                        <span class="lq-sub">LQ input</span>
+                        <span class="lq-sub">LR</span>
                     </div>
-                </button>
+                </div>
 
-                <button class="lq-card" type="button" data-example="137" data-lq="gallery/137_lq.jpg" data-base="gallery/137_lucidflux.jpg" data-nft="gallery/137_lucidnft.jpg">
-                    <img src="gallery/137_lq.jpg" alt="Example 137 LQ input">
+                <div class="lq-card" tabindex="0" role="button" aria-label="Example 137 gallery item" data-example="137">
+                    <div class="lq-media">
+                        <img class="lq-thumb" src="gallery/137_lq.jpg" alt="Example 137 LR input">
+                        <div class="lq-hover-compare" aria-hidden="true">
+                            <div class="image-comparison inline-comparison">
+                                <img src="gallery/137_lucidflux.jpg" alt="LucidFlux output" class="before-image">
+                                <img src="gallery/137_lucidnft.jpg" alt="LucidFlux(+LucidNFT) output" class="after-image">
+                                <div class="comparison-slider" aria-label="Comparison slider">
+                                    <div class="slider-handle">
+                                        <div class="slider-arrow">◀ ▶</div>
+                                    </div>
+                                </div>
+                                <div class="compare-tag before">LucidFlux</div>
+                                <div class="compare-tag after">LucidFlux(+LucidNFT)</div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="lq-meta">
                         <span class="lq-title">Example 137</span>
-                        <span class="lq-sub">LQ input</span>
+                        <span class="lq-sub">LR</span>
                     </div>
-                </button>
+                </div>
 
-                <button class="lq-card" type="button" data-example="223" data-lq="gallery/223_lq.png" data-base="gallery/223_lucidflux.jpg" data-nft="gallery/223_lucidnft.jpg">
-                    <img src="gallery/223_lq.png" alt="Example 223 LQ input">
+                <div class="lq-card" tabindex="0" role="button" aria-label="Example 223 gallery item" data-example="223">
+                    <div class="lq-media">
+                        <img class="lq-thumb" src="gallery/223_lq.png" alt="Example 223 LR input">
+                        <div class="lq-hover-compare" aria-hidden="true">
+                            <div class="image-comparison inline-comparison">
+                                <img src="gallery/223_lucidflux.jpg" alt="LucidFlux output" class="before-image">
+                                <img src="gallery/223_lucidnft.jpg" alt="LucidFlux(+LucidNFT) output" class="after-image">
+                                <div class="comparison-slider" aria-label="Comparison slider">
+                                    <div class="slider-handle">
+                                        <div class="slider-arrow">◀ ▶</div>
+                                    </div>
+                                </div>
+                                <div class="compare-tag before">LucidFlux</div>
+                                <div class="compare-tag after">LucidFlux(+LucidNFT)</div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="lq-meta">
                         <span class="lq-title">Example 223</span>
-                        <span class="lq-sub">LQ input</span>
+                        <span class="lq-sub">LR</span>
                     </div>
-                </button>
+                </div>
             </div>
         </section>
-
-        <div id="gallery-modal" class="gallery-modal" aria-hidden="true" role="dialog">
-            <div class="gallery-modal__backdrop" data-gallery-close></div>
-            <div class="gallery-modal__panel" role="document" aria-label="Gallery comparison">
-                <button class="gallery-modal__close" type="button" aria-label="Close" data-gallery-close>&times;</button>
-                <div class="gallery-modal__header">
-                    <div class="gallery-modal__title" id="gallery-modal-title">Example</div>
-                </div>
-
-                <div class="gallery-comparison-block">
-                    <div class="gallery-comparison-title">LQ vs LucidFlux</div>
-                    <div class="image-comparison gallery-comparison" id="gallery-comparison-base">
-                        <img src="" alt="Before (LQ input)" class="before-image" id="gallery-before-base">
-                        <img src="" alt="After (LucidFlux output)" class="after-image" id="gallery-after-base">
-                        <div class="comparison-slider" id="gallery-slider-base" aria-label="Comparison slider (LucidFlux)">
-                            <div class="slider-handle">
-                                <div class="slider-arrow">◀ ▶</div>
-                            </div>
-                        </div>
-                        <div class="compare-tag before">LQ</div>
-                        <div class="compare-tag after">LucidFlux</div>
-                    </div>
-                </div>
-
-                <div class="gallery-comparison-block">
-                    <div class="gallery-comparison-title">LQ vs LucidFlux(+LucidNFT)</div>
-                    <div class="image-comparison gallery-comparison" id="gallery-comparison-nft">
-                        <img src="" alt="Before (LQ input)" class="before-image" id="gallery-before-nft">
-                        <img src="" alt="After (LucidFlux+LucidNFT output)" class="after-image" id="gallery-after-nft">
-                        <div class="comparison-slider" id="gallery-slider-nft" aria-label="Comparison slider (LucidFlux+LucidNFT)">
-                            <div class="slider-handle">
-                                <div class="slider-arrow">◀ ▶</div>
-                            </div>
-                        </div>
-                        <div class="compare-tag before">LQ</div>
-                        <div class="compare-tag after">LucidFlux(+LucidNFT)</div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <section id="contact-us" class="contact-us info-section">
             <h2>Contact</h2>

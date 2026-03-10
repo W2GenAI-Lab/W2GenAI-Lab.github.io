@@ -58,26 +58,11 @@ document.addEventListener('DOMContentLoaded', function() {
     initImageNavigation();
     // initAutoGallery 已禁用
 
-    function initGalleryModal() {
-        const modal = document.getElementById('gallery-modal');
-        const title = document.getElementById('gallery-modal-title');
-        const baseComparison = document.getElementById('gallery-comparison-base');
-        const baseSlider = document.getElementById('gallery-slider-base');
-        const baseBefore = document.getElementById('gallery-before-base');
-        const baseAfter = document.getElementById('gallery-after-base');
+    function initInlineComparisonSliders() {
+        const comparisons = Array.from(document.querySelectorAll('.image-comparison'));
+        if (comparisons.length === 0) return;
 
-        const nftComparison = document.getElementById('gallery-comparison-nft');
-        const nftSlider = document.getElementById('gallery-slider-nft');
-        const nftBefore = document.getElementById('gallery-before-nft');
-        const nftAfter = document.getElementById('gallery-after-nft');
-
-        if (!modal || !baseComparison || !baseSlider || !baseBefore || !baseAfter || !nftComparison || !nftSlider || !nftBefore || !nftAfter) return;
-
-        let currentExample = null;
-        const dragState = {
-            isDragging: false,
-            active: null,
-        };
+        const dragState = { isDragging: false, active: null };
 
         function updateSlider(comparisonEl, sliderEl, afterEl, x) {
             const rect = comparisonEl.getBoundingClientRect();
@@ -86,69 +71,31 @@ document.addEventListener('DOMContentLoaded', function() {
             afterEl.style.clipPath = `polygon(${percentage}% 0%, 100% 0%, 100% 100%, ${percentage}% 100%)`;
         }
 
-        function initComparison(comparisonEl, sliderEl, afterEl) {
+        comparisons.forEach(comparisonEl => {
+            const sliderEl = comparisonEl.querySelector('.comparison-slider');
+            const afterEl = comparisonEl.querySelector('.after-image');
+            if (!sliderEl || !afterEl) return;
+
+            // Drag start
             sliderEl.addEventListener('mousedown', (e) => {
                 dragState.isDragging = true;
                 dragState.active = { comparisonEl, sliderEl, afterEl };
                 e.preventDefault();
+                e.stopPropagation();
             });
-
             sliderEl.addEventListener('touchstart', (e) => {
                 dragState.isDragging = true;
                 dragState.active = { comparisonEl, sliderEl, afterEl };
                 e.preventDefault();
+                e.stopPropagation();
             }, { passive: false });
 
+            // Click-to-jump
             comparisonEl.addEventListener('click', (e) => {
                 if (e.target === sliderEl || e.target.closest('.slider-handle')) return;
                 updateSlider(comparisonEl, sliderEl, afterEl, e.clientX);
             });
-        }
-
-        function openModal(exampleBtn) {
-            currentExample = exampleBtn;
-            const id = exampleBtn.dataset.example || '';
-            title.textContent = `Example ${id}`;
-
-            baseBefore.src = exampleBtn.dataset.lq;
-            baseBefore.alt = `Example ${id} LQ input`;
-            baseAfter.src = exampleBtn.dataset.base;
-
-            nftBefore.src = exampleBtn.dataset.lq;
-            nftBefore.alt = `Example ${id} LQ input`;
-            nftAfter.src = exampleBtn.dataset.nft;
-
-            modal.classList.add('is-open');
-            modal.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden';
-
-            // Center sliders after layout.
-            requestAnimationFrame(() => {
-                const baseRect = baseComparison.getBoundingClientRect();
-                updateSlider(baseComparison, baseSlider, baseAfter, baseRect.left + baseRect.width * 0.5);
-                const nftRect = nftComparison.getBoundingClientRect();
-                updateSlider(nftComparison, nftSlider, nftAfter, nftRect.left + nftRect.width * 0.5);
-            });
-        }
-
-        function closeModal() {
-            modal.classList.remove('is-open');
-            modal.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = '';
-            dragState.isDragging = false;
-            dragState.active = null;
-        }
-
-        document.querySelectorAll('.lq-card').forEach(btn => {
-            btn.addEventListener('click', () => openModal(btn));
         });
-
-        modal.querySelectorAll('[data-gallery-close]').forEach(el => {
-            el.addEventListener('click', closeModal);
-        });
-
-        initComparison(baseComparison, baseSlider, baseAfter);
-        initComparison(nftComparison, nftSlider, nftAfter);
 
         document.addEventListener('mousemove', (e) => {
             if (!dragState.isDragging || !dragState.active) return;
@@ -159,20 +106,9 @@ document.addEventListener('DOMContentLoaded', function() {
             updateSlider(dragState.active.comparisonEl, dragState.active.sliderEl, dragState.active.afterEl, e.touches[0].clientX);
         }, { passive: true });
 
-        document.addEventListener('mouseup', () => {
-            dragState.isDragging = false;
-            dragState.active = null;
-        });
-        document.addEventListener('touchend', () => {
-            dragState.isDragging = false;
-            dragState.active = null;
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (!modal.classList.contains('is-open')) return;
-            if (e.key === 'Escape') closeModal();
-        });
+        document.addEventListener('mouseup', () => { dragState.isDragging = false; dragState.active = null; });
+        document.addEventListener('touchend', () => { dragState.isDragging = false; dragState.active = null; });
     }
 
-    initGalleryModal();
+    initInlineComparisonSliders();
 });
