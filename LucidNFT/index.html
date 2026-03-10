@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LucidNFT: LR-Anchored Multi-Reward Preference Optimization for Generative Real-World Super-Resolution</title>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="sidebar">
+        <h2 class="sidebar-title">LucidNFT</h2>
+        <ul>
+            <li><a href="#project-info" class="nav-link"><i class="fas fa-info-circle"></i> Project Overview</a></li>
+            <li><a href="#highlights" class="nav-link"><i class="fas fa-star"></i> Key Highlights</a></li>
+            <li><a href="#method" class="nav-link"><i class="fas fa-cogs"></i> Method</a></li>
+            <li><a href="#dataset" class="nav-link"><i class="fas fa-database"></i> LucidLR Dataset</a></li>
+            <li><a href="#results" class="nav-link"><i class="fas fa-chart-line"></i> Results</a></li>
+            <li><a href="#contact-us" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <section id="project-info" class="project-info info-section">
+            <h1>LucidNFT: LR-Anchored Multi-Reward Preference Optimization for Generative Real-World Super-Resolution</h1>
+            <div class="authors">
+                <p>
+                    <span class="author"><a href="https://feisong123.github.io" target="_blank">Song Fei<sup>1, †</sup></a></span>,
+                    <span class="author"><a href="https://owen718.github.io/" target="_blank">Tian Ye<sup>1, †</sup></a></span>,
+                    <span class="author">Sixiang Chen<sup>1</sup></span>,
+                    <span class="author">Zhaohu Xing<sup>1</sup></span>,
+                    <span class="author">Jianyu Lai<sup>1</sup></span>,
+                    <span class="author"><a href="https://sites.google.com/site/indexlzhu/home" target="_blank">Lei Zhu<sup>1, 2, *</sup></a></span>
+                </p>
+                <p>
+                    <span class="affiliation"><sup>1</sup> The Hong Kong University of Science and Technology (Guangzhou)</span>,
+                    <span class="affiliation"><sup>2</sup> The Hong Kong University of Science and Technology</span>
+                </p>
+            </div>
+            <p class="contrib-note">†Equal Contribution *Corresponding Author</p>
+        </section>
+
+        <section class="info-section project-summary">
+            <p class="lead">LucidNFT is a multi-reward reinforcement learning framework for flow-matching Real-ISR that improves perceptual quality while preserving LR-anchored faithfulness under diverse real-world degradations.</p>
+            <div class="links">
+                <p><a href="https://arxiv.org/pdf/2603.05947" target="_blank">Paper</a></p>
+                <p><a href="https://github.com/W2GenAI-Lab/LucidNFT" target="_blank">GitHub</a></p>
+                <p><a href="https://w2genai-lab.github.io/" target="_blank">Homepage</a></p>
+            </div>
+        </section>
+
+        <section id="highlights" class="info-section">
+            <h2>Why LucidNFT?</h2>
+            <ul>
+                <li><strong>Faithfulness is hard to assess without HR ground truth.</strong> In real-world super-resolution, restored outputs may look realistic yet deviate from the semantic and structural evidence contained in the degraded LR input.</li>
+                <li><strong>Naive multi-reward optimization weakens preference learning.</strong> When heterogeneous rewards are scalarized before normalization, objective-wise contrasts can be compressed within each rollout group, causing advantage collapse.</li>
+                <li><strong>No-reference perceptual metrics are not enough.</strong> Metrics designed for perceptual quality can reward over-sharpening or hallucinated textures, but they do not directly measure LR-anchored faithfulness.</li>
+                <li><strong>Existing real-world datasets are limited for RL alignment.</strong> Benchmark datasets are typically small or capture-limited, which restricts rollout diversity and reduces the quality of preference signals under real degradations.</li>
+            </ul>
+        </section>
+
+        <section id="method" class="info-section">
+            <h2>Method Overview</h2>
+            <ol>
+                <li><strong>LucidConsistency.</strong> A frozen Qwen3-VL embedding backbone plus a lightweight trainable projection head aligns LR and HR semantics in a shared representation space, producing a degradation-robust consistency score.</li>
+                <li><strong>Decoupled advantage normalization.</strong> Instead of scalarizing all rewards first, LucidNFT normalizes each reward objective per rollout group and only then fuses them, preserving perceptual-faithfulness contrasts; the fused advantage is finally mapped to the bounded reward weight used by DiffusionNFT.</li>
+                <li><strong>LucidLR-supported RL fine-tuning.</strong> Diverse real-world low-quality images provide more informative rollouts and stronger preference supervision than small benchmark-only datasets.</li>
+            </ol>
+            <div class="hero-image">
+                <img src="fig/lucidconsistency.png" alt="Overview of LucidConsistency training and inference">
+                <p class="image-caption">Overview of LucidConsistency. Left: inference stage where embeddings of the LR input and SR output are extracted and their semantic consistency is computed. Right: training stage where LR-HR pairs are used to optimize the projection head.</p>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <caption>Cosine similarity between LR-HR image pairs under correct pairing and cross-bench swapped pairing. LucidConsistency improves alignment on correctly paired data while maintaining low similarity under mismatched pairing.</caption>
+                    <thead>
+                        <tr>
+                            <th>Domain</th>
+                            <th>Dataset Pairing</th>
+                            <th>Baseline</th>
+                            <th>LucidConsistency</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Synthetic</td>
+                            <td>LSDIR-Val (paired)</td>
+                            <td>0.759</td>
+                            <td>0.890 (+0.131)</td>
+                        </tr>
+                        <tr>
+                            <td>Real-World</td>
+                            <td>RealSR</td>
+                            <td>0.799</td>
+                            <td>0.925 (+0.126)</td>
+                        </tr>
+                        <tr>
+                            <td>Real-World</td>
+                            <td>DRealSR</td>
+                            <td>0.786</td>
+                            <td>0.921 (+0.135)</td>
+                        </tr>
+                        <tr>
+                            <td>Cross-Bench</td>
+                            <td>RealSR LR ↔ DRealSR HR</td>
+                            <td>0.144</td>
+                            <td>0.100 (-0.044)</td>
+                        </tr>
+                        <tr>
+                            <td>Cross-Bench</td>
+                            <td>DRealSR LR ↔ RealSR HR</td>
+                            <td>0.140</td>
+                            <td>0.131 (-0.009)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="dataset" class="info-section">
+            <h2>LucidLR Dataset</h2>
+            <ul>
+                <li><strong>Purpose.</strong> LucidLR is designed for RL and unsupervised Real-ISR training rather than only benchmarking.</li>
+                <li><strong>Scale.</strong> The dataset contains roughly 20K real-world low-quality images, substantially larger than common real-image benchmarks such as RealSR, DRealSR, and RealLQ250.</li>
+                <li><strong>Source.</strong> Images are collected from Wikimedia Commons categories related to naturally degraded imagery, including blur and other real capture artifacts.</li>
+                <li><strong>Impact.</strong> More diverse degradations lead to more informative stochastic rollouts, which directly improves the quality of multi-reward preference optimization.</li>
+            </ul>
+            <div class="hero-image">
+                <img src="fig/lucidlr.png" alt="Representative examples from LucidLR">
+                <p class="image-caption">Representative examples from LucidLR.</p>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <caption>Comparison of representative real-world datasets used in Real-ISR. Existing datasets are mainly designed for benchmarking and contain limited samples, while LucidLR provides large-scale real-world degradations suitable for RL-based training.</caption>
+                    <thead>
+                        <tr>
+                            <th>Dataset</th>
+                            <th>Pairing</th>
+                            <th>Primary Usage</th>
+                            <th>Type</th>
+                            <th># Images</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>RealSR</td>
+                            <td>Paired</td>
+                            <td>Testing / Benchmark</td>
+                            <td>Real-captured</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td>DRealSR</td>
+                            <td>Paired</td>
+                            <td>Testing / Benchmark</td>
+                            <td>Real-captured</td>
+                            <td>93</td>
+                        </tr>
+                        <tr>
+                            <td>RealLQ250</td>
+                            <td>Unpaired</td>
+                            <td>Testing / Benchmark</td>
+                            <td>Real-world</td>
+                            <td>250</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LucidLR (ours)</strong></td>
+                            <td>Unpaired</td>
+                            <td>RL / Unsupervised Training</td>
+                            <td>Real-world</td>
+                            <td>20K</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="results" class="info-section">
+            <h2>Results and Findings</h2>
+            <ul>
+                <li><strong>Stable optimization.</strong> Training curves in the paper show both LucidConsistency and perceptual IQA rewards improve steadily during RL fine-tuning on LucidFlux.</li>
+                <li><strong>Consistent benchmark gains.</strong> On RealLQ250, DRealSR, and RealSR, LucidFlux + LucidNFT improves most no-reference IQA metrics over the LucidFlux baseline, including CLIP-IQA+, Q-Align, MUSIQ, UniPercept IQA, and NIQE.</li>
+                <li><strong>Better perceptual-faithfulness trade-off.</strong> The method improves visual quality without relying on a faithfulness-only objective that could encourage under-restoration.</li>
+            </ul>
+            <div class="hero-image">
+                <img src="fig/advantage_ana.png" alt="Advantage separability analysis comparing DiffusionNFT and LucidNFT">
+                <p class="image-caption">Advantage separability analysis on the LucidFlux backbone using RealLQ250. LucidNFT consistently yields larger advantage gaps and higher separability than DiffusionNFT, indicating reduced advantage compression under decoupled normalization.</p>
+            </div>
+            <div class="hero-image">
+                <img src="fig/training_curve.png" alt="Training dynamics of LucidNFT on LucidFlux">
+                <p class="image-caption">Training dynamics of LucidNFT on LucidFlux. From left to right: training LucidConsistency score, evaluation LucidConsistency score, training UniPercept IQA score, and evaluation UniPercept IQA score. The smoothed curves exhibit a consistent upward trend, indicating stable multi-reward optimization during RL.</p>
+            </div>
+            <div class="hero-image">
+                <img src="visualization/visualization_1.png" alt="Visual comparison of LucidNFT against Real-ISR baselines">
+                <p class="image-caption">Visual comparison on RealLQ250. LucidNFT further improves semantic consistency and perceptual quality over the baseline LucidFlux, producing more faithful structures and richer texture details.</p>
+            </div>
+            <div class="table-wrapper">
+                <table>
+                    <caption>Quantitative comparison with state-of-the-art Real-ISR methods on RealLQ250, DRealSR, and RealSR. Higher is better for all metrics except NIQE. The table below highlights selected gains of LucidFlux(+LucidNFT) relative to the LucidFlux baseline.</caption>
+                    <thead>
+                        <tr>
+                            <th>Benchmark</th>
+                            <th>Metric</th>
+                            <th>LucidFlux</th>
+                            <th>LucidFlux(+LucidNFT)</th>
+                            <th>Delta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>RealLQ250</td>
+                            <td>CLIP-IQA+</td>
+                            <td>0.7208</td>
+                            <td>0.7465</td>
+                            <td>+0.0257</td>
+                        </tr>
+                        <tr>
+                            <td>RealLQ250</td>
+                            <td>Q-Align</td>
+                            <td>4.4052</td>
+                            <td>4.4855</td>
+                            <td>+0.0803</td>
+                        </tr>
+                        <tr>
+                            <td>RealLQ250</td>
+                            <td>MUSIQ</td>
+                            <td>72.3351</td>
+                            <td>73.4475</td>
+                            <td>+1.1124</td>
+                        </tr>
+                        <tr>
+                            <td>RealLQ250</td>
+                            <td>NIQE</td>
+                            <td>3.7410</td>
+                            <td>3.2532</td>
+                            <td>-0.4878</td>
+                        </tr>
+                        <tr>
+                            <td>RealLQ250</td>
+                            <td>UniPercept IQA</td>
+                            <td>70.9300</td>
+                            <td>73.4790</td>
+                            <td>+2.5490</td>
+                        </tr>
+                        <tr>
+                            <td>DRealSR</td>
+                            <td>MUSIQ</td>
+                            <td>64.6025</td>
+                            <td>68.1545</td>
+                            <td>+3.5520</td>
+                        </tr>
+                        <tr>
+                            <td>DRealSR</td>
+                            <td>NIQE</td>
+                            <td>5.0742</td>
+                            <td>4.1788</td>
+                            <td>-0.8954</td>
+                        </tr>
+                        <tr>
+                            <td>DRealSR</td>
+                            <td>UniPercept IQA</td>
+                            <td>59.9032</td>
+                            <td>63.7782</td>
+                            <td>+3.8750</td>
+                        </tr>
+                        <tr>
+                            <td>RealSR</td>
+                            <td>MUSIQ</td>
+                            <td>67.8962</td>
+                            <td>70.5625</td>
+                            <td>+2.6663</td>
+                        </tr>
+                        <tr>
+                            <td>RealSR</td>
+                            <td>NIQE</td>
+                            <td>4.8134</td>
+                            <td>3.9526</td>
+                            <td>-0.8608</td>
+                        </tr>
+                        <tr>
+                            <td>RealSR</td>
+                            <td>UniPercept IQA</td>
+                            <td>60.0925</td>
+                            <td>64.7588</td>
+                            <td>+4.6663</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="contact-us" class="contact-us info-section">
+            <h2>Contact</h2>
+            <p>For questions or collaboration, please contact <strong>sfei285@connect.hkust-gz.edu.cn</strong>, <strong>tye610@connect.hkust-gz.edu.cn</strong>, or <strong>leizhu@hkust-gz.edu.cn</strong>.</p>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
