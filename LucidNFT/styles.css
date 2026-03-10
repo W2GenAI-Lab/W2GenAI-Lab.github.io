@@ -87,6 +87,28 @@ body {
     max-width: 1100px;
 }
 
+/* Ensure quantitative results appear before qualitative figures in the Results section. */
+#results {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#results > ul {
+    order: 1;
+    margin: 0;
+}
+
+#results .quantitative-results {
+    order: 2;
+    margin-top: 0;
+}
+
+#results .hero-image {
+    order: 3;
+    margin-top: 0;
+}
+
 .info-section {
     text-align: left;
     margin: 0;
@@ -452,6 +474,12 @@ body {
 .metric-col {
     text-align: left;
     font-family: 'Times New Roman', Times, serif;
+}
+
+/* Give metric column a bit more breathing room in quantitative tables. */
+.table-container .metric-col {
+    min-width: 160px;
+    white-space: nowrap;
 }
 
 /* Method column styling */
