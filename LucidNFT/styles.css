@@ -218,6 +218,7 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 14px;
     margin-top: 12px;
+    overflow: visible;
 }
 
 .lq-card {
@@ -231,6 +232,13 @@ body {
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     position: relative;
     overflow: visible;
+    z-index: 0;
+}
+
+.lq-card:hover,
+.lq-card:focus-visible,
+.lq-card:focus-within {
+    z-index: 50;
 }
 
 .lq-card:hover {
