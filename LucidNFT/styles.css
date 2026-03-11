@@ -255,6 +255,9 @@ body {
     position: relative;
     border-radius: 12px;
     overflow: visible; /* allow thumbnail to float/zoom like UltraFlux */
+    transform: translateY(0) scale(1);
+    transform-origin: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .lq-thumb {
@@ -280,9 +283,14 @@ body {
     pointer-events: auto;
 }
 
+.lq-card:hover .lq-media,
+.lq-card:focus-visible .lq-media {
+    transform: translateY(-3px) scale(1.8);
+    z-index: 5;
+}
+
 .lq-card:hover .lq-thumb,
 .lq-card:focus-visible .lq-thumb {
-    transform: translateY(-3px) scale(1.8);
     box-shadow: 0 10px 22px rgba(0, 0, 0, 0.15);
     z-index: 5;
 }
