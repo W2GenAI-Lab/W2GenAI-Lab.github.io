@@ -254,7 +254,7 @@ body {
 .lq-media {
     position: relative;
     border-radius: 12px;
-    overflow: hidden;
+    overflow: visible; /* allow thumbnail to float/zoom like UltraFlux */
 }
 
 .lq-thumb {
@@ -266,9 +266,11 @@ body {
     inset: 0;
     opacity: 0;
     transform: translateY(6px);
-    transition: opacity 0.22s ease 0.12s, transform 0.22s ease 0.12s;
+    transition: opacity 0.22s ease 0.18s, transform 0.22s ease 0.18s;
     pointer-events: none;
     z-index: 6;
+    border-radius: 12px;
+    overflow: hidden; /* keep slider contents clipped */
 }
 
 .lq-card:hover .lq-hover-compare,
@@ -280,7 +282,7 @@ body {
 
 .lq-card:hover .lq-thumb,
 .lq-card:focus-visible .lq-thumb {
-    transform: translateY(-3px) scale(1.18);
+    transform: translateY(-3px) scale(1.8);
     box-shadow: 0 10px 22px rgba(0, 0, 0, 0.15);
     z-index: 5;
 }
@@ -488,7 +490,7 @@ body {
 
 .compare-tag {
     position: absolute;
-    top: 12px;
+    bottom: 12px;
     padding: 6px 10px;
     border-radius: 999px;
     background: rgba(15, 23, 42, 0.78);
