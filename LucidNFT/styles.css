@@ -839,6 +839,11 @@ body {
     font-weight: bold;
 }
 
+.second-best-result {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
 .delta {
     font-size: 0.75em;
     color: #555;
