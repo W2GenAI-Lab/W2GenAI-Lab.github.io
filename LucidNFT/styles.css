@@ -104,8 +104,12 @@ body {
     margin-top: 0;
 }
 
-#results .hero-image {
+#results .evidence-grid {
     order: 3;
+}
+
+#results .hero-image {
+    order: 4;
     margin-top: 0;
 }
 
@@ -595,6 +599,28 @@ body {
 
 .table-wrapper tbody tr:hover {
     background-color: #fafcff;
+}
+
+.evidence-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    width: 100%;
+}
+
+.evidence-grid .table-wrapper {
+    margin-top: 0;
+}
+
+.evidence-grid .table-wrapper table {
+    min-width: 560px;
+    font-size: 0.82em;
+}
+
+@media (max-width: 1024px) {
+    .evidence-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .grid-gallery h2 {
