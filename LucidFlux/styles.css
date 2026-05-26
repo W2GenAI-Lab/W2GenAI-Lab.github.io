@@ -426,6 +426,83 @@ tbody tr:hover {
     transform: scale(1.1);
 }
 
+.resolution-results-section {
+    margin: 40px 0;
+}
+
+.resolution-results-section h2 {
+    font-size: 1.5em;
+    font-weight: 800;
+    margin-bottom: 10px;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+}
+
+.resolution-results-subtitle {
+    margin: 0 auto 20px;
+    max-width: 760px;
+    color: #666;
+    text-align: center;
+    font-size: 0.95em;
+}
+
+.resolution-results-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 26px;
+    padding: 20px;
+}
+
+.resolution-result-card {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+}
+
+.resolution-result-card h3 {
+    margin: 0 0 14px;
+    color: #333;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.05em;
+    text-align: center;
+}
+
+.resolution-comparison-pair {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.resolution-compare-block p {
+    margin: 0 0 8px;
+    color: #333;
+    font-weight: 700;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.resolution-gallery-item {
+    aspect-ratio: 1 / 1;
+    height: auto;
+}
+
+.resolution-gallery-item:hover {
+    transform: none;
+}
+
+.resolution-gallery-item .before-image,
+.resolution-gallery-item .after-image {
+    object-fit: cover;
+    image-rendering: auto;
+}
+
+@media (max-width: 900px) {
+    .resolution-comparison-pair {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* 图片对比滑动效果 */
 .image-comparison {
     position: relative;
