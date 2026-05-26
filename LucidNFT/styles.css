@@ -35,15 +35,6 @@ a:hover {
     text-align: center;
 }
 
-.venue {
-    margin: 0 0 12px;
-    color: #5f6c7b;
-    font-size: 0.9rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-}
-
 h1 {
     max-width: 980px;
     margin: 0 auto 18px;
