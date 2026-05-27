@@ -5,50 +5,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LucidNFT: LR-Anchored Multi-Reward Preference Optimization for Flow-Based Real-World Super-Resolution</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-    <header class="hero" id="top">
-        <div class="hero-inner">
+    <div class="sidebar">
+        <h2 class="sidebar-title">LucidNFT</h2>
+        <ul>
+            <li><a href="#paper-info" class="nav-link"><i class="fas fa-file-alt"></i> Paper Information</a></li>
+            <li><a href="#abstract" class="nav-link"><i class="fas fa-align-left"></i> Abstract</a></li>
+            <li><a href="#method" class="nav-link"><i class="fas fa-sitemap"></i> Method</a></li>
+            <li><a href="#lucidlr" class="nav-link"><i class="fas fa-database"></i> LucidLR</a></li>
+            <li><a href="#results" class="nav-link"><i class="fas fa-chart-line"></i> Results</a></li>
+            <li><a href="#visual-results" class="nav-link"><i class="fas fa-images"></i> Visual Results</a></li>
+            <li><a href="#citation" class="nav-link"><i class="fas fa-quote-right"></i> Citation</a></li>
+            <li><a href="#contact-us" class="nav-link"><i class="fas fa-envelope"></i> Contact Us</a></li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <div id="paper-info" class="paper-info">
             <h1>LucidNFT: LR-Anchored Multi-Reward Preference Optimization for Flow-Based Real-World Super-Resolution</h1>
             <p class="tagline">Rollout-group multi-reward fine-tuning for flow-based Real-ISR with LR-referenced faithfulness.</p>
 
             <div class="authors">
-                <a href="https://feisong123.github.io" target="_blank">Song Fei<sup>1, †</sup></a>
-                <a href="https://owen718.github.io" target="_blank">Tian Ye<sup>1, †</sup></a>
-                <a href="https://ephemeral182.github.io" target="_blank">Sixiang Chen<sup>1</sup></a>
-                <a href="https://ge-xing.github.io" target="_blank">Zhaohu Xing<sup>1</sup></a>
-                <a href="https://alexlai2860.github.io/" target="_blank">Jianyu Lai<sup>1</sup></a>
-                <a href="https://sites.google.com/site/indexlzhu/home" target="_blank">Lei Zhu<sup>1, 2, *</sup></a>
+                <p>
+                    <span class="author"><a href="https://feisong123.github.io" target="_blank">Song Fei<sup>1, †</sup></a></span>,
+                    <span class="author"><a href="https://owen718.github.io" target="_blank">Tian Ye<sup>1, †</sup></a></span>,
+                    <span class="author"><a href="https://ephemeral182.github.io" target="_blank">Sixiang Chen<sup>1</sup></a></span>,
+                    <span class="author"><a href="https://ge-xing.github.io" target="_blank">Zhaohu Xing<sup>1</sup></a></span>,
+                    <span class="author"><a href="https://alexlai2860.github.io/" target="_blank">Jianyu Lai<sup>1</sup></a></span>,
+                    <span class="author"><a href="https://sites.google.com/site/indexlzhu/home" target="_blank">Lei Zhu<sup>1, 2, *</sup></a></span>
+                </p>
+                <p>
+                    <span class="affiliation"><sup>1</sup> The Hong Kong University of Science and Technology (Guangzhou)</span>,
+                    <span class="affiliation"><sup>2</sup> The Hong Kong University of Science and Technology</span>
+                </p>
             </div>
 
-            <p class="affiliations">
-                <sup>1</sup>The Hong Kong University of Science and Technology (Guangzhou) ·
-                <sup>2</sup>The Hong Kong University of Science and Technology
-            </p>
-            <p class="notes"><sup>†</sup>Equal contribution · <sup>*</sup>Corresponding author</p>
-
-            <nav class="actions" aria-label="Project links">
-                <a href="https://arxiv.org/pdf/2603.05947" target="_blank">Paper</a>
-                <a href="https://github.com/W2GenAI-Lab/LucidNFT" target="_blank">Code</a>
-                <a href="https://w2genai-lab.github.io/LucidNFT">Project Page</a>
-            </nav>
+            <div class="links">
+                <p><a href="https://arxiv.org/pdf/2603.05947" target="_blank">Paper</a></p>
+                <p><a href="https://github.com/W2GenAI-Lab/LucidNFT" target="_blank">GitHub</a></p>
+                <p><a href="https://w2genai-lab.github.io/" target="_blank">Homepage</a></p>
+            </div>
+            <p class="notes">† Equal contribution&nbsp;&nbsp;&nbsp;* Corresponding author</p>
         </div>
-    </header>
 
-    <nav class="page-nav" aria-label="Page sections">
-        <a href="#abstract">Abstract</a>
-        <a href="#motivation">Motivation</a>
-        <a href="#method">Method</a>
-        <a href="#lucidlr">LucidLR</a>
-        <a href="#experiments">Experiments</a>
-        <a href="#supplement">Supplement</a>
-        <a href="#citation">Citation</a>
-    </nav>
-
-    <main>
-        <section id="abstract" class="section">
+        <section id="abstract" class="info-section">
             <h2>Abstract</h2>
             <p>
                 Generative real-world image super-resolution can synthesize visually convincing details from severely degraded low-resolution inputs, yet stochastic sampling makes a critical failure mode hard to avoid: outputs may look sharp but be unfaithful to the LR evidence, exhibiting semantic or structural hallucinations.
@@ -56,11 +61,8 @@
             <p>
                 LucidNFT is a multi-reward RL framework for flow-matching Real-ISR. It introduces LucidConsistency, a degradation-invariant and hallucination-sensitive LR-referenced evaluator trained with content-consistent degradation pools and original-inpainted hard negatives; a decoupled reward normalization strategy that preserves objective-wise contrasts within each LR-conditioned rollout group before fusion; and LucidLR, a large-scale collection of real-world degraded images for robust RL fine-tuning.
             </p>
-        </section>
 
-        <section id="motivation" class="section">
-            <h2>Motivation</h2>
-            <div class="cards three">
+            <div class="feature-grid">
                 <article>
                     <h3>LR faithfulness is missing</h3>
                     <p>Without HR references, no-reference perceptual metrics can reward sharp but unsupported details. Real-ISR needs an LR-referenced signal that is robust to degradations and sensitive to hallucination.</p>
@@ -76,7 +78,7 @@
             </div>
         </section>
 
-        <section id="method" class="section">
+        <section id="method" class="info-section">
             <h2>Method</h2>
             <figure>
                 <img src="fig/lucidconsistency.png" alt="Overview of LucidConsistency">
@@ -85,7 +87,7 @@
                 </figcaption>
             </figure>
 
-            <div class="cards three">
+            <div class="feature-grid">
                 <article>
                     <h3>LucidConsistency</h3>
                     <p>A Qwen3-VL-Embedding-8B backbone with trainable LoRA adapters learns global and native-token representations through pool-based contrastive losses. At inference, it combines global and local LR-SR consistency into an LR-referenced score.</p>
@@ -108,7 +110,7 @@
             </figure>
         </section>
 
-        <section id="lucidlr" class="section">
+        <section id="lucidlr" class="info-section">
             <h2>LucidLR Dataset</h2>
             <p>
                 LucidLR is a 20K-image real-world low-quality dataset collected from Wikimedia Commons through its official API. Images are gathered from public low-quality and blurred-image categories, filtered from an approximately 22K-image raw pool with NSFW classification, corrupted-file removal, and manual review.
@@ -118,7 +120,7 @@
                 <figcaption>Representative LucidLR samples with diverse real-world degradations, used as LR inputs for RL fine-tuning.</figcaption>
             </figure>
 
-            <div class="table-wrap">
+            <div class="table-wrap compact-table">
                 <table>
                     <caption>Comparison of representative real-world datasets used in Real-ISR.</caption>
                     <thead>
@@ -140,8 +142,8 @@
             </div>
         </section>
 
-        <section id="experiments" class="section">
-            <h2>Experiments</h2>
+        <section id="results" class="info-section">
+            <h2>Results</h2>
             <p>
                 Experiments evaluate LucidNFT on two flow-based Real-ISR models, LucidFlux and DiT4SR. All methods are evaluated at 1024 x 1024 output resolution with 4x upscaling. The paper reports eight no-reference quality metrics and LucidConsistency as an LR-referenced consistency score without HR ground truth.
             </p>
@@ -153,7 +155,7 @@
                 </figcaption>
             </figure>
 
-            <div class="table-wrap wide">
+            <div class="table-wrap wide-table">
                 <table>
                     <caption>Quantitative comparison on RealLQ250, DRealSR, and RealSR. Higher is better except NIQE.</caption>
                     <thead>
@@ -205,19 +207,8 @@
                 </table>
             </div>
 
-            <div class="figure-grid">
-                <figure>
-                    <img src="visualization/visualization_1.png" alt="Visual comparison on RealLQ250">
-                    <figcaption>Main qualitative comparison on RealLQ250.</figcaption>
-                </figure>
-                <figure>
-                    <img src="visualization/visualization_2.png" alt="Additional qualitative comparison on RealLQ250">
-                    <figcaption>Additional qualitative comparisons on RealLQ250.</figcaption>
-                </figure>
-            </div>
-
             <div class="table-grid">
-                <div class="table-wrap">
+                <div class="table-wrap compact-table">
                     <table>
                         <caption>Human-aligned LR-faithfulness evaluation on RealSR.</caption>
                         <thead>
@@ -234,7 +225,7 @@
                     </table>
                 </div>
 
-                <div class="table-wrap">
+                <div class="table-wrap compact-table">
                     <table>
                         <caption>Ablation study on RealLQ250 using LucidFlux.</caption>
                         <thead>
@@ -253,46 +244,95 @@
             </div>
         </section>
 
-        <section id="supplement" class="section">
-            <h2>Supplemental Figures</h2>
-            <div class="figure-grid">
-                <figure>
-                    <img src="fig/human_interface.png" alt="Human preference annotation interface">
-                    <figcaption>Human preference annotation interface for LR-faithfulness evaluation.</figcaption>
-                </figure>
-                <figure>
-                    <img src="fig/degradation_primary.png" alt="Primary degradation distribution">
-                    <figcaption>Primary degradation distribution across LucidLR, RealLQ250, RealSR, and DRealSR.</figcaption>
-                </figure>
-                <figure>
-                    <img src="fig/degradation_occurrence.png" alt="Occurrence frequency of degradation categories">
-                    <figcaption>Occurrence frequency of degradation categories. LucidLR provides broader degradation coverage and a richer long-tail distribution.</figcaption>
-                </figure>
-                <figure>
-                    <img src="fig/training_curves_lucidflux_ablation.png" alt="Optimization curves under different reward formulations">
-                    <figcaption>Optimization curves under different reward formulations on LucidFlux.</figcaption>
-                </figure>
+        <section id="visual-results" class="info-section">
+            <h2>Visual Results</h2>
+            <div class="sample-gallery">
+                <article>
+                    <h3>Sample 016</h3>
+                    <div class="sample-columns">
+                        <figure>
+                            <img src="gallery/016_lq.jpg" alt="Sample 016 low-quality input">
+                            <figcaption>LR input</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="gallery/016_lucidflux.jpg" alt="Sample 016 LucidFlux result">
+                            <figcaption>LucidFlux</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="gallery/016_lucidnft.jpg" alt="Sample 016 LucidNFT result">
+                            <figcaption>LucidNFT</figcaption>
+                        </figure>
+                    </div>
+                </article>
+                <article>
+                    <h3>Sample 137</h3>
+                    <div class="sample-columns">
+                        <figure>
+                            <img src="gallery/137_lq.jpg" alt="Sample 137 low-quality input">
+                            <figcaption>LR input</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="gallery/137_lucidflux.jpg" alt="Sample 137 LucidFlux result">
+                            <figcaption>LucidFlux</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="gallery/137_lucidnft.jpg" alt="Sample 137 LucidNFT result">
+                            <figcaption>LucidNFT</figcaption>
+                        </figure>
+                    </div>
+                </article>
+                <article>
+                    <h3>Sample 182</h3>
+                    <div class="sample-columns">
+                        <figure>
+                            <img src="gallery/182_lq.png" alt="Sample 182 low-quality input">
+                            <figcaption>LR input</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="gallery/182_lucidflux.jpg" alt="Sample 182 LucidFlux result">
+                            <figcaption>LucidFlux</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="gallery/182_lucidnft.jpg" alt="Sample 182 LucidNFT result">
+                            <figcaption>LucidNFT</figcaption>
+                        </figure>
+                    </div>
+                </article>
+                <article>
+                    <h3>Sample 223</h3>
+                    <div class="sample-columns">
+                        <figure>
+                            <img src="gallery/223_lq.png" alt="Sample 223 low-quality input">
+                            <figcaption>LR input</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="gallery/223_lucidflux.jpg" alt="Sample 223 LucidFlux result">
+                            <figcaption>LucidFlux</figcaption>
+                        </figure>
+                        <figure>
+                            <img src="gallery/223_lucidnft.jpg" alt="Sample 223 LucidNFT result">
+                            <figcaption>LucidNFT</figcaption>
+                        </figure>
+                    </div>
+                </article>
             </div>
         </section>
 
-        <section id="citation" class="section">
-            <h2>Conclusion</h2>
-            <p>
-                LucidNFT aligns stochastic restorations not only toward perceptual realism, but also toward LR-conditioned faithfulness. Experiments across two flow-based Real-ISR backbones show improved perceptual quality while generally maintaining LR-referenced consistency, suggesting a practical route toward more reliable generative restoration.
-            </p>
+        <section id="citation" class="paper-citation">
             <h2>Citation</h2>
             <pre><code>@article{fei2026lucidnft,
   title={LucidNFT: LR-Anchored Multi-Reward Preference Optimization for Flow-Based Real-World Super-Resolution},
   author={Fei, Song and Ye, Tian and Chen, Sixiang and Xing, Zhaohu and Lai, Jianyu and Zhu, Lei},
-  journal={arXiv preprint},
+  journal={arXiv},
   year={2026}
 }</code></pre>
         </section>
-    </main>
 
-    <footer>
-        <p>For questions or collaboration, contact sfei285@connect.hkust-gz.edu.cn, tye610@connect.hkust-gz.edu.cn, or leizhu@hkust-gz.edu.cn.</p>
-    </footer>
+        <section id="contact-us" class="contact-us">
+            <h2>Contact Us</h2>
+            <p>For questions or collaboration, contact sfei285@connect.hkust-gz.edu.cn, tye610@connect.hkust-gz.edu.cn, or leizhu@hkust-gz.edu.cn.</p>
+        </section>
+    </div>
 </body>
 
 </html>
