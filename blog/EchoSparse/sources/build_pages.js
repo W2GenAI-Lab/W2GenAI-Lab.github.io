@@ -69,12 +69,8 @@ pre code{background:none;border:0;padding:0;font-size:inherit;color:var(--ink2);
 pre .c{color:var(--dim)}
 article h3{font-size:19px;line-height:1.4;font-weight:600;color:var(--ink);margin-top:2.2em;margin-bottom:.6em}
 .anim{max-width:980px!important;margin:2.4em auto}
-.anim .frame{position:relative;width:100%;aspect-ratio:16/9;background:#000;border:1px solid var(--hair);border-radius:6px;overflow:hidden}
-.anim iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
-.anim .bar{display:flex;flex-wrap:wrap;gap:10px 20px;align-items:center;margin-top:12px;font-size:14px;color:var(--dim)}
-.anim button{font:inherit;font-size:14px;color:#000;background:var(--teal);border:0;border-radius:999px;padding:7px 18px;cursor:pointer;font-weight:600}
-.anim button:hover{background:#6fe0d3}.anim button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
-.anim .bar a{color:var(--dim);border-bottom-color:var(--faint)}.anim .bar a:hover{color:var(--ink)}
+.anim video{display:block;width:100%;aspect-ratio:16/9;background:#000;border:1px solid var(--hair);border-radius:6px;object-fit:contain}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
 footer{max-width:1180px;margin:0 auto;padding:30px 24px 60px;border-top:1px solid var(--hair);color:var(--dim);font-size:14px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
 @media(max-width:700px){body{font-size:16px}h2{font-size:22px}.top{padding:16px}.layout{padding:0 16px 60px}.katex-display{font-size:.92em}th,td{padding:.6em .4em;font-size:14px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
@@ -90,24 +86,21 @@ for (const [lg, T] of Object.entries(L)) {
   const toc = []; let n = 0;
   html = html.replace(/<h2>(.*?)<\/h2>/g, (_, t) => { const id = 's' + (++n); toc.push([id, t.replace(/<span class="katex-mathml">.*?<\/math><\/span>/g, '')]); return `<h2 id="${id}">${t}</h2>`; });
   html = html.replace(/<table>/g, '<div class="tbl"><table>').replace(/<\/table>/g, '</table></div>');
+  html = html.replace(/<pre><code class="language-python">[\s\S]*?<\/code><\/pre>/, code => `<section class="lse-code-motion" data-lang="${lg}">${code}</section>`);
   const h1 = md.renderInline(title);
   // figures: <p><img></p><p><em>caption</em></p>
   html = html.replace(/<p>(<img [^>]*>)<\/p>\s*<p><em>([\s\S]*?)<\/em><\/p>/g, (_, img, cap) => `<figure>${img}<figcaption>${cap}</figcaption></figure>`);
   html = html.replace(/<p>(<img [^>]*H100[^>]*>|<img [^>]*fig4_h100[^>]*>)<\/p>/g, (_, img) => `<figure>${img}</figure>`);
-  // animation component replaces the gif paragraph
-  const anim = `<div class="anim"><div class="frame"><iframe id="anim" title="${T.alt}" src="assets/echosparse-canvas-animation.html?t=1" loading="lazy" allowfullscreen></iframe></div>
-<div class="bar"><button id="play" type="button" aria-label="${T.play}">▶ ${T.play}</button></div></div>`;
-  html = html.replace(/<p><img [^>]*echosparse-explainer\.gif[^>]*><\/p>/, anim);
+  const anim = `<figure class="anim"><video id="anim" controls playsinline preload="metadata" poster="assets/echosparse-video-poster.png" aria-label="${T.alt}"><source src="assets/echosparse-v13-1080p.mp4" type="video/mp4"><a href="assets/echosparse-v13-1080p.mp4">MP4</a></video><figcaption>${lg === 'zh' ? '原版演示（早期实验）' : 'Original demonstration (early experiments)'}</figcaption></figure>`;
+  html = html.replace(/<p><a href="assets\/echosparse-v13-1080p\.mp4"><img [^>]*echosparse-video-poster\.png[^>]*><\/a><\/p>|<figure><img [^>]*echosparse-explainer\.gif[^>]*><figcaption>[\s\S]*?<\/figcaption><\/figure>|<p><img [^>]*echosparse-explainer\.gif[^>]*><\/p>/, anim);
   html = html.replace(/<h1>.*?<\/h1>/, '');
   const page = `<!doctype html><html lang="${T.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="author" content="${escapeHtml(author)}"><meta name="description" content="${escapeHtml(post.dek?.[lg] || '')}"><link rel="canonical" href="${PUBLIC_URL}${T.out === 'index.html' ? '' : T.out}"><link rel="alternate" hreflang="en" href="${PUBLIC_URL}${routes.en === 'index.html' ? '' : routes.en}"><link rel="alternate" hreflang="zh-CN" href="${PUBLIC_URL}${routes.zh === 'index.html' ? '' : routes.zh}"><title>${h1.replace(/<[^>]+>/g,'')}</title>
-<link rel="stylesheet" href="assets/katex/katex.min.css"><style>${CSS}</style></head><body>
+<link rel="stylesheet" href="assets/katex/katex.min.css"><link rel="stylesheet" href="assets/lse-code-motion.css"><style>${CSS}</style></head><body>
 <header class="top"><a class="brand" href="${REPO}" target="_blank" rel="noopener">EchoSparse</a><nav><a href="${REPO}" target="_blank" rel="noopener">GitHub</a><a href="${T.other}" hreflang="${lg === 'zh' ? 'en' : 'zh'}">${T.otherName}</a></nav></header>
 <div class="layout"><aside class="toc"><details open><summary>${T.toc}</summary><ol>${toc.map(([id, t]) => `<li><a href="#${id}">${t}</a></li>`).join('')}</ol></details></aside>
 <article><h1>${h1}</h1><p class="byline">${T.by} <strong>${escapeHtml(author)}</strong></p>${html}</article></div>
 <footer><span>${T.foot}</span><a href="${REPO}" target="_blank" rel="noopener">${REPO.replace('https://','')}</a></footer>
-<script>
-const f=document.getElementById('anim'),b=document.getElementById('play');let started=false;
-b.addEventListener('click',()=>{f.src='assets/echosparse-canvas-animation.html?r='+Date.now();started=true;b.textContent='↻ ${T.replay}';b.setAttribute('aria-label','${T.replay}');f.scrollIntoView({block:'center',behavior:'smooth'})});
+<script src="assets/lse-code-motion.js" defer></script><script>
 const links=[...document.querySelectorAll('aside.toc a')],secs=links.map(a=>document.querySelector(a.getAttribute('href')));
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.remove('on'));links[secs.indexOf(e.target)].classList.add('on')}}),{rootMargin:'-20% 0px -70% 0px'});secs.forEach(s=>io.observe(s));
 if(window.matchMedia('(max-width:1179px)').matches)document.querySelector('aside.toc details').removeAttribute('open');

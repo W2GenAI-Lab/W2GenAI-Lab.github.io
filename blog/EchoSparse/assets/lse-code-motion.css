@@ -1,0 +1,33 @@
+.lse-code-motion{--lse-fg:#d4d5d1;--lse-muted:#9a9ea6;--lse-rule:#25272c;--lse-blue:#7ea9ff;--lse-teal:#45d0c1;--lse-amber:#f2b544;max-width:980px!important;margin:2.2em auto;background:#000;color:var(--lse-fg)}
+.lse-code-motion.is-enhanced>pre{display:none}
+.lse-code-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.lse-code-panel{min-width:0;border:1px solid var(--lse-rule);border-radius:6px;background:#0b0c0e;overflow:hidden}
+.lse-code-head{border-bottom:1px solid var(--lse-rule);padding:10px 12px;font:500 12px/1.4 "Inter",system-ui,sans-serif;color:var(--lse-muted);min-height:37px}
+.lse-code-changing .lse-code-head{color:var(--lse-teal)}
+.lse-code-window{overflow-x:auto;overflow-y:hidden;padding:12px 0 14px;min-height:366px;scrollbar-width:thin;scrollbar-color:#454950 transparent}
+.lse-code-window:focus-visible{outline:2px solid var(--lse-blue);outline-offset:-2px}
+.lse-code-lines{display:block!important;background:none!important;border:0!important;border-radius:0!important;padding:0 12px 0 0!important;color:var(--lse-fg)!important;font:12px/1.7 ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace!important;white-space:pre!important;overflow-wrap:normal!important;word-break:normal!important;font-variant-ligatures:none;min-height:28.9em;width:max-content;min-width:100%}
+.lse-code-line{position:relative;display:block;height:1.7em;overflow:hidden;white-space:pre;--fresh:0}
+.lse-code-number{display:inline-block;width:3.2em;padding-right:.9em;text-align:right;user-select:none;color:#5c6169}
+.lse-code-text{display:inline-block;position:relative;white-space:pre;background:color-mix(in srgb,var(--lse-teal) calc(var(--fresh)*10%),transparent);color:color-mix(in srgb,var(--lse-teal) calc(var(--fresh)*100%),var(--lse-fg))}
+.lse-code-text .kw{color:var(--lse-blue)}
+.lse-code-text .fn{color:#b7d5d0}
+.lse-code-text .constant{color:#a7adb8}
+.lse-code-text .cut{background:rgba(242,181,68,.14);color:var(--lse-amber);text-decoration:line-through;text-decoration-thickness:1px}
+.lse-code-text .add{background:rgba(69,208,193,.14);color:var(--lse-teal)}
+.lse-code-caret{display:block;position:absolute;top:.15em;width:1.5px;height:1.35em;background:var(--lse-teal);box-shadow:0 0 6px rgba(69,208,193,.25)}
+.lse-code-controls{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;column-gap:16px;row-gap:11px;padding-top:12px;font:12px/1.45 "Inter",system-ui,sans-serif}
+.lse-code-buttons{display:flex;gap:6px}
+.lse-code-controls button{font:inherit;line-height:1.2;min-width:28px;height:29px;padding:4px 10px;border:1px solid #3b3f45;border-radius:999px;color:var(--lse-fg);background:#000;cursor:pointer}
+.lse-code-controls button:hover:not(:disabled){border-color:var(--lse-teal);color:var(--lse-teal)}
+.lse-code-controls button:focus-visible,.lse-code-progress:focus-visible{outline:2px solid var(--lse-blue);outline-offset:3px}
+.lse-code-controls button:disabled{color:#646a72;border-color:#25282d;cursor:default}
+.lse-code-status{display:block;color:var(--lse-muted);text-align:right;font:inherit}
+.lse-code-progress{grid-column:1/-1;display:block;width:100%;height:14px;appearance:none;-webkit-appearance:none;margin:0;background:transparent;cursor:ew-resize;accent-color:var(--lse-teal)}
+.lse-code-progress::-webkit-slider-runnable-track{height:2px;background:#35393e;border-radius:2px}
+.lse-code-progress::-webkit-slider-thumb{-webkit-appearance:none;height:10px;width:10px;border-radius:50%;margin-top:-4px;border:0;background:var(--lse-teal)}
+.lse-code-progress::-moz-range-track{height:2px;background:#35393e;border-radius:2px}
+.lse-code-progress::-moz-range-thumb{height:10px;width:10px;border:0;background:var(--lse-teal);border-radius:50%}
+@media(min-width:1180px){.lse-code-motion{margin-left:0!important}}
+@media(max-width:760px){.lse-code-pair{grid-template-columns:minmax(0,1fr);gap:14px}.lse-code-lines{font-size:12px!important}.lse-code-window{min-height:390px}.lse-code-controls{column-gap:10px}.lse-code-status{font-size:11px}.lse-code-controls button{padding:4px 9px}}
+@media(prefers-reduced-motion:reduce){.lse-code-caret{display:none}.lse-code-motion *{scroll-behavior:auto!important}}
