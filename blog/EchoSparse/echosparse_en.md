@@ -275,29 +275,54 @@ $$
 
 With $m_b$ groups, the between-group part is represented exactly, at every order, by each group's own center and exponential, using $m_b(d+d_v)$ storage and no $d\times d_v$ matrix. The remaining error comes from the within-group $H_C$, the within-group variance and higher-order terms, all of which vanish with one token per group. Compared with Section 1: instead of storing a $dd_v$ first-order moment per block, a few columns can split the block.
 
-These are local, per-group relations. The row's output passes through a shared denominator and the group errors interact, so no convergence law for the layer output in $m$ follows. What they give is a clustering objective: within a group, the logits the queries see should be as uniform as possible.
-
-Attention uses a key only through $q^\top k$, and two keys can be far apart in Euclidean distance yet produce nearly identical logits for the queries, so Euclidean k-means on K is not used directly. Let $\tilde q=q/\sqrt d$ and $G=\mathbb E[\tilde q\tilde q^\top]$. For a key offset $\Delta k$ (a column vector),
+The leading denominator error depends on within-group logit variance, so the mean squared logit deviation provides a grouping objective. Stack all queries of the current head as rows of $Q\in\mathbb R^{N\times d}$. For a block $b$ of $B_k$ tokens, let $\mathcal C_b$ denote its groups and $\Delta k_j=k_j-\bar k_C$ the within-group offset. The objective is
 
 $$
-\mathbb E_q\bigl[(\tilde q^\top\Delta k)^2\bigr]=\Delta k^\top G\,\Delta k=\|M^\top\Delta k\|^2,\qquad G=MM^\top .
+J_b=\frac1{NB_k}\sum_{i=1}^N\sum_{C\in\mathcal C_b}\sum_{j\in C}
+\left(\frac{q_i^\top\Delta k_j}{\sqrt d}\right)^2 .
 $$
 
-The within-group logit variance averaged over queries is then
+Evaluating this expression directly would revisit every query whenever the grouping changes. But the queries do not depend on the grouping, so their contribution can be summed in advance:
 
 $$
-\mathbb E_q\,\mathbb E_C\,\delta^2=\frac1n\sum_{j\in C}\bigl\|M^\top(k_j-\bar k)\bigr\|^2,
+\begin{aligned}
+G&=\frac1{Nd}\sum_{i=1}^N q_iq_i^\top=\frac{Q^\top Q}{Nd},\\
+J_b&=\frac1{B_k}\sum_{C\in\mathcal C_b}\sum_{j\in C}\Delta k_j^\top G\,\Delta k_j .
+\end{aligned}
 $$
 
-the k-means objective in the transformed coordinates $x_j=M^\top k_j$ ($X=KM$ with keys stacked as rows of $K$). A linear map sends means to means: for any fixed grouping, the ordinary mean in $X$ is the transform of the ordinary K mean, so under this variance objective, clustering in $X$ and writing back plain K means are consistent.
+The effect of all queries on a key deviation is now contained in a $d\times d$ matrix. Computing $Q^\top Q$ is a Gram matrix multiplication that can use Tensor Cores: the input is $N\times d$, while the output is only $d\times d$, or $128\times128$ when $d=128$. It costs $O(Nd^2)$, compared with $O(N^2d)$ for the full $QK^\top$. Each attention call builds one $G$ per head, shared by all KV blocks and subsequent clustering iterations of that head; it is not recomputed for each query tile.
 
-In the implementation, $G$ is built per head from the current query distribution, not per query tile. The Cholesky factorization is of $G_\epsilon=G+\epsilon I$ with $\epsilon$ equal to $10^{-3}$ times the mean diagonal, so
+The next step is to evaluate $\Delta k^\top G\Delta k$ efficiently. Evaluating this quadratic form directly costs $O(d^2)$ for each point-to-center comparison. Cholesky factorization expresses a symmetric positive-definite matrix as a lower-triangular matrix times its transpose. Some directions may not be covered by the queries, leaving $G$ singular, so the implementation first adds a small diagonal regularizer to stabilize the factorization:
 
 $$
-\|M_\epsilon^\top\Delta k\|^2=\Delta k^\top G\,\Delta k+\epsilon\,\|\Delta k\|^2,
+G_\epsilon=G+\epsilon I=MM^\top,\qquad
+\epsilon=10^{-3}\frac{\operatorname{tr}(G)}d .
 $$
 
-a small Euclidean term added to the query metric. Each 64-token block is split into 4 groups: starting from four contiguous 16-token groups, 64 probe queries weight each token, and at most 6 weighted Lloyd iterations run. Weighted Lloyd assigns tokens using weighted centroids, which differ from the plain means written back at the end; the representatives written back are plain within-group means of K and V, and $n_a$ is the true token count, which keeps the unified formula valid. Weighted Lloyd is thus a grouping heuristic that borrows the metric above. It finds a local solution and guarantees neither that the final attention error is minimized nor that the error falls monotonically, case by case, as $m$ grows.
+The quadratic form then becomes an ordinary squared length:
+
+$$
+\begin{aligned}
+\Delta k^\top G_\epsilon\Delta k
+&=\Delta k^\top MM^\top\Delta k=\|M^\top\Delta k\|^2,\\
+&=\Delta k^\top G\Delta k+\epsilon\|\Delta k\|^2 .
+\end{aligned}
+$$
+
+Transforming each key once, $x_j=M^\top k_j$, therefore makes ordinary Euclidean distances sufficient for subsequent iterations. Keys are stored as rows in the code, giving $X=KM$. A linear transform preserves means, so $\bar x_C=M^\top\bar k_C$, and the regularized objective becomes
+
+$$
+\begin{aligned}
+J_{b,\epsilon}
+&=J_b+\frac\epsilon{B_k}\sum_{C\in\mathcal C_b}\sum_{j\in C}\|\Delta k_j\|^2,\\
+&=\frac1{B_k}\sum_{C\in\mathcal C_b}\sum_{j\in C}\|x_j-\bar x_C\|^2 .
+\end{aligned}
+$$
+
+This is the k-means squared-distance objective in the transformed coordinates. Cholesky costs $O(d^3)$ and operates only on this small matrix; the resulting factor $M$ is shared by all blocks. $KM$ is computed once before clustering. Each subsequent iteration compares only the block's 64 points with 4 centers, costing $O(B_km_bd)$ without a factor of $N$. The grouping objective derived from the error analysis can thus be handled by one query Gram computation, one key transform, and small k-means problems.
+
+The implementation also weights tokens using 64 probe queries, giving more influence to tokens that frequently receive attention. It starts from four contiguous 16-token groups and runs at most 6 weighted Lloyd iterations, updating the centers with those weights. Once the groups are fixed, the K and V written back are still plain within-group means, and $n_a$ is the true token count. Weighted grouping uses the metric above as a heuristic adjustment to the variance objective; the final attention output error also depends on K/V correlation and the shared normalization.
 
 ## 4. Packing: turning 1+1+4 into six columns
 

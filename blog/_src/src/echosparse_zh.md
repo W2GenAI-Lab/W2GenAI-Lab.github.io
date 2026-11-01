@@ -271,29 +271,54 @@ $$
 
 分成 $m_b$ 组后，组间部分由各组自己的中心和指数在所有阶上精确表示，只需 $m_b(d+d_v)$ 的存储，不需要 $d\times d_v$ 的矩阵；剩下的误差来自组内的 $H_C$、组内方差和更高阶项，每组一个 token 时全部为零。和第 1 节对比：与其为每块存一个 $dd_v$ 的一阶矩，不如用几列把块分开。
 
-这些是逐组的局部关系。整行输出还要经过共享的分母，各组误差相互影响，推不出整层输出随 $m$ 变化的收敛规律。它给出的聚类目标是：同一组内，query 看到的 logit 要尽量一致。
-
-attention 只通过 $q^\top k$ 使用 key，K 空间里距离远的两个 key，对 query 可能没有区别，所以不直接对 K 做欧氏 k-means。令 $\tilde q=q/\sqrt d$，$G=\mathbb E[\tilde q\tilde q^\top]$，对 key 偏移 $\Delta k$（列向量），
+分母误差的主项由组内 logit 方差控制，因此可以用平均平方 logit 偏差作为分组目标。把当前 head 的所有 query 按行组成 $Q\in\mathbb R^{N\times d}$。对一个 $B_k$-token 块 $b$，记它的分组为 $\mathcal C_b$，组内偏移为 $\Delta k_j=k_j-\bar k_C$，目标写成
 
 $$
-\mathbb E_q\bigl[(\tilde q^\top\Delta k)^2\bigr]=\Delta k^\top G\,\Delta k=\|M^\top\Delta k\|^2,\qquad G=MM^\top .
+J_b=\frac1{NB_k}\sum_{i=1}^N\sum_{C\in\mathcal C_b}\sum_{j\in C}
+\left(\frac{q_i^\top\Delta k_j}{\sqrt d}\right)^2 .
 $$
 
-于是对 query 平均后的组内 logit 方差是
+直接按这个式子计算，每次调整分组都要遍历所有 query。但 $q_i$ 与分组无关，可以先把 query 这一维的求和提出来：
 
 $$
-\mathbb E_q\,\mathbb E_C\,\delta^2=\frac1n\sum_{j\in C}\bigl\|M^\top(k_j-\bar k)\bigr\|^2,
+\begin{aligned}
+G&=\frac1{Nd}\sum_{i=1}^N q_iq_i^\top=\frac{Q^\top Q}{Nd},\\
+J_b&=\frac1{B_k}\sum_{C\in\mathcal C_b}\sum_{j\in C}\Delta k_j^\top G\,\Delta k_j .
+\end{aligned}
 $$
 
-即变换坐标 $x_j=M^\top k_j$（key 按行堆成 $K$ 时为 $X=KM$）下的 k-means 目标。线性变换把均值映到均值：对任何固定的分组，$X$ 中的普通均值就是普通 K 均值的变换，所以在这个方差目标下，在 $X$ 中聚类与写回普通 K 均值是一致的。
+这样所有 query 对 key 偏差的影响都汇总进了一个 $d\times d$ 矩阵。$Q^\top Q$ 是一个可用 Tensor Core 完成的 Gram 矩阵乘：输入是 $N\times d$，输出只有 $d\times d$；$d=128$ 时就是 $128\times128$。它的计算量为 $O(Nd^2)$，而完整 $QK^\top$ 为 $O(N^2d)$。每次 attention 调用、每个 head 只计算一份 $G$，该 head 的所有 KV 块和后续聚类迭代都复用它，无须为每个 query tile 重算。
 
-实现中，$G$ 按 head 用当前的 query 分布构造，不是每个 query tile 一个。Cholesky 分解的是 $G_\epsilon=G+\epsilon I$，$\epsilon$ 为平均对角元的 $10^{-3}$ 倍，因此
+接下来需要高效计算 $\Delta k^\top G\Delta k$。直接计算这个二次型，每个点与候选中心的距离比较需要 $O(d^2)$ 的工作。Cholesky 分解把对称正定矩阵写成下三角矩阵与其转置的乘积。$G$ 可能存在 query 未覆盖的零方向，因而先加一个小的对角正则项，使分解更稳定：
 
 $$
-\|M_\epsilon^\top\Delta k\|^2=\Delta k^\top G\,\Delta k+\epsilon\,\|\Delta k\|^2,
+G_\epsilon=G+\epsilon I=MM^\top,\qquad
+\epsilon=10^{-3}\frac{\operatorname{tr}(G)}d .
 $$
 
-即在 query 度量上加了一个很小的欧氏项。每个 64-token 块分成 4 组：从四个连续的 16-token 组开始，用 64 个 probe query 给每个 token 加权，做最多 6 次加权 Lloyd 迭代。加权 Lloyd 在分配时使用加权中心，和最后写回的普通均值不同；写回的代表 K、V 是组内普通均值，$n_a$ 是真实 token 数，这样统一公式才成立。所以加权 Lloyd 是借用上述度量的分组启发式，得到的是局部解，不保证最终 attention 误差最小，也不保证 $m$ 变大时误差逐点单调下降。
+于是二次型变成普通的平方长度：
+
+$$
+\begin{aligned}
+\Delta k^\top G_\epsilon\Delta k
+&=\Delta k^\top MM^\top\Delta k=\|M^\top\Delta k\|^2,\\
+&=\Delta k^\top G\Delta k+\epsilon\|\Delta k\|^2 .
+\end{aligned}
+$$
+
+因此只要预先变换 key，令 $x_j=M^\top k_j$，后续就能直接计算欧氏距离。key 在代码里按行存储，所以矩阵形式是 $X=KM$。线性变换保留均值，$\bar x_C=M^\top\bar k_C$，正则化后的目标便是
+
+$$
+\begin{aligned}
+J_{b,\epsilon}
+&=J_b+\frac\epsilon{B_k}\sum_{C\in\mathcal C_b}\sum_{j\in C}\|\Delta k_j\|^2,\\
+&=\frac1{B_k}\sum_{C\in\mathcal C_b}\sum_{j\in C}\|x_j-\bar x_C\|^2 .
+\end{aligned}
+$$
+
+这就是变换后坐标中的 k-means 平方距离目标。Cholesky 的计算量为 $O(d^3)$，只分解这个小矩阵，得到的 $M$ 由所有块共享；$KM$ 也只需在聚类前计算一次。之后每轮迭代只比较一个块的 64 个点与 4 个中心，复杂度为 $O(B_km_bd)$，不再包含 query 数量 $N$。因此，前面由误差分析得到的分组目标，最终可以用一次 query Gram 统计、一次 key 变换和小规模 k-means 来处理。
+
+实现还用 64 个 probe query 给 token 加权，让分组更重视经常被关注的 token。从四个连续的 16-token 组开始，最多进行 6 次加权 Lloyd 迭代，中心按权重更新。分组确定后，写回的 K、V 仍是组内普通均值，$n_a$ 是真实 token 数。加权分组借用了上述度量，是对这个方差目标的启发式调整；最终 attention 输出误差还受 K/V 相关性和统一归一化影响。
 
 ## 4. Packing：把 1+1+4 拼成 6 列
 
