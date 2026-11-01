@@ -276,8 +276,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   <p class="intro">Research notes from W2GenAI Lab.</p>
   <a class="entry" href="EchoSparse/">
     <div class="entry-meta">November 1, 2026</div>
-    <h2 class="entry-title">EchoSparse: block-sparse attention for video diffusion, guided by the previous step&#x27;s softmax statistics</h2>
-    <p class="entry-dek">Between two denoising steps, the softmax normalizer of every attention row barely changes. EchoSparse carries it over and uses it three times in one kernel: as a fixed softmax offset, as a free block-probability map for the next step, and as the shared normalizer of the skipped blocks.</p>
+    <h2 class="entry-title">EchoSparse: Letting Last Step&#x27;s Statistics Steer This Step, and Packing Sparse Attention Tightly</h2>
+    <p class="entry-dek">EchoSparse reuses LSE and block-mass statistics across denoising steps, combines exact and representative terms in one weighted softmax, and organizes packed work for TMA and GPU pipelining.</p>
   </a>
 </section>
 <section class="list" data-lang="zh" hidden>
@@ -285,8 +285,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   <p class="intro">W2GenAI Lab 的研究笔记。</p>
   <a class="entry" href="EchoSparse/">
     <div class="entry-meta">2026 年 11 月 1 日</div>
-    <h2 class="entry-title">EchoSparse：用上一步的 softmax 统计量做视频扩散模型的块稀疏注意力</h2>
-    <p class="entry-dek">相邻两个去噪步之间，每行注意力的 softmax 分母几乎不变。EchoSparse 把它带到下一步，在同一个 kernel 里用三次：作为固定的 softmax 偏移量，作为下一步选块用的块概率图，以及作为被跳过的块共用的归一化项。</p>
+    <h2 class="entry-title">EchoSparse：让上一步的统计量为下一步指路，再把稀疏 attention 排得更紧</h2>
+    <p class="entry-dek">EchoSparse 在去噪步之间复用 LSE 与块质量统计量，让精算 token 和代表项共用一个加权 softmax，再通过 packed 布局、TMA 与 GPU 流水线组织计算。</p>
   </a>
 </section>
 </main>

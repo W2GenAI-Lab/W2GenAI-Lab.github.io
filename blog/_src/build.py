@@ -3,7 +3,10 @@
   python blog/_src/build.py .     # from the repository root: rewrites blog/index.html and blog/EchoSparse/index.html
 """
 import html
+import json
+import os
 import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -17,17 +20,16 @@ KATEX = "https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9"
 
 POST = dict(
     slug="EchoSparse",
+    default_language="en",
     date="2026-11-01",
     date_text=dict(en="November 1, 2026", zh="2026 年 11 月 1 日"),
     authors=dict(en="EchoSparse Team", zh="EchoSparse Team"),
-    title=dict(en="EchoSparse: block-sparse attention for video diffusion, guided by the previous step's softmax "
-                  "statistics",
-               zh="EchoSparse：用上一步的 softmax 统计量做视频扩散模型的块稀疏注意力"),
-    dek=dict(en="Between two denoising steps, the softmax normalizer of every attention row barely changes. "
-                "EchoSparse carries it over and uses it three times in one kernel: as a fixed softmax offset, as a "
-                "free block-probability map for the next step, and as the shared normalizer of the skipped blocks.",
-             zh="相邻两个去噪步之间，每行注意力的 softmax 分母几乎不变。EchoSparse 把它带到下一步，在同一个 kernel 里"
-                "用三次：作为固定的 softmax 偏移量，作为下一步选块用的块概率图，以及作为被跳过的块共用的归一化项。"),
+    title=dict(en="EchoSparse: Letting Last Step's Statistics Steer This Step, and Packing Sparse Attention Tightly",
+               zh="EchoSparse：让上一步的统计量为下一步指路，再把稀疏 attention 排得更紧"),
+    dek=dict(en="EchoSparse reuses LSE and block-mass statistics across denoising steps, combines exact and "
+                "representative terms in one weighted softmax, and organizes packed work for TMA and GPU pipelining.",
+             zh="EchoSparse 在去噪步之间复用 LSE 与块质量统计量，让精算 token 和代表项共用一个加权 softmax，"
+                "再通过 packed 布局、TMA 与 GPU 流水线组织计算。"),
     teaser_alt=dict(en="EchoSparse on Wan2.1-14B: 1.70× faster than FlashAttention-4 on a B200, closer to the dense "
                        "video than Sol-Attn and PISA",
                     zh="EchoSparse 在 Wan2.1-14B 上：B200 上比 FlashAttention-4 快 1.70 倍，比 Sol-Attn 和 PISA 更接近"
@@ -271,14 +273,27 @@ def index_page():
 
 
 def main():
-    out = Path(sys.argv[1]) / "blog"
+    out = Path(sys.argv[1]).resolve() / "blog"
     post = out / POST["slug"]
     (post / "assets").mkdir(parents=True, exist_ok=True)
-    (out / "index.html").write_text(index_page())
-    (post / "index.html").write_text(post_page())
     if (HERE / "assets").is_dir():           # figures already in blog/EchoSparse/assets are left as they are
         for src in (HERE / "assets").iterdir():
             shutil.copy2(src, post / "assets" / src.name)
+    (out / "index.html").write_text(index_page(), encoding="utf-8")
+    renderer = post / "sources" / "build_pages.js"
+    if renderer.is_file():
+        env = os.environ.copy()
+        node_paths = [str(HERE / "node_modules")]
+        if env.get("NODE_PATH"):
+            node_paths.append(env["NODE_PATH"])
+        env["NODE_PATH"] = os.pathsep.join(node_paths)
+        subprocess.run(
+            ["node", str(renderer), "--source-dir", str(HERE / "src"), "--metadata-stdin"],
+            input=json.dumps(POST, ensure_ascii=False), text=True, encoding="utf-8",
+            cwd=post, env=env, check=True,
+        )
+    else:                                   # legacy checkout without the custom article renderer
+        (post / "index.html").write_text(post_page(), encoding="utf-8")
     print("wrote", out)
 
 

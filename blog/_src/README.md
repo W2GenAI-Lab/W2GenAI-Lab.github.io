@@ -1,15 +1,25 @@
 # Blog sources
 
-`blog/index.html` and `blog/EchoSparse/index.html` are generated from the Markdown in `src/` (English and Chinese)
-by `build.py`. Jekyll does not publish this folder (its name starts with an underscore).
+`build.py` generates `blog/index.html` and the EchoSparse article from the English and Chinese Markdown in
+`src/`. Jekyll does not publish this folder (its name starts with an underscore).
 
-To change the post, edit `src/echosparse_en.md` and `src/echosparse_zh.md` (title, summary and byline are in `POST`
-at the top of `build.py`), then from the repository root:
+Edit `src/echosparse_en.md` and `src/echosparse_zh.md` for the article body. Edit `POST` at the beginning of
+`build.py` for its title, summary, byline and default language. The current byline is **EchoSparse Team** and
+`default_language="en"`. Do not edit generated HTML directly: the next build replaces it.
+
+From the repository root, install the authoring dependencies and build:
 
 ```bash
 pip install markdown pymdown-extensions pygments
-python blog/_src/build.py .
+npm install --prefix blog/_src
+python3 blog/_src/build.py .
 ```
 
-Figures live in `blog/EchoSparse/assets/`. Math is written as `$$...$$` (display) or `\(...\)` (inline) and rendered
-with KaTeX in the browser.
+Python retains the blog listing generator and invokes `blog/EchoSparse/sources/build_pages.js` for the article,
+passing `POST` as JSON on stdin and `src/` as the source directory. This preserves the article's black Canvas
+style and keeps its author metadata and language selection tied to `POST`.
+
+The article opens in English at `blog/EchoSparse/index.html`. Chinese is at `zh.html`; `en.html` remains an
+English compatibility alias. Figures, the original animation, local fonts and KaTeX assets live in
+`blog/EchoSparse/assets/`. Write math as `$...$` inline or `$$...$$` for display. The article renderer compiles
+math during the build, so the generated pages do not need a network request to render it.

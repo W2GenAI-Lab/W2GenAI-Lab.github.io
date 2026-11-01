@@ -1,13 +1,23 @@
-// node build_pages.js  — renders echosparse_zh.md -> index.html and echosparse_en.md -> en.html
-// needs markdown-it, markdown-it-texmath, katex (NODE_PATH=../../../work/tools/node_modules)
+// Called by blog/_src/build.py with POST metadata and canonical Markdown sources.
+// A standalone copy can also rebuild from its local post.json and Markdown files.
 const fs = require('fs'), path = require('path');
 const MD = require('markdown-it'), texmath = require('markdown-it-texmath'), katex = require('katex');
 const root = path.resolve(__dirname, '..');
+const args = process.argv.slice(2), sourceArg = args.indexOf('--source-dir');
+const sourceDir = sourceArg >= 0 ? path.resolve(args[sourceArg + 1]) : root;
+const metadataPath = path.join(root, 'post.json');
+const post = args.includes('--metadata-stdin') ? JSON.parse(fs.readFileSync(0, 'utf8'))
+  : fs.existsSync(metadataPath) ? JSON.parse(fs.readFileSync(metadataPath, 'utf8'))
+  : { authors: { en: 'EchoSparse Team', zh: 'EchoSparse Team' }, default_language: 'en' };
+const defaultLanguage = post.default_language || 'en';
+if (!['en', 'zh'].includes(defaultLanguage)) throw new Error('Unsupported default_language');
+const routes = defaultLanguage === 'en' ? { en: 'index.html', zh: 'zh.html' } : { en: 'en.html', zh: 'index.html' };
+const escapeHtml = value => String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const md = new MD({ html: true, typographer: false }).use(texmath, { engine: katex, delimiters: 'dollars', katexOptions: { throwOnError: false } });
-const REPO = 'https://github.com/W2GenAI-Lab/EchoSparse-Attn';
+const REPO = post.code || 'https://github.com/W2GenAI-Lab/EchoSparse-Attn';
 const L = {
-  zh: { file: 'echosparse_zh.md', out: 'index.html', lang: 'zh-CN', other: 'en.html', otherName: 'English', toc: '目录', play: '播放', replay: '重播', hint: '原版 Canvas 动画，约 1 分钟，播放一次后淡出；可随时重播。', gif: 'GIF 版（可用于知乎）', open: '单独打开动画', repo: 'GitHub 仓库', foot: 'EchoSparse 核心贡献者：Tian Ye 与 Shitong Shao', alt: '原始 Canvas 动画' },
-  en: { file: 'echosparse_en.md', out: 'en.html', lang: 'en', other: 'index.html', otherName: '中文', toc: 'Contents', play: 'Play', replay: 'Replay', hint: 'The original Canvas animation. It plays once and fades to black; replay any time.', gif: 'GIF version (for reposting)', open: 'Open the animation alone', repo: 'GitHub repository', foot: 'EchoSparse core contributors: Tian Ye and Shitong Shao', alt: 'Original Canvas animation' },
+  zh: { file: 'echosparse_zh.md', out: routes.zh, lang: 'zh-CN', other: routes.en, otherName: 'English', toc: '目录', play: '播放', replay: '重播', hint: '原版 Canvas 动画，约 1 分钟，播放一次后淡出；可随时重播。', gif: 'GIF 版（可用于知乎）', open: '单独打开动画', repo: 'GitHub 仓库', foot: 'EchoSparse Team · W2GenAI Lab', alt: '原始 Canvas 动画', by: '作者' },
+  en: { file: 'echosparse_en.md', out: routes.en, lang: 'en', other: routes.zh, otherName: '中文', toc: 'Contents', play: 'Play', replay: 'Replay', hint: 'The original Canvas animation. It plays once and fades to black; replay any time.', gif: 'GIF version (for reposting)', open: 'Open the animation alone', repo: 'GitHub repository', foot: 'EchoSparse Team · W2GenAI Lab', alt: 'Original Canvas animation', by: 'By' },
 };
 const PUBLIC_URL = 'https://w2genai-lab.github.io/blog/EchoSparse/';
 const CSS = `
@@ -61,13 +71,16 @@ footer{max-width:1180px;margin:0 auto;padding:30px 24px 60px;border-top:1px soli
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 `;
 for (const [lg, T] of Object.entries(L)) {
-  let src = fs.readFileSync(path.join(root, T.file), 'utf8');
+  let src = fs.readFileSync(path.join(sourceDir, T.file), 'utf8');
+  const sourceTitle = (src.match(/^# (.+)\r?\n/) || [])[1];
+  const title = post.title?.[lg] || sourceTitle || 'EchoSparse';
+  const author = post.authors?.[lg] || post.authors?.en || 'EchoSparse Team';
+  src = src.replace(/^# .+\r?\n/, '').replace(/^\s*(?:作者|By)\s+\*\*[^*\n]+\*\*\s*\r?\n/, '').trim();
   let html = md.render(src);
-  html = html.replace(/<p>(作者|By) <strong>Shitong Shao \(yuqs\)<\/strong><\/p>/, '<p class="byline">$1 <strong>Shitong Shao (yuqs)</strong></p>');
   // headings -> ids + toc
   const toc = []; let n = 0;
   html = html.replace(/<h2>(.*?)<\/h2>/g, (_, t) => { const id = 's' + (++n); toc.push([id, t.replace(/<span class="katex-mathml">.*?<\/math><\/span>/g, '')]); return `<h2 id="${id}">${t}</h2>`; });
-  html = html; const h1 = (html.match(/<h1>(.*?)<\/h1>/) || [])[1] || '';
+  const h1 = md.renderInline(title);
   // figures: <p><img></p><p><em>caption</em></p>
   html = html.replace(/<p>(<img [^>]*>)<\/p>\s*<p><em>([\s\S]*?)<\/em><\/p>/g, (_, img, cap) => `<figure>${img}<figcaption>${cap}</figcaption></figure>`);
   html = html.replace(/<p>(<img [^>]*H100[^>]*>|<img [^>]*fig4_h100[^>]*>)<\/p>/g, (_, img) => `<figure>${img}</figure>`);
@@ -76,19 +89,24 @@ for (const [lg, T] of Object.entries(L)) {
 <div class="bar"><button id="play" type="button" aria-label="${T.play}">▶ ${T.play}</button><span>${T.hint}</span><a href="assets/echosparse-canvas-animation.html" target="_blank" rel="noopener">${T.open}</a><a href="assets/echosparse-explainer.gif">${T.gif}</a><a href="${REPO}" target="_blank" rel="noopener">${T.repo}</a></div></div>`;
   html = html.replace(/<p><img [^>]*echosparse-explainer\.gif[^>]*><\/p>/, anim);
   html = html.replace(/<h1>.*?<\/h1>/, '');
-  const page = `<!doctype html><html lang="${T.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="author" content="Shitong Shao (yuqs)"><link rel="canonical" href="${PUBLIC_URL}${lg === 'zh' ? '' : 'en.html'}"><title>${h1.replace(/<[^>]+>/g,'')}</title>
+  const page = `<!doctype html><html lang="${T.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="author" content="${escapeHtml(author)}"><meta name="description" content="${escapeHtml(post.dek?.[lg] || '')}"><link rel="canonical" href="${PUBLIC_URL}${T.out === 'index.html' ? '' : T.out}"><link rel="alternate" hreflang="en" href="${PUBLIC_URL}${routes.en === 'index.html' ? '' : routes.en}"><link rel="alternate" hreflang="zh-CN" href="${PUBLIC_URL}${routes.zh === 'index.html' ? '' : routes.zh}"><title>${h1.replace(/<[^>]+>/g,'')}</title>
 <link rel="stylesheet" href="assets/katex/katex.min.css"><style>${CSS}</style></head><body>
 <header class="top"><a class="brand" href="${REPO}" target="_blank" rel="noopener">EchoSparse</a><nav><a href="${REPO}" target="_blank" rel="noopener">GitHub</a><a href="${T.other}" hreflang="${lg === 'zh' ? 'en' : 'zh'}">${T.otherName}</a></nav></header>
 <div class="layout"><aside class="toc"><details open><summary>${T.toc}</summary><ol>${toc.map(([id, t]) => `<li><a href="#${id}">${t}</a></li>`).join('')}</ol></details></aside>
-<article><h1>${h1}</h1>${html}</article></div>
+<article><h1>${h1}</h1><p class="byline">${T.by} <strong>${escapeHtml(author)}</strong></p>${html}</article></div>
 <footer><span>${T.foot}</span><a href="${REPO}" target="_blank" rel="noopener">${REPO.replace('https://','')}</a></footer>
 <script>
 const f=document.getElementById('anim'),b=document.getElementById('play');let started=false;
-b.addEventListener('click',()=>{f.src='assets/echosparse-canvas-animation.html?r='+Date.now();started=true;b.textContent='↻ ${T.replay}';f.scrollIntoView({block:'center',behavior:'smooth'})});
+b.addEventListener('click',()=>{f.src='assets/echosparse-canvas-animation.html?r='+Date.now();started=true;b.textContent='↻ ${T.replay}';b.setAttribute('aria-label','${T.replay}');f.scrollIntoView({block:'center',behavior:'smooth'})});
 const links=[...document.querySelectorAll('aside.toc a')],secs=links.map(a=>document.querySelector(a.getAttribute('href')));
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.remove('on'));links[secs.indexOf(e.target)].classList.add('on')}}),{rootMargin:'-20% 0px -70% 0px'});secs.forEach(s=>io.observe(s));
 if(window.matchMedia('(max-width:1179px)').matches)document.querySelector('aside.toc details').removeAttribute('open');
 </script></body></html>`;
   fs.writeFileSync(path.join(root, T.out), page);
+  fs.writeFileSync(path.join(root, T.file), `# ${title}\n\n${T.by} **${author}**\n\n${src}\n`);
   console.log('wrote', T.out, toc.length, 'sections');
+}
+fs.writeFileSync(metadataPath, JSON.stringify(post, null, 2) + '\n');
+for (const [lg, alias] of [['en', 'en.html'], ['zh', 'zh.html']]) {
+  if (routes[lg] !== alias) fs.copyFileSync(path.join(root, routes[lg]), path.join(root, alias));
 }

@@ -1,6 +1,6 @@
 # EchoSparse: Letting Last Step's Statistics Steer This Step, and Packing Sparse Attention Tightly
 
-By **Shitong Shao (yuqs)**
+By **EchoSparse Team**
 
 Self-attention in a video diffusion transformer runs over a huge sequence. Wan2.1-14B at 720p and 81 frames has roughly 75,000 tokens per layer, dozens of layers per forward pass, and 50 denoising steps per video. Plenty of KV blocks contribute almost nothing to a given query, so skipping them looks like an easy win. Then you try it and hit three questions. How do you know what to skip without scanning every block first? What exactly is lost when a block is skipped, and can it be put back? And once you have a sparse structure, does the GPU actually run it fast?
 
@@ -146,7 +146,9 @@ The experimental branch implements this combination: **exact blocks are loaded t
 
 A genuinely independent producer/consumer architecture, with dedicated warps that only load and others that only issue MMAs, is **not implemented**. On the Triton 3.6 SM90 path we tried the warp-specialization switch; registers, spills, shared memory and time were identical to the ordinary software pipeline, so it had no effect. A hand-written WMMA plus cp.async prototype was slower. Reaching it takes handwritten wgmma or CuTe kernels, which is future work.
 
-## 10. Measurements on H100
+## 10. Measurements on H100 and RTX 5090
+
+### H100 single-attention fixture
 
 ![H100 single-attention GPU pipeline time](assets/fig4_h100_bars_en.png)
 
@@ -159,6 +161,14 @@ A genuinely independent producer/consumer architecture, with dedicated warps tha
 Measurement scope: synthetic BF16 Q/K/V of shape `[B,L,H,D]=[1,75600,40,128]`, noncausal, density 0.10, a frozen sparse plan shared by all configurations, median of 20 CUDA-event timings; the baseline is FlashAttention-4 through `flash_attn.cute.interface.flash_attn_func`. "Complete" for the sparse rows means the whole GPU sparse pipeline, including representative construction and packing, and excluding host-side descriptor construction, scratch allocation and compilation. This is one attention call, not a transformer layer and certainly not end-to-end video generation. Dense and sparse also compute different terms (on average about 118 exact blocks plus 2129 compressed columns for the sparse ones), so the table shows what the same sparse plan costs under different implementations; it does not imply a video-generation speedup of the same size. The raw record is [evidence/h100_attention_benchmark.json](evidence/h100_attention_benchmark.json), a sanitized copy of the experimental-branch result.
 
 The 1.61× is the packing-and-pipelining system work; the 3.67× also contains the gain of sparsity itself over dense. For reference only: one full Wan2.1-14B generation on the packing path went from 818.60 s to 764.57 s (1.07×), against nonpacked, one run per arm, with no full dense baseline.
+
+### Current RTX 5090 full-generation results
+
+The released RTX 5090 measurements give a different view of the system: complete video generation, including the time outside attention. The latest chart adds a **1.39× whole-video speedup for Wan2.1-14B**, alongside its 1.61× sparse-step-forward speedup.
+
+![Latest RTX 5090 full-generation results](assets/results-rtx5090-dark.png)
+
+*Latest released RTX 5090 results. Each model uses prompt 0 and the same seed as the B200 evaluation, with one 50-step generation per method on one GPU. Wan2.1-14B, HunyuanVideo and MiniMax-H3 use grouped CPU weight offload; Wan2.1-1.3B stays on the GPU. The left panel separates whole-video and single sparse-step-forward speedup. The right panel reports PSNR against FA4, alongside the B200 result for the same prompt. This cohort is separate from the synthetic H100 single-attention fixture above.*
 
 ## 11. Scope and what comes next
 

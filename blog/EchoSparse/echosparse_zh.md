@@ -1,6 +1,6 @@
 # EchoSparse：让上一步的统计量为下一步指路，再把稀疏 attention 排得更紧
 
-作者 **Shitong Shao (yuqs)**
+作者 **EchoSparse Team**
 
 视频扩散模型的 self-attention 序列长得吓人。Wan2.1-14B 生成 720p、81 帧的视频，单层要处理约 7.5 万个 token，一次前向过几十层，一个视频要去噪 50 步。很多 KV 块对某个 query 几乎没有贡献，跳过它们看起来很划算。可是一动手就卡在三件事上：不先把所有块扫一遍，怎么知道该跳谁？跳掉的块到底丢了什么，补得回来吗？结构选好之后，GPU 真的能跑快吗？
 
@@ -146,7 +146,9 @@ packing 要做的就是重新组织这些列。把参与计算的项记成集合
 
 真正独立的 producer/consumer 架构（专门的 warp 只搬运，其余 warp 只做 MMA）还**没有实现**。在 Triton 3.6 的 SM90 路径上，我们试了 warp specialization 开关，寄存器、spill、shared memory 与时间都和普通软件流水一致，没有效果；手写的 WMMA 加 cp.async 原型反而更慢。要触到它，需要手写 wgmma 或 CuTe 内核，那是后续工作。
 
-## 10. H100 上的实测
+## 10. H100 与 RTX 5090 的实测
+
+### H100 单次 attention 测试
 
 ![H100 单次 attention GPU 流程耗时](assets/fig4_h100_bars_zh.png)
 
@@ -159,6 +161,14 @@ packing 要做的就是重新组织这些列。把参与计算的项记成集合
 测量口径：合成 BF16 的 Q/K/V，形状 `[B,L,H,D]=[1,75600,40,128]`，非因果，稀疏密度 0.10，稀疏计划冻结并由各方案共享，20 次 CUDA event 计时的中位数；对照是 FlashAttention-4（入口 `flash_attn.cute.interface.flash_attn_func`）。稀疏方案的“complete”指 GPU 上的整个稀疏流程，包含代表向量构造和 packing，不含 host 端 descriptor 构造、scratch 分配与编译。这是单次 attention，不是整层 Transformer，更不是端到端视频生成；dense 与稀疏计算的项不同（稀疏平均约 118 个 exact 块加 2129 个压缩列），所以这张表说的是同一份稀疏计划在不同实现下的开销，不代表视频生成会有同样倍数的加速。原始记录见 [evidence/h100_attention_benchmark.json](evidence/h100_attention_benchmark.json)（实验分支结果的脱敏副本）。
 
 1.61× 来自 packing 与流水化这一系统优化，3.67× 里还包含稀疏本身相对 dense 的收益。仅供参考：Wan2.1-14B 在 packing 路径上完整生成一次，从 818.60 s 降到 764.57 s（1.07×），这个比较只相对 nonpacked，每个方案各跑一次，也没有 dense 的完整基线。
+
+### 最新 RTX 5090 完整生成结果
+
+RTX 5090 的已发布结果从另一个角度看系统：整段视频生成，attention 之外的耗时也算进去。最新图补上了 Wan2.1-14B 的**整视频 1.39× 加速**，同一模型的单次稀疏步前向则为 1.61×。
+
+![最新 RTX 5090 完整生成结果](assets/results-rtx5090-dark.png)
+
+*最新发布的 RTX 5090 结果。每个模型取 B200 评测的第 0 个提示词及相同 seed，EchoSparse 与稠密 FA4 各在单张 GPU 上跑一次 50 步生成。Wan2.1-14B、HunyuanVideo 和 MiniMax-H3 使用按组 CPU 权重 offload，Wan2.1-1.3B 权重驻留 GPU。左侧分别是整段视频和单次稀疏步前向的加速比，右侧是相对 FA4 的 PSNR，并列同一提示词的 B200 数值。这组数据与上面的 H100 合成单 attention 测试口径不同。*
 
 ## 11. 适用范围与后续
 
