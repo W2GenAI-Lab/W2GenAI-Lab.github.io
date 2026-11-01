@@ -13,11 +13,15 @@ const defaultLanguage = post.default_language || 'en';
 if (!['en', 'zh'].includes(defaultLanguage)) throw new Error('Unsupported default_language');
 const routes = defaultLanguage === 'en' ? { en: 'index.html', zh: 'zh.html' } : { en: 'en.html', zh: 'index.html' };
 const escapeHtml = value => String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const md = new MD({ html: true, typographer: false }).use(texmath, { engine: katex, delimiters: 'dollars', katexOptions: { throwOnError: false } });
+const highlight = (str, lang) => {
+  const esc = str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  return lang === 'python' ? esc.replace(/#[^\n]*/g, c => `<span class="c">${c}</span>`) : esc;
+};
+const md = new MD({ html: true, typographer: false, highlight }).use(texmath, { engine: katex, delimiters: 'dollars', katexOptions: { throwOnError: false } });
 const REPO = post.code || 'https://github.com/W2GenAI-Lab/EchoSparse-Attn';
 const L = {
-  zh: { file: 'echosparse_zh.md', out: routes.zh, lang: 'zh-CN', other: routes.en, otherName: 'English', toc: '目录', play: '播放', replay: '重播', hint: '原版 Canvas 动画，约 1 分钟，播放一次后淡出；可随时重播。', gif: 'GIF 版（可用于知乎）', open: '单独打开动画', repo: 'GitHub 仓库', foot: 'EchoSparse Team · W2GenAI Lab', alt: '原始 Canvas 动画', by: '作者' },
-  en: { file: 'echosparse_en.md', out: routes.en, lang: 'en', other: routes.zh, otherName: '中文', toc: 'Contents', play: 'Play', replay: 'Replay', hint: 'The original Canvas animation. It plays once and fades to black; replay any time.', gif: 'GIF version (for reposting)', open: 'Open the animation alone', repo: 'GitHub repository', foot: 'EchoSparse Team · W2GenAI Lab', alt: 'Original Canvas animation', by: 'By' },
+  zh: { file: 'echosparse_zh.md', out: routes.zh, lang: 'zh-CN', other: routes.en, otherName: 'English', toc: '目录', play: '播放', replay: '重播', foot: 'EchoSparse Team · W2GenAI Lab', alt: '原始 Canvas 动画', by: '作者' },
+  en: { file: 'echosparse_en.md', out: routes.en, lang: 'en', other: routes.zh, otherName: '中文', toc: 'Contents', play: 'Play', replay: 'Replay', foot: 'EchoSparse Team · W2GenAI Lab', alt: 'Original Canvas animation', by: 'By' },
 };
 const PUBLIC_URL = 'https://w2genai-lab.github.io/blog/EchoSparse/';
 const CSS = `
@@ -58,7 +62,12 @@ figcaption{font-size:14.5px;line-height:1.7;color:var(--dim);max-width:700px;mar
 figcaption em{font-style:normal;color:var(--dim)}
 table{border-collapse:collapse;width:100%;max-width:700px;margin-top:1.8em;margin-bottom:1.8em;font-size:15.5px;font-variant-numeric:tabular-nums}
 th,td{padding:.7em .8em;border-bottom:1px solid var(--hair);text-align:left}th{color:var(--dim);font-weight:400;font-size:13.5px;border-bottom:1px solid var(--faint)}
-td:nth-child(n+2),th:nth-child(n+2){text-align:right}tr:last-child td{color:var(--teal)}
+.tbl{max-width:700px;overflow-x:auto;margin-top:1.8em;margin-bottom:1.8em}.tbl table{margin:0;min-width:520px}
+td .katex,th .katex{font-size:1em}.results tr:last-child td{color:var(--teal)}
+pre{max-width:700px;background:var(--cell);border:1px solid var(--hair);border-radius:6px;padding:14px 16px;margin-top:1.6em;margin-bottom:1.6em;overflow-x:auto;font-size:13px;line-height:1.6;-webkit-overflow-scrolling:touch}
+pre code{background:none;border:0;padding:0;font-size:inherit;color:var(--ink2);white-space:pre;overflow-wrap:normal;word-break:normal}
+pre .c{color:var(--dim)}
+article h3{font-size:19px;line-height:1.4;font-weight:600;color:var(--ink);margin-top:2.2em;margin-bottom:.6em}
 .anim{max-width:980px!important;margin:2.4em auto}
 .anim .frame{position:relative;width:100%;aspect-ratio:16/9;background:#000;border:1px solid var(--hair);border-radius:6px;overflow:hidden}
 .anim iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
@@ -80,13 +89,14 @@ for (const [lg, T] of Object.entries(L)) {
   // headings -> ids + toc
   const toc = []; let n = 0;
   html = html.replace(/<h2>(.*?)<\/h2>/g, (_, t) => { const id = 's' + (++n); toc.push([id, t.replace(/<span class="katex-mathml">.*?<\/math><\/span>/g, '')]); return `<h2 id="${id}">${t}</h2>`; });
+  html = html.replace(/<table>/g, '<div class="tbl"><table>').replace(/<\/table>/g, '</table></div>');
   const h1 = md.renderInline(title);
   // figures: <p><img></p><p><em>caption</em></p>
   html = html.replace(/<p>(<img [^>]*>)<\/p>\s*<p><em>([\s\S]*?)<\/em><\/p>/g, (_, img, cap) => `<figure>${img}<figcaption>${cap}</figcaption></figure>`);
   html = html.replace(/<p>(<img [^>]*H100[^>]*>|<img [^>]*fig4_h100[^>]*>)<\/p>/g, (_, img) => `<figure>${img}</figure>`);
   // animation component replaces the gif paragraph
   const anim = `<div class="anim"><div class="frame"><iframe id="anim" title="${T.alt}" src="assets/echosparse-canvas-animation.html?t=1" loading="lazy" allowfullscreen></iframe></div>
-<div class="bar"><button id="play" type="button" aria-label="${T.play}">▶ ${T.play}</button><span>${T.hint}</span><a href="assets/echosparse-canvas-animation.html" target="_blank" rel="noopener">${T.open}</a><a href="assets/echosparse-explainer.gif">${T.gif}</a><a href="${REPO}" target="_blank" rel="noopener">${T.repo}</a></div></div>`;
+<div class="bar"><button id="play" type="button" aria-label="${T.play}">▶ ${T.play}</button></div></div>`;
   html = html.replace(/<p><img [^>]*echosparse-explainer\.gif[^>]*><\/p>/, anim);
   html = html.replace(/<h1>.*?<\/h1>/, '');
   const page = `<!doctype html><html lang="${T.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="author" content="${escapeHtml(author)}"><meta name="description" content="${escapeHtml(post.dek?.[lg] || '')}"><link rel="canonical" href="${PUBLIC_URL}${T.out === 'index.html' ? '' : T.out}"><link rel="alternate" hreflang="en" href="${PUBLIC_URL}${routes.en === 'index.html' ? '' : routes.en}"><link rel="alternate" hreflang="zh-CN" href="${PUBLIC_URL}${routes.zh === 'index.html' ? '' : routes.zh}"><title>${h1.replace(/<[^>]+>/g,'')}</title>

@@ -24,12 +24,14 @@ POST = dict(
     date="2026-11-01",
     date_text=dict(en="November 1, 2026", zh="2026 年 11 月 1 日"),
     authors=dict(en="EchoSparse Team", zh="EchoSparse Team"),
-    title=dict(en="EchoSparse: Letting Last Step's Statistics Steer This Step, and Packing Sparse Attention Tightly",
-               zh="EchoSparse：让上一步的统计量为下一步指路，再把稀疏 attention 排得更紧"),
-    dek=dict(en="EchoSparse reuses LSE and block-mass statistics across denoising steps, combines exact and "
-                "representative terms in one weighted softmax, and organizes packed work for TMA and GPU pipelining.",
-             zh="EchoSparse 在去噪步之间复用 LSE 与块质量统计量，让精算 token 和代表项共用一个加权 softmax，"
-                "再通过 packed 布局、TMA 与 GPU 流水线组织计算。"),
+    title=dict(en="EchoSparse: Letting Last Step's Statistics Steer This Step, Approximating at Multiple Resolutions "
+                  "Instead of Dropping, and Packing Sparse Attention Tightly",
+               zh="EchoSparse：让上一步的统计量为下一步指路，用多层级近似代替丢弃，再把稀疏 attention 排得更紧"),
+    dek=dict(en="Building on PISA and Sol-Attn, EchoSparse uses the previous denoising step's LSE as a fixed softmax "
+                "offset and its block masses to allocate 1, 4 or 64 columns per KV block instead of dropping any, then "
+                "packs the fragmented representative columns into wide GEMM tiles and overlaps data movement with compute.",
+             zh="在 PISA 与 Sol-Attn 的基础上，EchoSparse 用上一去噪步的 LSE 作为 softmax 的固定偏移，用块质量给每个 KV "
+                "块分配 1、4 或 64 列而不是丢弃，再把零碎的代表列拼成更宽的 GEMM tile，让搬运与计算重叠。"),
     teaser_alt=dict(en="EchoSparse on Wan2.1-14B: 1.70× faster than FlashAttention-4 on a B200, closer to the dense "
                        "video than Sol-Attn and PISA",
                     zh="EchoSparse 在 Wan2.1-14B 上：B200 上比 FlashAttention-4 快 1.70 倍，比 Sol-Attn 和 PISA 更接近"
