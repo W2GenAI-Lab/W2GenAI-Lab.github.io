@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EchoSparse: block-sparse attention for video diffusion, guided by the previous step&#x27;s softmax statistics · W2GenAI Lab</title>
+<meta name="description" content="Between two denoising steps, the softmax normalizer of every attention row barely changes. EchoSparse carries it over and uses it three times in one kernel: as a fixed softmax offset, as a free block-probability map for the next step, and as the shared normalizer of the skipped blocks.">
+<link rel="canonical" href="https://w2genai-lab.github.io/blog/EchoSparse/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="W2GenAI Lab">
+<meta property="og:title" content="EchoSparse: block-sparse attention for video diffusion, guided by the previous step&#x27;s softmax statistics · W2GenAI Lab">
+<meta property="og:description" content="Between two denoising steps, the softmax normalizer of every attention row barely changes. EchoSparse carries it over and uses it three times in one kernel: as a fixed softmax offset, as a free block-probability map for the next step, and as the shared normalizer of the skipped blocks.">
+<meta property="og:url" content="https://w2genai-lab.github.io/blog/EchoSparse/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.css">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/contrib/auto-render.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  if(window.renderMathInElement){document.querySelectorAll('.arithmatex').forEach(function(el){
+    renderMathInElement(el,{delimiters:[{left:'\\[',right:'\\]',display:true},{left:'\\(',right:'\\)',display:false}],
+      throwOnError:false});});}
+});
+</script>
+<style>
+:root{--bg:#fbfbfd;--surface:#ffffff;--text:#1d1d24;--text-2:#4b4b57;--muted:#6e6e7a;--rule:#e6e6ec;
+--accent:#5a5fd6;--accent-soft:#eef0ff;--code-bg:#f4f4f8;--shadow:0 1px 2px rgba(20,20,40,.06),0 8px 24px rgba(20,20,40,.06)}
+@media (prefers-color-scheme:dark){:root{--bg:#0f1015;--surface:#16171e;--text:#e9e9ef;--text-2:#c2c2cc;
+--muted:#93939f;--rule:#2a2b35;--accent:#9da2ff;--accent-soft:#1e2040;--code-bg:#1b1c24;
+--shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);color-scheme:dark}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);
+font:17px/1.75 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei",sans-serif;
+font-feature-settings:"cv11","ss01";-webkit-font-smoothing:antialiased}
+:lang(zh-CN) body,article:lang(zh-CN){line-height:1.85}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+.site{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 86%,transparent);
+backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--rule)}
+.site-in{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:16px;height:56px;
+padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.brand{font-weight:700;color:var(--text);letter-spacing:-.01em}
+.brand span{color:var(--muted);font-weight:500}
+.site nav{margin-left:auto;display:flex;align-items:center;gap:18px;font-size:14px}
+.site nav a{color:var(--text-2)}
+.lang{border:1px solid var(--rule);background:var(--surface);color:var(--text);border-radius:999px;
+font:500 13px/1 inherit;padding:7px 12px;cursor:pointer}
+.lang:hover{border-color:var(--accent);color:var(--accent)}
+main{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.post{max-width:720px;margin:0 auto;padding:56px 0 24px}
+.kicker{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);font-weight:600;margin:0 0 14px}
+h1{font-size:clamp(28px,4.4vw,40px);line-height:1.18;letter-spacing:-.022em;margin:0 0 18px;font-weight:700;text-wrap:balance}
+.dek{font-size:19px;line-height:1.65;color:var(--text-2);margin:0 0 22px}
+.byline{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-size:14px;color:var(--muted);
+padding-bottom:28px;border-bottom:1px solid var(--rule)}
+.byline strong{color:var(--text);font-weight:600}
+.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--rule);background:var(--surface);
+color:var(--text);border-radius:999px;padding:5px 12px;font-weight:500}
+.btn:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
+.btn svg{width:15px;height:15px}
+figure{margin:32px 0}
+figure img,picture img{display:block;width:100%;height:auto;border-radius:10px}
+.hero,figure.wide,.post picture{display:block;width:min(1040px,calc(100vw - 40px));margin-left:50%;transform:translateX(-50%)}
+.hero{margin-top:32px;margin-bottom:8px}
+.hero img{box-shadow:var(--shadow);background:#fff}
+.post picture{margin-top:28px;margin-bottom:20px}
+.post picture img{background:var(--surface);border:1px solid var(--rule)}
+figcaption{font-size:14px;color:var(--muted);margin-top:10px;text-align:center;line-height:1.6}
+h2{font-size:24px;line-height:1.3;letter-spacing:-.015em;margin:52px 0 14px;font-weight:700;text-wrap:balance}
+h3{font-size:19px;margin:36px 0 10px;font-weight:600}
+p,ul,ol{margin:0 0 18px}
+li{margin:4px 0}
+li::marker{color:var(--muted)}
+strong{font-weight:600}
+code{font:500 .86em/1.5 "JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code-bg);
+padding:.12em .38em;border-radius:5px}
+pre{background:var(--code-bg);border:1px solid var(--rule);border-radius:10px;padding:16px 18px;overflow-x:auto;
+font-size:14px;line-height:1.6;margin:22px 0}
+pre code{background:none;padding:0;font-size:inherit}
+.table{overflow-x:auto;margin:22px 0}
+table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums}
+th{font-weight:600;text-align:left;color:var(--text);border-bottom:1.5px solid var(--text);padding:8px 12px 8px 0}
+td{border-bottom:1px solid var(--rule);padding:8px 12px 8px 0;color:var(--text-2)}
+tr:last-child td{border-bottom:none}
+.arithmatex{overflow-x:auto;overflow-y:hidden}
+div.arithmatex{margin:20px 0;padding:6px 0}
+.katex{font-size:1.06em}
+.site-foot{max-width:720px;margin:56px auto 0;padding:24px 20px 48px;border-top:1px solid var(--rule);
+font-size:14px;color:var(--muted);display:flex;gap:16px;flex-wrap:wrap}
+.site-foot a{color:var(--muted)}
+[hidden]{display:none!important}
+.list{max-width:720px;margin:0 auto;padding:64px 0 24px}
+.list h1{margin-bottom:8px}
+.list .intro{color:var(--text-2);margin:0 0 36px}
+.entry{display:block;padding:26px 0;border-top:1px solid var(--rule);color:inherit}
+.entry:hover{text-decoration:none}
+.entry:hover .entry-title{color:var(--accent)}
+.entry-meta{font-size:13px;color:var(--muted);margin-bottom:6px;letter-spacing:.02em}
+.entry-title{font-size:22px;line-height:1.3;font-weight:700;letter-spacing:-.012em;margin:0 0 8px;transition:color .15s}
+.entry-dek{color:var(--text-2);margin:0;font-size:16px;line-height:1.7}
+@media (max-width:600px){body{font-size:16px}.dek{font-size:17px}.site nav{gap:12px}.site nav a.hide-sm{display:none}
+.post{padding-top:36px}h2{font-size:21px;margin-top:40px}}
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.hl .hll { background-color: #ffffcc }
+.hl { background: #f0f0f0; }
+.hl .c { color: #60A0B0; font-style: italic } /* Comment */
+.hl .err { border: 1px solid #F00 } /* Error */
+.hl .k { color: #007020; font-weight: bold } /* Keyword */
+.hl .o { color: #666 } /* Operator */
+.hl .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.hl .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.hl .cp { color: #007020 } /* Comment.Preproc */
+.hl .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.hl .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.hl .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.hl .gd { color: #A00000 } /* Generic.Deleted */
+.hl .ge { font-style: italic } /* Generic.Emph */
+.hl .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.hl .gr { color: #F00 } /* Generic.Error */
+.hl .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.hl .gi { color: #00A000 } /* Generic.Inserted */
+.hl .go { color: #888 } /* Generic.Output */
+.hl .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.hl .gs { font-weight: bold } /* Generic.Strong */
+.hl .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.hl .gt { color: #04D } /* Generic.Traceback */
+.hl .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.hl .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.hl .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.hl .kp { color: #007020 } /* Keyword.Pseudo */
+.hl .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.hl .kt { color: #902000 } /* Keyword.Type */
+.hl .m { color: #40A070 } /* Literal.Number */
+.hl .s { color: #4070A0 } /* Literal.String */
+.hl .na { color: #4070A0 } /* Name.Attribute */
+.hl .nb { color: #007020 } /* Name.Builtin */
+.hl .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.hl .no { color: #60ADD5 } /* Name.Constant */
+.hl .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.hl .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.hl .ne { color: #007020 } /* Name.Exception */
+.hl .nf { color: #06287E } /* Name.Function */
+.hl .nl { color: #002070; font-weight: bold } /* Name.Label */
+.hl .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.hl .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.hl .nv { color: #BB60D5 } /* Name.Variable */
+.hl .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.hl .w { color: #BBB } /* Text.Whitespace */
+.hl .mb { color: #40A070 } /* Literal.Number.Bin */
+.hl .mf { color: #40A070 } /* Literal.Number.Float */
+.hl .mh { color: #40A070 } /* Literal.Number.Hex */
+.hl .mi { color: #40A070 } /* Literal.Number.Integer */
+.hl .mo { color: #40A070 } /* Literal.Number.Oct */
+.hl .sa { color: #4070A0 } /* Literal.String.Affix */
+.hl .sb { color: #4070A0 } /* Literal.String.Backtick */
+.hl .sc { color: #4070A0 } /* Literal.String.Char */
+.hl .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.hl .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.hl .s2 { color: #4070A0 } /* Literal.String.Double */
+.hl .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.hl .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.hl .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.hl .sx { color: #C65D09 } /* Literal.String.Other */
+.hl .sr { color: #235388 } /* Literal.String.Regex */
+.hl .s1 { color: #4070A0 } /* Literal.String.Single */
+.hl .ss { color: #517918 } /* Literal.String.Symbol */
+.hl .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.hl .fm { color: #06287E } /* Name.Function.Magic */
+.hl .vc { color: #BB60D5 } /* Name.Variable.Class */
+.hl .vg { color: #BB60D5 } /* Name.Variable.Global */
+.hl .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.hl .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.hl .il { color: #40A070 } /* Literal.Number.Integer.Long */
+.hl, .hl pre{background:var(--code-bg)!important}
+@media (prefers-color-scheme:dark){
+  pre { line-height: 125%; }
+  td.linenos .normal { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+  span.linenos { color: #6e7681; background-color: #0d1117; padding-left: 5px; padding-right: 5px; }
+  td.linenos .special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+  span.linenos.special { color: #e6edf3; background-color: #6e7681; padding-left: 5px; padding-right: 5px; }
+  .hl .hll { background-color: #6e7681 }
+  .hl { background: #0d1117; color: #E6EDF3 }
+  .hl .c { color: #8B949E; font-style: italic } /* Comment */
+  .hl .err { color: #F85149 } /* Error */
+  .hl .esc { color: #E6EDF3 } /* Escape */
+  .hl .g { color: #E6EDF3 } /* Generic */
+  .hl .k { color: #FF7B72 } /* Keyword */
+  .hl .l { color: #A5D6FF } /* Literal */
+  .hl .n { color: #E6EDF3 } /* Name */
+  .hl .o { color: #FF7B72; font-weight: bold } /* Operator */
+  .hl .x { color: #E6EDF3 } /* Other */
+  .hl .p { color: #E6EDF3 } /* Punctuation */
+  .hl .ch { color: #8B949E; font-style: italic } /* Comment.Hashbang */
+  .hl .cm { color: #8B949E; font-style: italic } /* Comment.Multiline */
+  .hl .cp { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Preproc */
+  .hl .cpf { color: #8B949E; font-style: italic } /* Comment.PreprocFile */
+  .hl .c1 { color: #8B949E; font-style: italic } /* Comment.Single */
+  .hl .cs { color: #8B949E; font-weight: bold; font-style: italic } /* Comment.Special */
+  .hl .gd { color: #FFA198; background-color: #490202 } /* Generic.Deleted */
+  .hl .ge { color: #E6EDF3; font-style: italic } /* Generic.Emph */
+  .hl .ges { color: #E6EDF3; font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+  .hl .gr { color: #FFA198 } /* Generic.Error */
+  .hl .gh { color: #79C0FF; font-weight: bold } /* Generic.Heading */
+  .hl .gi { color: #56D364; background-color: #0F5323 } /* Generic.Inserted */
+  .hl .go { color: #8B949E } /* Generic.Output */
+  .hl .gp { color: #8B949E } /* Generic.Prompt */
+  .hl .gs { color: #E6EDF3; font-weight: bold } /* Generic.Strong */
+  .hl .gu { color: #79C0FF } /* Generic.Subheading */
+  .hl .gt { color: #FF7B72 } /* Generic.Traceback */
+  .hl .g-Underline { color: #E6EDF3; text-decoration: underline } /* Generic.Underline */
+  .hl .kc { color: #79C0FF } /* Keyword.Constant */
+  .hl .kd { color: #FF7B72 } /* Keyword.Declaration */
+  .hl .kn { color: #FF7B72 } /* Keyword.Namespace */
+  .hl .kp { color: #79C0FF } /* Keyword.Pseudo */
+  .hl .kr { color: #FF7B72 } /* Keyword.Reserved */
+  .hl .kt { color: #FF7B72 } /* Keyword.Type */
+  .hl .ld { color: #79C0FF } /* Literal.Date */
+  .hl .m { color: #A5D6FF } /* Literal.Number */
+  .hl .s { color: #A5D6FF } /* Literal.String */
+  .hl .na { color: #E6EDF3 } /* Name.Attribute */
+  .hl .nb { color: #E6EDF3 } /* Name.Builtin */
+  .hl .nc { color: #F0883E; font-weight: bold } /* Name.Class */
+  .hl .no { color: #79C0FF; font-weight: bold } /* Name.Constant */
+  .hl .nd { color: #D2A8FF; font-weight: bold } /* Name.Decorator */
+  .hl .ni { color: #FFA657 } /* Name.Entity */
+  .hl .ne { color: #F0883E; font-weight: bold } /* Name.Exception */
+  .hl .nf { color: #D2A8FF; font-weight: bold } /* Name.Function */
+  .hl .nl { color: #79C0FF; font-weight: bold } /* Name.Label */
+  .hl .nn { color: #FF7B72 } /* Name.Namespace */
+  .hl .nx { color: #E6EDF3 } /* Name.Other */
+  .hl .py { color: #79C0FF } /* Name.Property */
+  .hl .nt { color: #7EE787 } /* Name.Tag */
+  .hl .nv { color: #79C0FF } /* Name.Variable */
+  .hl .ow { color: #FF7B72; font-weight: bold } /* Operator.Word */
+  .hl .pm { color: #E6EDF3 } /* Punctuation.Marker */
+  .hl .w { color: #6E7681 } /* Text.Whitespace */
+  .hl .mb { color: #A5D6FF } /* Literal.Number.Bin */
+  .hl .mf { color: #A5D6FF } /* Literal.Number.Float */
+  .hl .mh { color: #A5D6FF } /* Literal.Number.Hex */
+  .hl .mi { color: #A5D6FF } /* Literal.Number.Integer */
+  .hl .mo { color: #A5D6FF } /* Literal.Number.Oct */
+  .hl .sa { color: #79C0FF } /* Literal.String.Affix */
+  .hl .sb { color: #A5D6FF } /* Literal.String.Backtick */
+  .hl .sc { color: #A5D6FF } /* Literal.String.Char */
+  .hl .dl { color: #79C0FF } /* Literal.String.Delimiter */
+  .hl .sd { color: #A5D6FF } /* Literal.String.Doc */
+  .hl .s2 { color: #A5D6FF } /* Literal.String.Double */
+  .hl .se { color: #79C0FF } /* Literal.String.Escape */
+  .hl .sh { color: #79C0FF } /* Literal.String.Heredoc */
+  .hl .si { color: #A5D6FF } /* Literal.String.Interpol */
+  .hl .sx { color: #A5D6FF } /* Literal.String.Other */
+  .hl .sr { color: #79C0FF } /* Literal.String.Regex */
+  .hl .s1 { color: #A5D6FF } /* Literal.String.Single */
+  .hl .ss { color: #A5D6FF } /* Literal.String.Symbol */
+  .hl .bp { color: #E6EDF3 } /* Name.Builtin.Pseudo */
+  .hl .fm { color: #D2A8FF; font-weight: bold } /* Name.Function.Magic */
+  .hl .vc { color: #79C0FF } /* Name.Variable.Class */
+  .hl .vg { color: #79C0FF } /* Name.Variable.Global */
+  .hl .vi { color: #79C0FF } /* Name.Variable.Instance */
+  .hl .vm { color: #79C0FF } /* Name.Variable.Magic */
+  .hl .il { color: #A5D6FF } /* Literal.Number.Integer.Long */
+.hl, .hl pre{background:var(--code-bg)!important}}
+</style>
+</head>
+<body data-title-en="EchoSparse: block-sparse attention for video diffusion, guided by the previous step&#x27;s softmax statistics · W2GenAI Lab" data-title-zh="EchoSparse：用上一步的 softmax 统计量做视频扩散模型的块稀疏注意力 · W2GenAI Lab">
+<header class="site"><div class="site-in">
+  <a class="brand" href="/blog/">W2GenAI Lab <span>/ <span data-lang="en">Blog</span><span data-lang="zh" hidden>博客</span></span></a>
+  <nav>
+    <a class="hide-sm" href="/"><span data-lang="en">Lab</span><span data-lang="zh" hidden>实验室主页</span></a>
+    <a class="hide-sm" href="https://github.com/W2GenAI-Lab">GitHub</a>
+    <button class="lang" type="button" aria-label="Switch language">中文</button>
+  </nav>
+</div></header>
+<main>
+<article class="post" data-lang="en" lang="en">
+  <p class="kicker">Research note · November 1, 2026</p>
+  <h1>EchoSparse: block-sparse attention for video diffusion, guided by the previous step&#x27;s softmax statistics</h1>
+  <p class="dek">Between two denoising steps, the softmax normalizer of every attention row barely changes. EchoSparse carries it over and uses it three times in one kernel: as a fixed softmax offset, as a free block-probability map for the next step, and as the shared normalizer of the skipped blocks.</p>
+  <div class="byline"><strong>EchoSparse Team</strong><span>W2GenAI Lab</span>
+    <a class="btn" href="https://github.com/W2GenAI-Lab/EchoSparse-Attn"><svg viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>Code</a></div>
+  <figure class="hero"><img src="assets/teaser.png" alt="EchoSparse on Wan2.1-14B: 1.70× faster than FlashAttention-4 on a B200, closer to the dense video than Sol-Attn and PISA"></figure>
+<h2>Attention dominates video diffusion</h2>
+<p>Take Wan2.1-14B generating a 720p, 81-frame video: every self-attention call sees 75,600 video tokens, there are 40 layers, two transformer forwards per denoising step (conditional and unconditional), and 50 steps. On a B200, one such self-attention call with dense FA4 takes about 79 ms, and the whole video about 470 s, most of it in attention. HunyuanVideo at 720p and 129 frames has 118,800 video tokens.</p>
+<p>Block-sparse attention computes only some (query tile, key block) pairs. Training-free methods such as Sol-Attn and PISA compute 12.5–18% of the blocks on Wan. They still pay three costs:</p>
+<ol>
+<li><strong>A separate pass to choose blocks</strong>, usually a coarse score map from block-averaged Q and K.</li>
+<li><strong>Online softmax inside the kernel</strong>: for every key block the row maximum is updated and the accumulator rescaled.</li>
+<li><strong>Skipped blocks are dropped or roughly approximated</strong>: dropping them shrinks the softmax denominator, and a rough approximation systematically underestimates their contribution.</li>
+</ol>
+<h2>Observation: the LSE of each attention row barely moves between denoising steps</h2>
+<p>The LSE (log-sum-exp) of a row is the log of its softmax denominator:</p>
+<div class="arithmatex">\[L_i = \log \sum_j e^{s_{ij}}\]</div>
+<p>In dense runs of Wan2.1-1.3B we subtracted every self-attention LSE from the one at the same layer and position in the previous step (natural log):</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Denoising step</th>
+<th>Median change</th>
+<th>99th percentile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0.761</td>
+<td>2.88</td>
+</tr>
+<tr>
+<td>10</td>
+<td>0.100</td>
+<td>0.56</td>
+</tr>
+<tr>
+<td>20</td>
+<td>0.058</td>
+<td>0.31</td>
+</tr>
+<tr>
+<td>30</td>
+<td>0.049</td>
+<td>0.26</td>
+</tr>
+<tr>
+<td>40</td>
+<td>0.064</td>
+<td>0.31</td>
+</tr>
+</tbody>
+</table></div>
+<p>From step 10 on, the median is 0.05–0.10: before a step computes its attention, the previous step already gives every row's softmax denominator to within about 5–10%.</p>
+<p>EchoSparse keeps the previous step's LSE of every layer and CFG branch and uses it in three places, all inside one attention kernel. The name refers to these statistics of one step coming back in the next.</p>
+<figure class="wide">
+  <img src="assets/echosparse-explainer.gif" alt="Animation: one attention layer of EchoSparse, from the carried-over LSE through block selection and clustered representatives to the single normalization and the fused B200 kernel" loading="lazy">
+  <figcaption>One attention layer on a toy example: the carried-over LSE, block selection, clustered representatives, the single normalization and the fused B200 kernel.</figcaption>
+</figure>
+
+<h2>Use 1: the previous LSE as a fixed softmax offset</h2>
+<p>FlashAttention-style kernels stay numerically safe with online softmax: for every key block they update the row maximum <span class="arithmatex">\(m\)</span> and rescale the running numerator and denominator by <span class="arithmatex">\(e^{m_\text{old} - m_\text{new}}\)</span>.</p>
+<p>EchoSparse uses the previous LSE <span class="arithmatex">\(a_i\)</span> as the offset directly:</p>
+<div class="arithmatex">\[O_i = \frac{\sum_j e^{s_{ij} - a_i}\, v_j}{\sum_j e^{s_{ij} - a_i}}\]</div>
+<p><span class="arithmatex">\(a_i\)</span> appears in both numerator and denominator and cancels, so the result is exact however far off it is; it only has to keep the exponentials from overflowing or underflowing. The kernel therefore computes no row maximum and does no rescaling.</p>
+<p>A tile whose row sums leave a safe range (log2 beyond ±60) is recomputed with online softmax; about 0.5% of tiles are. For the same block lists this takes the main kernel from 22.0 ms to 11.7 ms (B200, Wan2.1-14B shape).</p>
+<h2>Use 2: the next step's block probabilities from the same pass</h2>
+<p>When the offset is close to the true LSE, <span class="arithmatex">\(e^{s_{ij} - a_i}\)</span> is already close to the softmax probability. While it computes the selected blocks, the kernel sums these values per 64-token key block and 128-row query tile, which gives the attention probability each block actually received at this step. Blocks that were not computed are estimated from their mean key on 16 rows of each tile and calibrated against the blocks of the same tile that were computed exactly.</p>
+<p>At the next step every 128-row query tile takes the top 10% of blocks from this map. There is no separate scoring pass.</p>
+<p>This selection is much more accurate than pooled scores. Offline, on real Q/K/V of Wan2.1-1.3B with 10% of blocks per tile and compensation, the relative error of one attention call is:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Selection</th>
+<th>Relative error</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Previous step's true block probabilities</td>
+<td>0.110</td>
+</tr>
+<tr>
+<td>This step's true block probabilities</td>
+<td>0.110</td>
+</tr>
+<tr>
+<td>Top 10% by pooled scores</td>
+<td>0.188</td>
+</tr>
+<tr>
+<td>Sol-Attn's threshold rule (12% of blocks)</td>
+<td>0.158</td>
+</tr>
+</tbody>
+</table></div>
+<p>Selecting with the previous step's probabilities is as good as selecting with the current step's.</p>
+<p>A related result: on Wan, refreshing the selection only every 2, 4 or even 20 steps changes video PSNR by at most 0.55 dB relative to refreshing every step. In bidirectional generation the selection is stable across steps; EchoSparse refreshes every step because in this design a refresh costs nothing extra.</p>
+<h2>Use 3: skipped blocks stay in the same softmax</h2>
+<p>Each skipped block is represented by its mean key <span class="arithmatex">\(\bar k_b\)</span> and mean value <span class="arithmatex">\(\bar v_b\)</span>, weighted by its token count <span class="arithmatex">\(n_b\)</span>:</p>
+<div class="arithmatex">\[n_b\, e^{\,q \cdot \bar k_b / \sqrt{d} \,-\, a_i}\; \bar v_b\]</div>
+<p>Because every term shares the offset <span class="arithmatex">\(a_i\)</span>, exact blocks and compensation terms add into the same numerator and denominator, with one division at the end.</p>
+<p>This term matters most for quality: without it, PSNR drops by 1.19 dB on the 14B model and 5.37 dB on the 1.3B model.</p>
+<p>But the exponential of a mean is always smaller than the mean of the exponentials, and the more spread out a block's keys are, the larger the underestimate. So the third of the skipped blocks with the highest estimated probability get four representatives each, found by k-means in the query metric:</p>
+<ul>
+<li>from this call's queries, <span class="arithmatex">\(G = Q^\top Q / (L d) + \lambda I\)</span>, factored by Cholesky as <span class="arithmatex">\(G = M M^\top\)</span>;</li>
+<li>clustering runs on <span class="arithmatex">\(X = K M\)</span>, where the squared distance of two keys approximates the mean squared logit difference the queries see;</li>
+<li>token weights come from 64 probe queries (means of evenly spaced query blocks), each probe's softmax over the block's tokens;</li>
+<li>four contiguous segments as initialization, at most six Lloyd iterations. Each representative is still the plain mean of its cluster, weighted by the cluster size.</li>
+</ul>
+<p>Four representatives instead of one add 0.72 dB (14B) and 0.98 dB (1.3B); the query metric adds another 0.35 dB and 0.39 dB, and 1.14 dB on HunyuanVideo.</p>
+<h2>Ideas we tried and dropped</h2>
+<ul>
+<li><strong>Calibrating the compensation's denominator with the known LSE.</strong> The skipped probability is about one minus the computed probability, so the denominator could be computed directly. It was worse than the compensation above at every density: the step-to-step change of the LSE is of the same order as the skipped probability.</li>
+<li><strong>An error budget ε deciding how many blocks each row computes.</strong> Pooled-key estimates badly underestimate block probabilities (a nominal 5% skipped was 30–36% in practice), and a uniform ε gives more blocks to heads with diffuse attention, which are the heads the compensation already approximates best. The same number of blocks per tile, ranked by the probability map, gives the same error as a per-head global allocation and balances the load.</li>
+<li><strong>A second-order variance correction</strong> of the compensation terms. Worse on average, and too large on some heads.</li>
+</ul>
+<h2>The schedule</h2>
+<ul>
+<li>The first 10 denoising steps run dense with FA4, the same as the Sol-Attn paper. The 10th (the last dense step) sends every block through the EchoSparse kernel, which gives an exact output and the first probability map.</li>
+<li>From then on every 128-row query tile computes 10% of the key blocks exactly and compensates the others as above.</li>
+<li>With CFG the unconditional branch reuses the conditional branch's selection of the same step and keeps its own LSE.</li>
+<li>Wan's video tokens are put in 3D Morton order, so a 64-token block is a 4×4×4 patch of space and time. HunyuanVideo's text tokens go at the end of the sequence and are computed exactly by every tile; their own query rows use FA4. MiniMax-H3's text, conditioning and audio prefix is handled the same way.</li>
+</ul>
+<h2>Implementation</h2>
+<p><strong>B200 (SM100)</strong>: the kernels are written in CuTe DSL with tcgen05 MMAs and tensor memory, warp-specialized like FA4, two CTAs per SM. Exact blocks, block-mean representatives and k-means representatives are computed in one kernel and one softmax. Time per self-attention call at the Wan2.1-14B shape:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Per call</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FA4, dense</td>
+<td>79.1 ms</td>
+</tr>
+<tr>
+<td>Sol-Attn (τ = 1.0, the paper's threshold estimator)</td>
+<td>35.4 ms</td>
+</tr>
+<tr>
+<td>PISA (12.5%)</td>
+<td>34.6 ms</td>
+</tr>
+<tr>
+<td>EchoSparse (10%)</td>
+<td>18.1 ms</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>RTX 5090 (SM120)</strong>: there is no tcgen05 or tensor memory, so the kernels are written in Triton with ordinary tensor-core dots; they compute the same quantities in the same precision. Exact blocks go as two 32-key halves, the compensation 32 columns at a time. With 32 GB of memory every layer keeps only the LSE of each branch and the next step's selection (two bit masks); the probability map is scratch shared by all layers. The weights of 14B, HunyuanVideo and H3 stay in CPU memory and are copied to the GPU group by group.</p>
+<h2>Results</h2>
+<h3>RTX 5090: complete video generation</h3>
+<p><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/results-rtx5090-dark.png">
+  <img src="assets/results-rtx5090.png" alt="RTX 5090: speedup of EchoSparse over FlashAttention-4 (whole video and one sparse-step forward) and its PSNR against FA4, next to the B200 PSNR of the same prompt" loading="lazy">
+</picture></p>
+<p>For each model we took the first prompt of the B200 evaluation with the same seed and ran one complete 50-step generation with EchoSparse and one with dense FA4, each on one GPU. The weights of Wan2.1-14B, HunyuanVideo and MiniMax-H3 stay in CPU memory and are copied to the GPU group by group; the 1.3B model sits on the GPU. On every prompt the RTX 5090 PSNR is on par with or above the B200 PSNR of the same prompt: the Triton kernels lose no quality. A sparse-step forward of HunyuanVideo is 3.02× faster than with FA4, the whole video 1.99×.</p>
+<h3>B200: complete video generation</h3>
+<p><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/results-b200-dark.png">
+  <img src="assets/results-b200.png" alt="B200: end-to-end speedup over FlashAttention-4 and PSNR against FA4 for EchoSparse, PISA and Sol-Attn on four models" loading="lazy">
+</picture></p>
+<p>50 denoising steps, including text encoding and VAE decoding; every method keeps the first 10 steps dense. Every method uses its published setting: EchoSparse computes 10% of the blocks, Sol-Attn uses its paper's threshold estimator (τ = 1.0, 15–18% in practice), PISA computes 12.5%. PSNR is against the dense FA4 video with the same prompt and seed, over 10–25 prompts per model. EchoSparse computes the fewest blocks and is the fastest on all four models; its PSNR is 1.10, 1.19 and 2.44 dB above Sol-Attn on Wan2.1-14B, Wan2.1-1.3B and HunyuanVideo (per-prompt paired confidence intervals exclude 0). On MiniMax-H3 the three methods are within each other's confidence intervals.</p>
+<h2>Limitations</h2>
+<ul>
+<li><strong>The 10 dense steps bound the end-to-end speedup.</strong> For Wan2.1-14B on a B200 the 10 dense steps take about 94 s and the non-attention work of the 40 sparse steps about 109 s, together more than 40% of the FA4 total. The sparse steps are 2.11× faster, the whole video 1.70×.</li>
+<li><strong>Small gains on MiniMax-H3.</strong> Its attention is more diffuse, the non-attention part of a forward takes about 1.6 s, and the whole video is 1.25× faster, with quality indistinguishable from Sol-Attn and PISA.</li>
+<li><strong>PSNR measures closeness to the dense output.</strong> On a VBench subset all sparse methods differ little from FA4.</li>
+<li><strong>Scope</strong>: B200 or RTX 5090; batch size 1; head dimension 128; sequences shorter than 4096 tokens run dense.</li>
+</ul>
+<h2>Usage</h2>
+<div class="hl"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">echosparse</span>
+
+<span class="n">pipe</span> <span class="o">=</span> <span class="o">...</span>                 <span class="c1"># a diffusers WanPipeline / HunyuanVideoPipeline / MiniMax-H3 pipeline</span>
+<span class="n">echosparse</span><span class="o">.</span><span class="n">enable</span><span class="p">(</span><span class="n">pipe</span><span class="p">)</span>    <span class="c1"># after the scheduler is set</span>
+<span class="n">video</span> <span class="o">=</span> <span class="n">pipe</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="s2">"A cat surfing at sunset"</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span><span class="o">.</span><span class="n">frames</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div>
+
+<p><code>enable</code> recognizes the model and applies its preset (density 0.10, 10 dense steps). Complete scripts are in <code>examples/</code>; on an RTX 5090, <code>--offload</code> keeps the weights of the large models in CPU memory.</p>
+</article>
+<article class="post" data-lang="zh" lang="zh-CN" hidden>
+  <p class="kicker">研究笔记 · 2026 年 11 月 1 日</p>
+  <h1>EchoSparse：用上一步的 softmax 统计量做视频扩散模型的块稀疏注意力</h1>
+  <p class="dek">相邻两个去噪步之间，每行注意力的 softmax 分母几乎不变。EchoSparse 把它带到下一步，在同一个 kernel 里用三次：作为固定的 softmax 偏移量，作为下一步选块用的块概率图，以及作为被跳过的块共用的归一化项。</p>
+  <div class="byline"><strong>EchoSparse Team</strong><span>W2GenAI Lab</span>
+    <a class="btn" href="https://github.com/W2GenAI-Lab/EchoSparse-Attn"><svg viewBox="0 0 16 16" aria-hidden="true" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>代码</a></div>
+  <figure class="hero"><img src="assets/teaser.png" alt="EchoSparse 在 Wan2.1-14B 上：B200 上比 FlashAttention-4 快 1.70 倍，比 Sol-Attn 和 PISA 更接近稠密结果"></figure>
+<h2>视频扩散模型的主要开销在注意力</h2>
+<p>以 Wan2.1-14B 生成 720p、81 帧视频为例：每层自注意力处理 75,600 个视频 token，40 层，每个去噪步有条件和无条件两次前向，共 50 步。在 B200 上，FA4 稠密计算一次这样的自注意力约 79 ms，整段视频约 470 s，大部分时间花在注意力上。HunyuanVideo 720p、129 帧的序列更长，有 118,800 个视频 token。</p>
+<p>块稀疏注意力只计算一部分 (query tile, key 块) 组合，其余跳过。Sol-Attn、PISA 等免训练方法在 Wan 上只计算 12.5–18% 的块。这些方法仍有三项开销：</p>
+<ol>
+<li><strong>选块需要单独计算一遍</strong>：通常先把 Q、K 按块平均，算一张粗略的打分图，再挑块。</li>
+<li><strong>kernel 内部仍是在线 softmax</strong>：每处理一个块，都要更新每行的最大值，并重新缩放累加器。</li>
+<li><strong>被跳过的块要么直接丢掉，要么用很粗的近似补回</strong>：丢掉会让 softmax 分母偏小，粗近似又会系统性地低估这部分的贡献。</li>
+</ol>
+<h2>观察：相邻两个去噪步之间，每行注意力的 LSE 几乎不变</h2>
+<p>LSE（log-sum-exp）指每一行 softmax 分母的对数：</p>
+<div class="arithmatex">\[L_i = \log \sum_j e^{s_{ij}}\]</div>
+<p>我们在 Wan2.1-1.3B 的稠密运行里，把每次自注意力的 LSE 与上一步同一层、同一位置的 LSE 相减（自然对数）：</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>去噪步</th>
+<th>变化量中位数</th>
+<th>99 分位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0.761</td>
+<td>2.88</td>
+</tr>
+<tr>
+<td>10</td>
+<td>0.100</td>
+<td>0.56</td>
+</tr>
+<tr>
+<td>20</td>
+<td>0.058</td>
+<td>0.31</td>
+</tr>
+<tr>
+<td>30</td>
+<td>0.049</td>
+<td>0.26</td>
+</tr>
+<tr>
+<td>40</td>
+<td>0.064</td>
+<td>0.31</td>
+</tr>
+</tbody>
+</table></div>
+<p>第 10 步以后，中位数在 0.05–0.10 之间。也就是说，在计算这一步的注意力之前，每一行 softmax 的分母已经可以从上一步得到，误差约 5–10%。</p>
+<p>EchoSparse 为每一层、每个 CFG 分支保存上一步的 LSE，并在同一个注意力 kernel 里用在三个地方。名字里的 Echo 指上一步的统计量在下一步被再次使用。</p>
+<figure class="wide">
+  <img src="assets/echosparse-explainer.gif" alt="动画：EchoSparse 的一层注意力，从沿用上一步的 LSE、选块、按聚类得到的代表，到统一的归一化和 B200 上的融合 kernel" loading="lazy">
+  <figcaption>一层注意力的玩具示例：沿用上一步的 LSE、选块、聚类代表、统一归一化、B200 上的融合 kernel。</figcaption>
+</figure>
+
+<h2>用法一：上一步的 LSE 作为固定的 softmax 偏移量</h2>
+<p>FlashAttention 一类的 kernel 用“在线 softmax”保证数值稳定：每处理一个 key 块，先更新每行的最大值 <span class="arithmatex">\(m\)</span>，再用 <span class="arithmatex">\(e^{m_\text{old} - m_\text{new}}\)</span> 缩放已经累加的分子和分母。</p>
+<p>EchoSparse 直接用上一步的 LSE <span class="arithmatex">\(a_i\)</span> 作偏移：</p>
+<div class="arithmatex">\[O_i = \frac{\sum_j e^{s_{ij} - a_i}\, v_j}{\sum_j e^{s_{ij} - a_i}}\]</div>
+<p><span class="arithmatex">\(a_i\)</span> 在分子分母里同时出现，会被约掉，所以无论它准不准，结果都是精确的。它只需要让指数值不溢出、不下溢。kernel 因此不求行最大值，也不重新缩放。</p>
+<p>如果某个 tile 的行和超出安全范围（以 2 为底的对数超过 ±60），这个 tile 改用在线 softmax 重算。实测约 0.5% 的 tile 需要重算。在相同块列表下，这一项把主 kernel 的耗时从 22.0 ms 降到 11.7 ms（B200，Wan2.1-14B 的形状）。</p>
+<h2>用法二：计算选中块时顺带得到下一步的块概率</h2>
+<p>偏移量接近真实 LSE 时，<span class="arithmatex">\(e^{s_{ij} - a_i}\)</span> 已经接近 softmax 概率。kernel 在计算选中块时，把这些值按 64 token 的 key 块、128 行的 query tile 累加，就得到这一步每个块实际占的注意力概率。没有算到的块，用块平均 key 在每个 tile 的 16 行上估计，并用同一 tile 里精确计算过的块校准。</p>
+<p>下一步，每个 128 行的 query tile 按这张概率图取前 10% 的块。选块不需要单独的打分计算。</p>
+<p>这种选法比池化打分准确得多。离线测试中（Wan2.1-1.3B 的真实 Q/K/V，每个 tile 取 10% 的块，有补偿），单次调用的相对误差为：</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>选块方式</th>
+<th>相对误差</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>上一步的真实块概率</td>
+<td>0.110</td>
+</tr>
+<tr>
+<td>本步的真实块概率</td>
+<td>0.110</td>
+</tr>
+<tr>
+<td>池化打分取前 10%</td>
+<td>0.188</td>
+</tr>
+<tr>
+<td>Sol-Attn 的阈值规则（实际取 12% 的块）</td>
+<td>0.158</td>
+</tr>
+</tbody>
+</table></div>
+<p>用上一步的概率选块，与用本步的概率选块误差相同。</p>
+<p>还有一个结果：在 Wan 上，每 2 步、4 步甚至 20 步才刷新一次选块，与每步刷新相比，视频 PSNR 相差不超过 0.55 dB。说明在双向生成里，选块本身跨步就很稳定。EchoSparse 每步都刷新，是因为在这个设计里刷新不需要额外计算。</p>
+<h2>用法三：被跳过的块仍然进入同一个 softmax</h2>
+<p>每个被跳过的块，用它的平均 key <span class="arithmatex">\(\bar k_b\)</span> 和平均 value <span class="arithmatex">\(\bar v_b\)</span> 作代表，权重是块内 token 数 <span class="arithmatex">\(n_b\)</span>：</p>
+<div class="arithmatex">\[n_b\, e^{\,q \cdot \bar k_b / \sqrt{d} \,-\, a_i}\; \bar v_b\]</div>
+<p>因为所有项共用同一个偏移 <span class="arithmatex">\(a_i\)</span>，精确块和补偿项可以直接加在同一个分子分母里，最后统一做一次除法。</p>
+<p>这一项对画质影响最大：去掉补偿后，14B 的 PSNR 下降 1.19 dB，1.3B 下降 5.37 dB。</p>
+<p>但“先平均再取指数”总是小于“先取指数再平均”，块内 key 越分散，低估越多。所以按块概率估计，落选块中最重要的三分之一，每块改用 4 个代表。这 4 个代表用 k-means 求得，距离在“查询度量”下计算：</p>
+<ul>
+<li>用本次调用的 query 求 <span class="arithmatex">\(G = Q^\top Q / (L d) + \lambda I\)</span>，Cholesky 分解为 <span class="arithmatex">\(G = M M^\top\)</span>；</li>
+<li>在 <span class="arithmatex">\(X = K M\)</span> 的坐标里聚类。两个 key 在这个坐标下的距离平方，约等于所有 query 看到的 logit 差的平方均值；</li>
+<li>每个 token 的权重来自 64 个探针 query（均匀取的 query 块均值）在块内的 softmax；</li>
+<li>从 4 段连续子块初始化，最多 6 轮 Lloyd 迭代。代表仍是簇内的普通均值，权重是簇的大小。</li>
+</ul>
+<p>4 个代表比 1 个代表在 14B 和 1.3B 上分别提高 0.72 dB 和 0.98 dB；改用查询度量后，又分别提高 0.35 dB 和 0.39 dB，在 HunyuanVideo 上提高 1.14 dB。</p>
+<h2>试过但没有采用的做法</h2>
+<ul>
+<li><strong>用已知 LSE 校准补偿的分母。</strong> 思路是：被跳过部分的概率约等于 1 减去已算部分的概率，分母可以直接算出来。实测在所有密度下都比上面的补偿差。原因是 LSE 的步间变化与被跳过的概率是同一量级，用它来推算被跳过部分，误差太大。</li>
+<li><strong>按误差预算 ε 决定每行算多少块。</strong> 两个问题：池化 key 的估计严重低估块概率（名义上跳过 5%，实际跳过 30–36%）；统一的 ε 会把更多块分给注意力分散的头，而这些头恰好是补偿近似得最好的头。每个 tile 按概率图取相同块数，误差与按头全局分配相同，负载也天然均衡。</li>
+<li><strong>二阶方差修正。</strong> 在补偿项上加块内方差的修正，平均误差更大，个别头上会估计过大。</li>
+</ul>
+<h2>完整流程</h2>
+<ul>
+<li>前 10 个去噪步用 FA4 稠密计算，与 Sol-Attn 论文的设置相同。第 10 步（最后一个稠密步）让所有块都经过 EchoSparse 的 kernel，得到精确输出和第一张块概率图。</li>
+<li>之后每一步，每个 128 行的 query tile 精确计算 10% 的 key 块，其余块按上面的方式补偿。</li>
+<li>有 CFG 时，无条件分支沿用有条件分支同一步的选块，但保存自己的 LSE。</li>
+<li>Wan 的视频 token 按三维 Morton 顺序排列，一个 64 token 的块对应一个 4×4×4 的时空小块。HunyuanVideo 的文本 token 放在序列末尾，每个 tile 都精确计算；文本 token 自己的 query 行用 FA4。MiniMax-H3 的文本、条件和音频前缀按同样方式处理。</li>
+</ul>
+<h2>实现</h2>
+<p><strong>B200（SM100）</strong>：kernel 用 CuTe DSL 编写，使用 tcgen05 MMA 和 tensor memory，按 FA4 的方式做 warp 分工，每个 SM 放两个 CTA。精确块、块平均代表和 k-means 代表在同一个 kernel 里、同一个 softmax 中计算。Wan2.1-14B 形状下，每次自注意力调用的耗时：</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>方法</th>
+<th>每次调用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FA4 稠密</td>
+<td>79.1 ms</td>
+</tr>
+<tr>
+<td>Sol-Attn（τ = 1.0，论文的阈值估计）</td>
+<td>35.4 ms</td>
+</tr>
+<tr>
+<td>PISA（12.5%）</td>
+<td>34.6 ms</td>
+</tr>
+<tr>
+<td>EchoSparse（10%）</td>
+<td>18.1 ms</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>RTX 5090（SM120）</strong>：没有 tcgen05 和 tensor memory，kernel 用 Triton 编写，使用普通的 tensor core 点积，计算的量和精度与 B200 相同。精确块按两个 32 key 的半块计算，补偿每次 32 列。显存只有 32 GB，所以每层只保留各分支的 LSE 和下一步的选块（两张位图），块概率图等作为各层共用的临时空间；14B、HunyuanVideo、H3 的权重放在 CPU 内存里，按组拷到 GPU。</p>
+<h2>结果</h2>
+<h3>RTX 5090：完整视频生成</h3>
+<p><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/results-rtx5090-dark.png">
+  <img src="assets/results-rtx5090.png" alt="RTX 5090：EchoSparse 相对 FlashAttention-4 的加速（整段视频和单次稀疏步前向）以及对 FA4 的 PSNR，并列 B200 上同一提示词的 PSNR" loading="lazy">
+</picture></p>
+<p>每个模型取 B200 评测里的第 0 个提示词，种子相同，EchoSparse 和 FA4 稠密各在一张 GPU 上跑一遍完整的 50 步生成。Wan2.1-14B、HunyuanVideo、MiniMax-H3 的权重放在 CPU 内存里，按组拷到 GPU；1.3B 直接放在 GPU 上。5090 上每个提示词的 PSNR 与 B200 上同一提示词相当或更高，换用 Triton kernel 后画质没有损失。HunyuanVideo 的单次稀疏步前向比 FA4 快 3.02 倍，整段视频快 1.99 倍。</p>
+<h3>B200：完整视频生成</h3>
+<p><picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/results-b200-dark.png">
+  <img src="assets/results-b200.png" alt="B200：四个模型上 EchoSparse、PISA、Sol-Attn 相对 FlashAttention-4 的端到端加速和对 FA4 的 PSNR" loading="lazy">
+</picture></p>
+<p>50 个去噪步，含文本编码和 VAE 解码，各方法的前 10 步都用稠密注意力。三种方法都用各自公开的设置：EchoSparse 计算 10% 的块，Sol-Attn 用论文的阈值估计（τ = 1.0，实际 15–18%），PISA 计算 12.5%。PSNR 以同一提示词、同一种子的 FA4 稠密输出为参考，每个模型 10–25 个提示词。EchoSparse 算的块最少，四个模型上加速都最高；相对 Sol-Attn，PSNR 在 Wan2.1-14B、Wan2.1-1.3B、HunyuanVideo 上分别高 1.10、1.19、2.44 dB（逐提示词配对的置信区间都不含 0）。MiniMax-H3 上三种方法的差别在置信区间之内。</p>
+<h2>局限</h2>
+<ul>
+<li><strong>前 10 个稠密步限制了端到端加速。</strong> Wan2.1-14B 在 B200 上，前 10 步稠密约 94 s，后 40 步里注意力以外的计算约 109 s，两者合计已超过 FA4 总时间的 40%。所以稀疏步本身快 2.11 倍，整段只快 1.70 倍。</li>
+<li><strong>MiniMax-H3 的收益小。</strong> H3 的注意力更分散，每次前向里注意力以外的部分约 1.6 s，整段只快 1.25 倍，画质与 Sol-Attn、PISA 没有可测的差别。</li>
+<li><strong>PSNR 衡量的是与稠密输出的接近程度。</strong> VBench 子集上，稀疏方法与 FA4 的差别都很小。</li>
+<li><strong>适用范围</strong>：B200 或 RTX 5090；batch size 1；head dim 128；4096 个 token 以下的序列直接走稠密。</li>
+</ul>
+<h2>使用</h2>
+<div class="hl"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">echosparse</span>
+
+<span class="n">pipe</span> <span class="o">=</span> <span class="o">...</span>                 <span class="c1"># diffusers 的 WanPipeline / HunyuanVideoPipeline / MiniMax-H3 流水线</span>
+<span class="n">echosparse</span><span class="o">.</span><span class="n">enable</span><span class="p">(</span><span class="n">pipe</span><span class="p">)</span>    <span class="c1"># 在设置好 scheduler 之后调用</span>
+<span class="n">video</span> <span class="o">=</span> <span class="n">pipe</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="s2">"A cat surfing at sunset"</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span><span class="o">.</span><span class="n">frames</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div>
+
+<p><code>enable</code> 识别模型并套用对应的预设（密度 0.10、前 10 步稠密）。完整脚本在 <code>examples/</code>，RTX 5090 上加 <code>--offload</code> 把大模型的权重放在 CPU 内存里。</p>
+</article>
+</main>
+<footer class="site-foot">
+  <span>© 2026 W2GenAI Lab</span>
+  <a href="/">w2genai-lab.github.io</a>
+  <a href="https://github.com/W2GenAI-Lab">GitHub</a>
+</footer>
+<script>
+(function(){
+  var KEY='w2genai-blog-lang';
+  function get(){try{return localStorage.getItem(KEY)}catch(e){return null}}
+  function set(v){try{localStorage.setItem(KEY,v)}catch(e){}}
+  var q=(location.search.match(/[?&]lang=(en|zh)/)||[])[1];
+  var lang=q||get()||((navigator.language||'').toLowerCase().indexOf('zh')===0?'zh':'en');
+  function apply(l){
+    document.querySelectorAll('[data-lang]').forEach(function(el){el.hidden=el.getAttribute('data-lang')!==l});
+    document.documentElement.lang=l==='zh'?'zh-CN':'en';
+    var t=document.querySelector('[data-title-'+l+']');
+    if(t)document.title=t.getAttribute('data-title-'+l);
+    var b=document.querySelector('.lang');
+    if(b)b.textContent=l==='zh'?'EN':'中文';
+    lang=l;
+  }
+  apply(lang);
+  var b=document.querySelector('.lang');
+  if(b)b.addEventListener('click',function(){var n=lang==='zh'?'en':'zh';set(n);apply(n)});
+})();
+</script>
+</body>
+</html>
