@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 460" width="900" height="460" font-family="Inter, 'Helvetica Neue', Arial, 'PingFang SC', 'Noto Sans CJK SC', sans-serif">
+<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="context-stroke"/></marker></defs>
+<rect width="900" height="460" fill="#000000"/>
+<text x="30" y="38.0" font-size="18" fill="#f4f4f1" text-anchor="start" font-weight="700">H100 单次 attention GPU 流程耗时（合成 BF16，L=75600，H=40，D=128）</text>
+<text x="30" y="62.0" font-size="13" fill="#9a9ea6" text-anchor="start" font-style="italic">20 次 CUDA event 中位数，须线为 p10–p90；倍数相对 dense FA4</text>
+<rect x="90" y="379.5" width="770" height="1" rx="8" fill="#202226" stroke="#202226" stroke-width="0"/>
+<text x="80" y="384.0" font-size="12" fill="#9a9ea6" text-anchor="end">0</text>
+<rect x="90" y="301.72222222222223" width="770" height="1" rx="8" fill="#202226" stroke="#202226" stroke-width="0"/>
+<text x="80" y="306.22222222222223" font-size="12" fill="#9a9ea6" text-anchor="end">50</text>
+<rect x="90" y="223.94444444444443" width="770" height="1" rx="8" fill="#202226" stroke="#202226" stroke-width="0"/>
+<text x="80" y="228.44444444444443" font-size="12" fill="#9a9ea6" text-anchor="end">100</text>
+<rect x="90" y="146.16666666666666" width="770" height="1" rx="8" fill="#202226" stroke="#202226" stroke-width="0"/>
+<text x="80" y="150.66666666666666" font-size="12" fill="#9a9ea6" text-anchor="end">150</text>
+<rect x="150" y="125.69583808051215" width="120" height="254.30416191948785" rx="8" fill="#7c8089" stroke="#7c8089" stroke-width="1.5"/>
+<rect x="209" y="121.40101793077258" width="2" height="7.347137451171875" rx="8" fill="#f4f4f1" stroke="#f4f4f1" stroke-width="0"/>
+<text x="210" y="99.69583808051215" font-size="16" fill="#f4f4f1" text-anchor="middle" font-weight="700">163.48 ms</text>
+<text x="210" y="402.0" font-size="13" fill="#f4f4f1" text-anchor="middle">稠密 FA4</text>
+<rect x="400" y="268.54877387152777" width="120" height="111.45122612847223" rx="8" fill="#7ea9ff" stroke="#7ea9ff" stroke-width="1.5"/>
+<rect x="459" y="264.20588853624133" width="2" height="6.61009046766493" rx="8" fill="#f4f4f1" stroke="#f4f4f1" stroke-width="0"/>
+<text x="460" y="242.54877387152777" font-size="16" fill="#f4f4f1" text-anchor="middle" font-weight="700">71.65 ms</text>
+<text x="460" y="258.54877387152777" font-size="1" fill="#f4f4f1" text-anchor="start"></text>
+<text x="460" y="329.2743869357639" font-size="18" fill="#000" text-anchor="middle" font-weight="700">2.28×</text>
+<text x="460" y="402.0" font-size="13" fill="#f4f4f1" text-anchor="middle">nonpacked</text>
+<text x="460" y="418.0" font-size="13" fill="#f4f4f1" text-anchor="middle">EchoSparse</text>
+<rect x="650" y="310.7548785739475" width="120" height="69.24512142605252" rx="8" fill="#45d0c1" stroke="#45d0c1" stroke-width="1.5"/>
+<rect x="709" y="308.4936252170139" width="2" height="2.3931655883789062" rx="8" fill="#f4f4f1" stroke="#f4f4f1" stroke-width="0"/>
+<text x="710" y="284.7548785739475" font-size="16" fill="#f4f4f1" text-anchor="middle" font-weight="700">44.51 ms</text>
+<text x="710" y="300.7548785739475" font-size="1" fill="#f4f4f1" text-anchor="start"></text>
+<text x="710" y="350.37743928697375" font-size="18" fill="#000" text-anchor="middle" font-weight="700">3.67×</text>
+<text x="710" y="402.0" font-size="13" fill="#f4f4f1" text-anchor="middle">grouped + TMA</text>
+<text x="710" y="418.0" font-size="13" fill="#f4f4f1" text-anchor="middle">+ 三级流水</text>
+</svg>

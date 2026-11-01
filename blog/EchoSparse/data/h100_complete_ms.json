@@ -1,0 +1,28 @@
+{
+ "source": "evidence/h100_attention_benchmark.json (complete_ms)",
+ "unit": "ms",
+ "statistic": "median of 20 CUDA-event runs, with p10/p90",
+ "bars": [
+  {
+   "key": "fa4",
+   "median": 163.4812469482422,
+   "p10": 161.51904296875,
+   "p90": 166.24220275878906,
+   "n": 20
+  },
+  {
+   "key": "base",
+   "median": 71.647216796875,
+   "p10": 70.18972778320312,
+   "p90": 74.43907165527344,
+   "n": 20
+  },
+  {
+   "key": "split_tma_stage",
+   "median": 44.51472091674805,
+   "p10": 44.4299201965332,
+   "p90": 45.9683837890625,
+   "n": 20
+  }
+ ]
+}

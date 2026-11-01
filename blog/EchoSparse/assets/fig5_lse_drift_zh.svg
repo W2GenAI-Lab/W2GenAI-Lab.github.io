@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 480" width="1000" height="480" font-family="Inter, 'Helvetica Neue', Arial, 'PingFang SC', 'Noto Sans CJK SC', sans-serif"><rect width="1000" height="480" fill="#000000"/><text x="30" y="34" font-size="18" fill="#f4f4f1" text-anchor="start" font-weight="700">相邻去噪步的 LSE 变化（Wan2.1-1.3B，稠密 FA4，5 个提示词）</text>
+<text x="30" y="56" font-size="12.5" fill="#9a9ea6" text-anchor="start" font-style="italic">展示来源报告列出的 7 个汇总点；连线仅引导阅读，不是拟合或插值。单位：自然对数</text>
+<line x1="100" x2="840" y1="367.6352493386035" y2="367.6352493386035" stroke="#202226"/>
+<text x="92" y="371.6352493386035" font-size="12" fill="#9a9ea6" text-anchor="end">0.05</text>
+<line x1="100" x2="840" y1="323.71901916775874" y2="323.71901916775874" stroke="#202226"/>
+<text x="92" y="327.71901916775874" font-size="12" fill="#9a9ea6" text-anchor="end">0.1</text>
+<line x1="100" x2="840" y1="279.802788996914" y2="279.802788996914" stroke="#202226"/>
+<text x="92" y="283.802788996914" font-size="12" fill="#9a9ea6" text-anchor="end">0.2</text>
+<line x1="100" x2="840" y1="221.7486905125343" y2="221.7486905125343" stroke="#202226"/>
+<text x="92" y="225.7486905125343" font-size="12" fill="#9a9ea6" text-anchor="end">0.5</text>
+<line x1="100" x2="840" y1="177.8324603416895" y2="177.8324603416895" stroke="#202226"/>
+<text x="92" y="181.8324603416895" font-size="12" fill="#9a9ea6" text-anchor="end">1</text>
+<line x1="100" x2="840" y1="133.9162301708447" y2="133.9162301708447" stroke="#202226"/>
+<text x="92" y="137.9162301708447" font-size="12" fill="#9a9ea6" text-anchor="end">2</text>
+<line x1="100.0" x2="100.0" y1="400" y2="405" stroke="#9a9ea6"/>
+<text x="100.0" y="422" font-size="12" fill="#9a9ea6" text-anchor="middle">0</text>
+<line x1="248.0" x2="248.0" y1="400" y2="405" stroke="#9a9ea6"/>
+<text x="248.0" y="422" font-size="12" fill="#9a9ea6" text-anchor="middle">10</text>
+<line x1="396.0" x2="396.0" y1="400" y2="405" stroke="#9a9ea6"/>
+<text x="396.0" y="422" font-size="12" fill="#9a9ea6" text-anchor="middle">20</text>
+<line x1="544.0" x2="544.0" y1="400" y2="405" stroke="#9a9ea6"/>
+<text x="544.0" y="422" font-size="12" fill="#9a9ea6" text-anchor="middle">30</text>
+<line x1="692.0" x2="692.0" y1="400" y2="405" stroke="#9a9ea6"/>
+<text x="692.0" y="422" font-size="12" fill="#9a9ea6" text-anchor="middle">40</text>
+<line x1="825.2" x2="825.2" y1="400" y2="405" stroke="#9a9ea6"/>
+<text x="825.2" y="422" font-size="12" fill="#9a9ea6" text-anchor="middle">49</text>
+<line x1="100" x2="840" y1="400" y2="400" stroke="#9a9ea6"/>
+<text x="470.0" y="446" font-size="13" fill="#f4f4f1" text-anchor="middle">去噪步（从 0 起）</text>
+<text x="24" y="245.0" font-size="13" fill="#f4f4f1" text-anchor="middle" transform="rotate(-90 24 245.0)">|LSE(t) − LSE(t−1)|（nats，对数坐标）</text>
+<polyline points="114.8,110.8 174.0,151.3 248.0,214.6 396.0,252.0 544.0,263.2 692.0,252.0 825.2,171.2" fill="none" stroke="#f2b544" stroke-width="2" stroke-opacity=".55"/>
+<circle cx="114.8" cy="110.8" r="5" fill="#f2b544"/>
+<text x="114.8" y="100.81327115194819" font-size="11.5" fill="#f2b544" text-anchor="middle">2.88</text>
+<circle cx="174.0" cy="151.3" r="5" fill="#f2b544"/>
+<text x="174.0" y="141.30392505184096" font-size="11.5" fill="#f2b544" text-anchor="middle">1.52</text>
+<circle cx="248.0" cy="214.6" r="5" fill="#f2b544"/>
+<text x="248.0" y="204.568442552958" font-size="11.5" fill="#f2b544" text-anchor="middle">0.56</text>
+<circle cx="396.0" cy="252.0" r="5" fill="#f2b544"/>
+<text x="396.0" y="242.0359525153281" font-size="11.5" fill="#f2b544" text-anchor="middle">0.31</text>
+<circle cx="544.0" cy="263.2" r="5" fill="#f2b544"/>
+<text x="544.0" y="253.17998542776309" font-size="11.5" fill="#f2b544" text-anchor="middle">0.26</text>
+<circle cx="692.0" cy="252.0" r="5" fill="#f2b544"/>
+<text x="692.0" y="242.0359525153281" font-size="11.5" fill="#f2b544" text-anchor="middle">0.31</text>
+<circle cx="825.2" cy="171.2" r="5" fill="#f2b544"/>
+<text x="825.2" y="161.22044693075713" font-size="11.5" fill="#f2b544" text-anchor="middle">1.11</text>
+<text x="848" y="175.22044693075713" font-size="12.5" fill="#f2b544" text-anchor="start" font-weight="700">99 分位</text>
+<polyline points="114.8,195.1 174.0,265.2 248.0,323.7 396.0,358.2 544.0,368.9 692.0,352.0 825.2,257.6" fill="none" stroke="#45d0c1" stroke-width="2" stroke-opacity=".55"/>
+<circle cx="114.8" cy="195.1" r="5" fill="#45d0c1"/>
+<text x="114.8" y="185.13684458940372" font-size="11.5" fill="#45d0c1" text-anchor="middle">0.761</text>
+<circle cx="174.0" cy="265.2" r="5" fill="#45d0c1"/>
+<text x="174.0" y="255.16007556221598" font-size="11.5" fill="#45d0c1" text-anchor="middle">0.252</text>
+<circle cx="248.0" cy="323.7" r="5" fill="#45d0c1"/>
+<text x="248.0" y="313.71901916775874" font-size="11.5" fill="#45d0c1" text-anchor="middle">0.1</text>
+<circle cx="396.0" cy="358.2" r="5" fill="#45d0c1"/>
+<text x="396.0" y="348.23169510144055" font-size="11.5" fill="#45d0c1" text-anchor="middle">0.058</text>
+<circle cx="544.0" cy="368.9" r="5" fill="#45d0c1"/>
+<text x="544.0" y="358.91524696322585" font-size="11.5" fill="#45d0c1" text-anchor="middle">0.049</text>
+<circle cx="692.0" cy="352.0" r="5" fill="#45d0c1"/>
+<text x="692.0" y="341.9947557948287" font-size="11.5" fill="#45d0c1" text-anchor="middle">0.064</text>
+<circle cx="825.2" cy="257.6" r="5" fill="#45d0c1"/>
+<text x="825.2" y="247.58596648555056" font-size="11.5" fill="#45d0c1" text-anchor="middle">0.284</text>
+<text x="848" y="261.58596648555056" font-size="12.5" fill="#45d0c1" text-anchor="start" font-weight="700">中位数</text></svg>

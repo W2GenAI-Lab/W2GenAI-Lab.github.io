@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "created_for": "EchoSparse independent bilingual technical blog",
+  "sources": {
+    "repository": "https://github.com/Owen718/lse-sparse",
+    "branch": "main",
+    "commit": "05e2dab310bf7c710d8b5276aa588e433823db15",
+    "hardware": "NVIDIA B200 (GB200 node)",
+    "model": "Wan2.1-1.3B",
+    "resolution": "480x832",
+    "frames": 81,
+    "denoising_steps": 50,
+    "CFG": 6.0,
+    "seed": 1024,
+    "precision": "BF16 transformer, FP32 VAE",
+    "status": "Historical development experiments; not the released EchoSparse main configuration and not H100 packed benchmarks."
+  },
+  "remote_heads": {
+    "claude/dynkv-controller": "4b0af3df26cd5e9e9dfe1f7c1684a1220cbfd505",
+    "codex/cc-primary-lse5090-20261030": "7d170ade7747e27e72146f9fd03b19683ec6fba4",
+    "codex/echosparse-initial-root-20261031": "df2d0cc30031318ad27ee907fe3044bb097877a3",
+    "codex/echosparse-release-history-20261031": "f7526aef15421c6451b7967a0fc4a50af599d768",
+    "codex/echosparse-verified-root-20261031": "16a0339cdd206f1f107e9447269944bde7a90bf3",
+    "codex/h3-sparsity-psnr-20261030": "bd8b11f130d9cdceffc19129c54f06dfddf1cbe0",
+    "codex/packed-reps-h100-hpc3-20261031": "ffe995a7a458e9f9af6caa61e9185497b68fd730",
+    "codex/rtx5090-benchmark-20261029": "1515297e499464c39a177da552d1ab7b12c3f08b",
+    "echosparse-packed-reps-b200": "7c8d160511a73c13a5b4de32d523fce83b07612b",
+    "echosparse-rtx5090-review": "4cea7aa16ef94f6c944b46c314401a18c71d9a7f",
+    "exp/d06": "b84e8dd172c2b09f84a900f1f1e5bf6616dde8cc",
+    "exp/green-port": "a917b88ea92afb13b2905f442dd68fde53bfcc10",
+    "exp/layer-budget": "ec655d4ed5750e4f74348e54466bf7f13c62cc15",
+    "main": "05e2dab310bf7c710d8b5276aa588e433823db15",
+    "release": "7c9e926681b0c33fe58cb9511e4992af8dffba75",
+    "spase_4090": "8f012f53f7c71998b9f3af77745879c3225d5fb7"
+  },
+  "plots": [
+    {
+      "id": "lse-drift",
+      "priority": 1,
+      "data_file": "lse_drift.json",
+      "source_files": [
+        {
+          "path": "docs/REPORT.md",
+          "url": "https://github.com/Owen718/lse-sparse/blob/05e2dab310bf7c710d8b5276aa588e433823db15/docs/REPORT.md#3-相邻去噪步的-lse-变化13b5-个提示词",
+          "section": "3, reported summary table; local extract retained in raw/lse_drift_report_extract.md"
+        }
+      ],
+      "x": {
+        "key": "step_index",
+        "label": "Denoising step index",
+        "unit": "zero-based index"
+      },
+      "y": [
+        {
+          "key": "median_abs_delta_lse_nats",
+          "label": "Median absolute LSE change",
+          "unit": "natural-log units (nats)"
+        },
+        {
+          "key": "p99_abs_delta_lse_nats",
+          "label": "99th percentile absolute LSE change",
+          "unit": "natural-log units (nats)"
+        }
+      ],
+      "conditions": {
+        "reference": "Dense FA4 self-attention LSE at step t minus step t-1, same layer, CFG branch and token row",
+        "quality_prompt_count": 5,
+        "aggregation": "Reported median and p99 over recorded deltas; table provides seven reported step summaries rounded to the shown precision. Underlying per-row tensor not committed."
+      },
+      "plotting_notes": [
+        "Plot the seven summary points reported in the source. Straight joining lines may guide the eye; do not present values between them as reported, do not smooth or fit.",
+        "These are natural-log deltas, not log2 deltas. Do not copy the log2 fallback threshold onto this axis.",
+        "Do not invent error bands or confidence intervals; p99 is a percentile, not a confidence bound.",
+        "The sampled early and final steps have larger drift than the middle steps; do not generalize the mid-trajectory stability to every step."
+      ]
+    },
+    {
+      "id": "denoising-step-latency",
+      "priority": 2,
+      "data_file": "denoising_step_latency.json",
+      "source_files": [
+        {
+          "path": "outputs/results/curve13.json",
+          "url": "https://github.com/Owen718/lse-sparse/blob/05e2dab310bf7c710d8b5276aa588e433823db15/outputs/results/curve13.json"
+        },
+        {
+          "path": "lsekit/wan/ab.py",
+          "url": "https://github.com/Owen718/lse-sparse/blob/05e2dab310bf7c710d8b5276aa588e433823db15/lsekit/wan/ab.py"
+        },
+        {
+          "path": "lsekit/scripts/timing_main.sh",
+          "url": "https://github.com/Owen718/lse-sparse/blob/05e2dab310bf7c710d8b5276aa588e433823db15/lsekit/scripts/timing_main.sh"
+        }
+      ],
+      "x": {
+        "key": "step_number",
+        "label": "Denoising step",
+        "unit": "one-based step number 1-50"
+      },
+      "y": {
+        "key": "median_ms",
+        "label": "Two CFG transformer forwards per step",
+        "unit": "ms"
+      },
+      "conditions": {
+        "aggregation": "At each step, median/min/max over three independent recorded generations per arm. min/max are observed ranges, not confidence intervals.",
+        "initialization": "Sparse arm: zero-based steps0-8 use dense FA4; step9 (displayed step10) performs all-block fixed-offset initialization, then steps10-49 (displayed11-50) are sparse. Layer0 remains dense.",
+        "warmup": "Each arm one untimed full generation to compile/autotune before the three timed rounds. Fixed arm order in each round, same process; no randomized order.",
+        "configuration": "Historical single-mean LGSF, density0.10, refine0, separate CFG block selection. No H100 packing."
+      },
+      "plotting_notes": [
+        "Pointwise median curve may include thin min/max band explicitly labeled observed range (n=3), not confidence interval.",
+        "Mark the sparse phase beginning between displayed steps10 and11. Do not call step10 a sparse steady-state point.",
+        "This is transformer-forward sum, not attention-only time or complete scheduler-step wall time."
+      ]
+    },
+    {
+      "id": "density-quality-latency",
+      "priority": 3,
+      "data_file": "density_quality_latency.json",
+      "source_files": [
+        {
+          "path": "outputs/wan13b_curve_ab.json",
+          "url": "https://github.com/Owen718/lse-sparse/blob/05e2dab310bf7c710d8b5276aa588e433823db15/outputs/wan13b_curve_ab.json"
+        },
+        {
+          "path": "outputs/results/curve13.json",
+          "url": "https://github.com/Owen718/lse-sparse/blob/05e2dab310bf7c710d8b5276aa588e433823db15/outputs/results/curve13.json"
+        },
+        {
+          "path": "docs/REPORT.md",
+          "url": "https://github.com/Owen718/lse-sparse/blob/05e2dab310bf7c710d8b5276aa588e433823db15/docs/REPORT.md",
+          "section": "A.1, lines 870-900 at this commit"
+        },
+        {
+          "path": "lsekit/wan/plot_curve.py",
+          "url": "https://github.com/Owen718/lse-sparse/blob/05e2dab310bf7c710d8b5276aa588e433823db15/lsekit/wan/plot_curve.py"
+        },
+        {
+          "path": "lsekit/wan/quality.py",
+          "url": "https://github.com/Owen718/lse-sparse/blob/05e2dab310bf7c710d8b5276aa588e433823db15/lsekit/wan/quality.py"
+        }
+      ],
+      "x": {
+        "key": "sparse_phase_step_ms",
+        "label": "Sparse-phase denoising step latency",
+        "unit": "ms; sum of both CFG transformer forwards, not attention-only or full-video latency"
+      },
+      "y": {
+        "key": "psnr_vs_fa4_db",
+        "label": "PSNR against dense FA4 output",
+        "unit": "dB; higher is closer to reference"
+      },
+      "conditions": {
+        "configuration": "Historical 64-token fused single-mean compensation, refine=0, density 0.07/0.10/0.15/0.20; both CFG branches select separately; dense_calls20 means 10 dense steps; layer0 dense. Sol-Attn tau 1/1.5/2 matched warmup.",
+        "timing": "2026-10-26, exclusive B200 node, prompt0, same process, three alternating rounds. Each arm one untimed full generation first for compilation/autotune. Arms run in the same fixed order each round (not randomized/rotated).",
+        "aggregation": "Latency is median across three rounds of each round median over zero-based steps 10-49. Quality uses 25 prompts p0-p24, same seeds; PSNR is mean of per-frame PSNR then mean across prompts, not whole-video MSE PSNR.",
+        "quality_reference": "Dense FA4 generation, same prompt and seed. This is fidelity to a reference, not human perceptual quality."
+      },
+      "plotting_notes": [
+        "Prefer direct labeled scatter or straight lines within the same four-density or three-tau family. Do not connect unrelated configurations or fit a smooth frontier.",
+        "If using only one family, the historical LGSF density points suffice.",
+        "Do not label this as query-metric four-representative compensation, packed attention, or H100 data."
+      ]
+    }
+  ],
+  "selection_guidance": "Use any one or two plots that improve the article. LSE drift is the most direct support for the mathematical premise. Keep these historical B200 figures separate from the H100 163.48/71.65/44.51 ms fixture. No need to use all three."
+}
