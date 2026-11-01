@@ -11,7 +11,7 @@ const post = args.includes('--metadata-stdin') ? JSON.parse(fs.readFileSync(0, '
   : { authors: { en: 'EchoSparse Team', zh: 'EchoSparse Team' }, default_language: 'en' };
 const defaultLanguage = post.default_language || 'en';
 if (!['en', 'zh'].includes(defaultLanguage)) throw new Error('Unsupported default_language');
-const routes = defaultLanguage === 'en' ? { en: 'index.html', zh: 'zh.html' } : { en: 'en.html', zh: 'index.html' };
+const routes = { en: 'blog.html', zh: 'zh.html' };
 const escapeHtml = value => String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const highlight = (str, lang) => {
   const esc = str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -94,7 +94,7 @@ for (const [lg, T] of Object.entries(L)) {
   const anim = `<figure class="anim"><video id="anim" controls playsinline preload="metadata" poster="assets/echosparse-video-poster.png" aria-label="${T.alt}"><source src="assets/echosparse-v13-1080p.mp4" type="video/mp4"><a href="assets/echosparse-v13-1080p.mp4">MP4</a></video><figcaption>${lg === 'zh' ? '原版演示（早期实验）' : 'Original demonstration (early experiments)'}</figcaption></figure>`;
   html = html.replace(/<p><a href="assets\/echosparse-v13-1080p\.mp4"><img [^>]*echosparse-video-poster\.png[^>]*><\/a><\/p>|<figure><img [^>]*echosparse-explainer\.gif[^>]*><figcaption>[\s\S]*?<\/figcaption><\/figure>|<p><img [^>]*echosparse-explainer\.gif[^>]*><\/p>/, anim);
   html = html.replace(/<h1>.*?<\/h1>/, '');
-  const page = `<!doctype html><html lang="${T.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="author" content="${escapeHtml(author)}"><meta name="description" content="${escapeHtml(post.dek?.[lg] || '')}"><link rel="canonical" href="${PUBLIC_URL}${T.out === 'index.html' ? '' : T.out}"><link rel="alternate" hreflang="en" href="${PUBLIC_URL}${routes.en === 'index.html' ? '' : routes.en}"><link rel="alternate" hreflang="zh-CN" href="${PUBLIC_URL}${routes.zh === 'index.html' ? '' : routes.zh}"><title>${h1.replace(/<[^>]+>/g,'')}</title>
+  const page = `<!doctype html><html lang="${T.lang}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="author" content="${escapeHtml(author)}"><meta name="description" content="${escapeHtml(post.dek?.[lg] || '')}"><link rel="canonical" href="${PUBLIC_URL}${T.out}"><link rel="alternate" hreflang="en" href="${PUBLIC_URL}${routes.en}"><link rel="alternate" hreflang="zh-CN" href="${PUBLIC_URL}${routes.zh}"><title>${h1.replace(/<[^>]+>/g,'')}</title>
 <link rel="stylesheet" href="assets/katex/katex.min.css"><link rel="stylesheet" href="assets/lse-code-motion.css"><style>${CSS}</style></head><body>
 <header class="top"><a class="brand" href="${REPO}" target="_blank" rel="noopener">EchoSparse</a><nav><a href="${REPO}" target="_blank" rel="noopener">GitHub</a><a href="${T.other}" hreflang="${lg === 'zh' ? 'en' : 'zh'}">${T.otherName}</a></nav></header>
 <div class="layout"><aside class="toc"><details open><summary>${T.toc}</summary><ol>${toc.map(([id, t]) => `<li><a href="#${id}">${t}</a></li>`).join('')}</ol></details></aside>
@@ -110,6 +110,8 @@ if(window.matchMedia('(max-width:1179px)').matches)document.querySelector('aside
   console.log('wrote', T.out, toc.length, 'sections');
 }
 fs.writeFileSync(metadataPath, JSON.stringify(post, null, 2) + '\n');
-for (const [lg, alias] of [['en', 'en.html'], ['zh', 'zh.html']]) {
-  if (routes[lg] !== alias) fs.copyFileSync(path.join(root, routes[lg]), path.join(root, alias));
+// index.html and en.html stay as redirects so old links keep working.
+const redirect = target => `<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=${target}"><link rel="canonical" href="${PUBLIC_URL}${target}"><title>EchoSparse</title><script>location.replace(${JSON.stringify(target)} + location.hash)</script></head><body><a href="${target}">${target}</a></body></html>\n`;
+for (const alias of ['index.html', 'en.html']) {
+  fs.writeFileSync(path.join(root, alias), redirect(routes[defaultLanguage]));
 }

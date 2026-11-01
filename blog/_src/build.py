@@ -1,6 +1,6 @@
 """Build the static blog pages for w2genai-lab.github.io/blog/ from the Markdown sources.
 
-  python blog/_src/build.py .     # from the repository root: rewrites blog/index.html and blog/EchoSparse/index.html
+  python blog/_src/build.py .     # from the repository root: rewrites blog/index.html and the pages in blog/EchoSparse/
 """
 import html
 import json
@@ -26,12 +26,13 @@ POST = dict(
     authors=dict(en="EchoSparse Team", zh="EchoSparse Team"),
     title=dict(en="EchoSparse: Letting Last Step's Statistics Steer This Step, Approximating at Multiple Resolutions "
                   "Instead of Dropping, and Packing Sparse Attention Tightly",
-               zh="EchoSparse：让上一步的统计量为下一步指路，用多层级近似代替丢弃，再把稀疏 attention 排得更紧"),
+               zh="EchoSparse：复用上一去噪步的统计量，用多级近似代替丢弃，并打包稀疏 attention 的计算"),
     dek=dict(en="Building on PISA and Sol-Attn, EchoSparse uses the previous denoising step's LSE as a fixed softmax "
                 "offset and its block masses to allocate 1, 4 or 64 columns per KV block instead of dropping any, then "
                 "packs the fragmented representative columns into wide GEMM tiles and overlaps data movement with compute.",
-             zh="在 PISA 与 Sol-Attn 的基础上，EchoSparse 用上一去噪步的 LSE 作为 softmax 的固定偏移，用块质量给每个 KV "
-                "块分配 1、4 或 64 列而不是丢弃，再把零碎的代表列拼成更宽的 GEMM tile，让搬运与计算重叠。"),
+             zh="EchoSparse 在 PISA 和 Sol-Attn 的基础上做了三项改动：把上一去噪步的 LSE 作为 softmax 的固定偏移；"
+                "按块质量给每个 KV 块分配 1、4 或 64 列，所有块都参与计算；把零碎的代表列拼成更宽的 GEMM tile，"
+                "并让数据搬运与计算重叠。"),
     teaser_alt=dict(en="EchoSparse on Wan2.1-14B: 1.70× faster than FlashAttention-4 on a B200, closer to the dense "
                        "video than Sol-Attn and PISA",
                     zh="EchoSparse 在 Wan2.1-14B 上：B200 上比 FlashAttention-4 快 1.70 倍，比 Sol-Attn 和 PISA 更接近"
@@ -262,7 +263,7 @@ def index_page():
         parts.append(f"""<section class="list" data-lang="{lang}"{hidden}>
   <h1>{title}</h1>
   <p class="intro">{intro}</p>
-  <a class="entry" href="{p['slug']}/">
+  <a class="entry" href="{p['slug']}/{'blog.html' if lang == 'en' else 'zh.html'}">
     <div class="entry-meta">{p['date_text'][lang]}</div>
     <h2 class="entry-title">{html.escape(p['title'][lang])}</h2>
     <p class="entry-dek">{html.escape(p['dek'][lang])}</p>

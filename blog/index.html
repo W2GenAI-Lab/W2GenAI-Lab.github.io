@@ -274,7 +274,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <section class="list" data-lang="en">
   <h1>Blog</h1>
   <p class="intro">Research notes from W2GenAI Lab.</p>
-  <a class="entry" href="EchoSparse/">
+  <a class="entry" href="EchoSparse/blog.html">
     <div class="entry-meta">November 1, 2026</div>
     <h2 class="entry-title">EchoSparse: Letting Last Step&#x27;s Statistics Steer This Step, Approximating at Multiple Resolutions Instead of Dropping, and Packing Sparse Attention Tightly</h2>
     <p class="entry-dek">Building on PISA and Sol-Attn, EchoSparse uses the previous denoising step&#x27;s LSE as a fixed softmax offset and its block masses to allocate 1, 4 or 64 columns per KV block instead of dropping any, then packs the fragmented representative columns into wide GEMM tiles and overlaps data movement with compute.</p>
@@ -283,10 +283,10 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 <section class="list" data-lang="zh" hidden>
   <h1>博客</h1>
   <p class="intro">W2GenAI Lab 的研究笔记。</p>
-  <a class="entry" href="EchoSparse/">
+  <a class="entry" href="EchoSparse/zh.html">
     <div class="entry-meta">2026 年 11 月 1 日</div>
-    <h2 class="entry-title">EchoSparse：让上一步的统计量为下一步指路，用多层级近似代替丢弃，再把稀疏 attention 排得更紧</h2>
-    <p class="entry-dek">在 PISA 与 Sol-Attn 的基础上，EchoSparse 用上一去噪步的 LSE 作为 softmax 的固定偏移，用块质量给每个 KV 块分配 1、4 或 64 列而不是丢弃，再把零碎的代表列拼成更宽的 GEMM tile，让搬运与计算重叠。</p>
+    <h2 class="entry-title">EchoSparse：复用上一去噪步的统计量，用多级近似代替丢弃，并打包稀疏 attention 的计算</h2>
+    <p class="entry-dek">EchoSparse 在 PISA 和 Sol-Attn 的基础上做了三项改动：把上一去噪步的 LSE 作为 softmax 的固定偏移；按块质量给每个 KV 块分配 1、4 或 64 列，所有块都参与计算；把零碎的代表列拼成更宽的 GEMM tile，并让数据搬运与计算重叠。</p>
   </a>
 </section>
 </main>

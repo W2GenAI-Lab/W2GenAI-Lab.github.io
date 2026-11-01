@@ -19,7 +19,7 @@ Python retains the blog listing generator and invokes `blog/EchoSparse/sources/b
 passing `POST` as JSON on stdin and `src/` as the source directory. This preserves the article's black Canvas
 style and keeps its author metadata and language selection tied to `POST`.
 
-The article opens in English at `blog/EchoSparse/index.html`. Chinese is at `zh.html`; `en.html` remains an
-English compatibility alias. Figures, the original animation, local fonts and KaTeX assets live in
+The article opens in English at `blog/EchoSparse/blog.html`. Chinese is at `zh.html`; `index.html` and `en.html`
+redirect to the English page. Figures, the original animation, local fonts and KaTeX assets live in
 `blog/EchoSparse/assets/`. Write math as `$...$` inline or `$$...$$` for display. The article renderer compiles
 math during the build, so the generated pages do not need a network request to render it.

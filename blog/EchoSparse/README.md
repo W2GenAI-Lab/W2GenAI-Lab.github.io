@@ -1,8 +1,8 @@
 # EchoSparse blog
 
-By EchoSparse Team. Publication target: https://w2genai-lab.github.io/blog/EchoSparse/ .
+By EchoSparse Team. Publication target: https://w2genai-lab.github.io/blog/EchoSparse/blog.html .
 
-- `index.html`: English, the default page. `en.html` is a compatible English alias.
+- `blog.html`: English, the default page. `index.html` and `en.html` redirect to it.
 - `zh.html`: 中文版。
 - `echosparse_en.md` and `echosparse_zh.md`: complete Markdown exports.
 - `assets/`: figures, local fonts and math assets, the GIF and the original Canvas animation.
@@ -10,7 +10,7 @@ By EchoSparse Team. Publication target: https://w2genai-lab.github.io/blog/EchoS
 
 ## 离线打开
 
-将整个文件夹复制到本地并解压，双击 `index.html` 看英文，或双击 `zh.html` 看中文。请保留 `assets/` 等子目录；阅读不需要服务器、联网或安装依赖。
+将整个文件夹复制到本地并解压，双击 `blog.html` 看英文，或双击 `zh.html` 看中文。请保留 `assets/` 等子目录；阅读不需要服务器、联网或安装依赖。
 
 ## Edit and rebuild in the website repository
 
@@ -23,7 +23,7 @@ npm install --prefix blog/_src
 python3 blog/_src/build.py .
 ```
 
-This regenerates the blog listing, English default, Chinese page, English alias, metadata snapshot and Markdown
+This regenerates the blog listing, English page, Chinese page, the two redirect pages, metadata snapshot and Markdown
 exports. Do not edit generated HTML directly. The latest upstream RTX 5090 light/dark result charts are retained
 unchanged; the article uses `assets/results-rtx5090-dark.png`.
 
