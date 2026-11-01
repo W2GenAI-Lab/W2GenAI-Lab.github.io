@@ -135,7 +135,7 @@ LANG_JS = r"""
   function get(){try{return localStorage.getItem(KEY)}catch(e){return null}}
   function set(v){try{localStorage.setItem(KEY,v)}catch(e){}}
   var q=(location.search.match(/[?&]lang=(en|zh)/)||[])[1];
-  var lang=q||get()||((navigator.language||'').toLowerCase().indexOf('zh')===0?'zh':'en');
+  var lang=q||get()||'en';
   function apply(l){
     document.querySelectorAll('[data-lang]').forEach(function(el){el.hidden=el.getAttribute('data-lang')!==l});
     document.documentElement.lang=l==='zh'?'zh-CN':'en';
