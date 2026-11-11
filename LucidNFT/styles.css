@@ -126,6 +126,12 @@ a:hover {
     font-size: 1.05em;
 }
 
+.paper-venue {
+    margin: 0 auto 8px;
+    color: #007acc;
+    font-weight: 700;
+}
+
 .authors {
     margin-bottom: 10px;
     font-size: 1.05em;
@@ -298,6 +304,14 @@ th:nth-child(2) {
 
 .compact-table table {
     font-size: 0.85rem;
+}
+
+.compact-table.dataset-table {
+    overflow-x: auto;
+}
+
+.compact-table.dataset-table table {
+    min-width: 640px;
 }
 
 .wide-table table {

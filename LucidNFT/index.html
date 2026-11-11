@@ -28,6 +28,7 @@
     <div class="content">
         <div id="paper-info" class="paper-info">
             <h1>LucidNFT: LR-Anchored Multi-Reward Preference Optimization for Flow-Based Real-World Super-Resolution</h1>
+            <p class="paper-venue">NeurIPS 2026</p>
             <p class="tagline">Rollout-group multi-reward fine-tuning for flow-based Real-ISR with LR-referenced faithfulness.</p>
 
             <div class="authors">
@@ -61,6 +62,9 @@
             <p>
                 LucidNFT is a multi-reward RL framework for flow-matching Real-ISR. It introduces LucidConsistency, a degradation-invariant and hallucination-sensitive LR-referenced evaluator trained with content-consistent degradation pools and original-inpainted hard negatives; a decoupled reward normalization strategy that preserves objective-wise contrasts within each LR-conditioned rollout group before fusion; and LucidLR, a large-scale collection of real-world degraded images for robust RL fine-tuning.
             </p>
+            <p>
+                Across two flow-based Real-ISR backbones, LucidNFT improves perceptual quality while generally maintaining LR-referenced faithfulness. In a separate human study, experts preferred its outputs as more faithful to the LR input in 72.5% of 200 comparisons.
+            </p>
 
             <div class="feature-grid">
                 <article>
@@ -81,9 +85,9 @@
         <section id="method" class="info-section">
             <h2>Method</h2>
             <figure>
-                <img src="fig/lucidconsistency.png" alt="Overview of LucidConsistency">
+                <a href="fig/overview-2026.png" target="_blank" aria-label="Open full-size LucidNFT method figure"><img src="fig/overview-2026.png" alt="LucidNFT overview: LucidConsistency training and scoring, followed by decoupled reward normalization for flow-based super-resolution"></a>
                 <figcaption>
-                    Overview of LucidConsistency. Same-content views under different degradation levels form positive pools, while original-inpainted pools provide spatially aligned hard negatives for localized AI-generated hallucinations.
+                    LucidNFT overview. LucidConsistency learns from content-consistent degraded views and original-inpainted hard negatives, then scores an SR output against its LR input. During RL fine-tuning, the perceptual and faithfulness rewards are normalized separately within each rollout group before their advantages are fused.
                 </figcaption>
             </figure>
 
@@ -98,14 +102,14 @@
                 </article>
                 <article>
                     <h3>LucidNFT fine-tuning</h3>
-                    <p>LucidNFT uses UniPercept IQA as the perceptual reward and LucidConsistency as the LR-faithfulness reward. Fine-tuning uses LoRA rank 32, 12 rollouts per LR input, and LucidLR as the real-world LR source.</p>
+                    <p>LucidNFT uses UniPercept IQA as the perceptual reward and LucidConsistency as the LR-faithfulness reward. Fine-tuning uses LoRA rank 32, 24 LR groups of 12 rollouts per step, and LucidLR as the real-world LR source.</p>
                 </article>
             </div>
 
             <figure>
-                <img src="fig/advantage_ana.png" alt="Advantage separability analysis">
+                <img src="fig/advantage-gap-2026.png" alt="Advantage gaps with scalar-first and decoupled reward normalization">
                 <figcaption>
-                    Advantage separability analysis on LucidFlux using RealLQ250. Decoupled normalization produces larger advantage gaps and more distinct advantage levels than scalar-first reward aggregation under the same DiffusionNFT objective.
+                    Advantage-gap analysis on RealLQ250. Decoupled normalization preserves larger contrasts than scalar-first aggregation across rollout-group sizes; at 12 rollouts, the mean gap is 2.19 versus 0.72.
                 </figcaption>
             </figure>
         </section>
@@ -113,30 +117,31 @@
         <section id="lucidlr" class="info-section">
             <h2>LucidLR Dataset</h2>
             <p>
-                LucidLR is a 20K-image real-world low-quality dataset collected from Wikimedia Commons through its official API. Images are gathered from public low-quality and blurred-image categories, filtered from an approximately 22K-image raw pool with NSFW classification, corrupted-file removal, and manual review.
+                LucidLR contains 20,000 real-world low-quality photographs collected from Wikimedia Commons. A 21.7K-image raw pool was screened for unsafe content, very small images, and unavailable source pages. The released images have redistribution-compatible licenses with per-image source, author, and license metadata. Across the dataset, the paper identifies 13 semantic categories and 15 primary-degradation types.
             </p>
             <figure>
-                <img src="fig/lucidlr.png" alt="Representative LucidLR samples">
-                <figcaption>Representative LucidLR samples with diverse real-world degradations, used as LR inputs for RL fine-tuning.</figcaption>
+                <img src="fig/lucidlr-samples-2026.png" alt="LucidLR examples showing defocus blur, motion blur, noise, JPEG artifacts, low light, haze, color cast, and overexposure">
+                <figcaption>Representative LucidLR inputs and their dominant real-world degradations. These low-quality photographs supply LR inputs for RL fine-tuning.</figcaption>
             </figure>
 
-            <div class="table-wrap compact-table">
+            <div class="table-wrap compact-table dataset-table">
                 <table>
-                    <caption>Comparison of representative real-world datasets used in Real-ISR.</caption>
+                    <caption>Real-world Real-ISR datasets. Degradation types exclude “other” and “none”; defocus is the share of images whose primary degradation is defocus blur.</caption>
                     <thead>
                         <tr>
                             <th>Dataset</th>
                             <th>Pairing</th>
-                            <th>Primary Usage</th>
-                            <th>Type</th>
+                            <th>Usage</th>
                             <th># Images</th>
+                            <th>Degr. Types</th>
+                            <th>Defocus</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td>RealSR</td><td>Paired</td><td>Testing / Benchmark</td><td>Real-captured</td><td>100</td></tr>
-                        <tr><td>DRealSR</td><td>Paired</td><td>Testing / Benchmark</td><td>Real-captured</td><td>93</td></tr>
-                        <tr><td>RealLQ250</td><td>Unpaired</td><td>Testing / Benchmark</td><td>Real-world</td><td>250</td></tr>
-                        <tr><td><strong>LucidLR</strong></td><td>Unpaired</td><td>RL / Unsupervised Training</td><td>Real-world</td><td><strong>20K</strong></td></tr>
+                        <tr><td>RealSR</td><td>Paired</td><td>Benchmark</td><td>100</td><td>4</td><td>82.0%</td></tr>
+                        <tr><td>DRealSR</td><td>Paired</td><td>Benchmark</td><td>93</td><td>5</td><td>91.4%</td></tr>
+                        <tr><td>RealLQ250</td><td>Unpaired</td><td>Benchmark</td><td>250</td><td>10</td><td>43.2%</td></tr>
+                        <tr><td><strong>LucidLR</strong></td><td>Unpaired</td><td>RL training</td><td><strong>20,000</strong></td><td><strong>15</strong></td><td><strong>26.5%</strong></td></tr>
                     </tbody>
                 </table>
             </div>
@@ -145,7 +150,10 @@
         <section id="results" class="info-section">
             <h2>Results</h2>
             <p>
-                Experiments evaluate LucidNFT on two flow-based Real-ISR models, LucidFlux and DiT4SR. All methods are evaluated at 1024 x 1024 output resolution with 4x upscaling. The paper reports eight no-reference quality metrics and LucidConsistency as an LR-referenced consistency score without HR ground truth.
+                Experiments evaluate LucidNFT on two flow-based Real-ISR models, LucidFlux and DiT4SR, at 1024 × 1024 output resolution with 4× upscaling. On LucidFlux, the method improves all eight no-reference perceptual metrics across RealLQ250, DRealSR, and RealSR while generally maintaining LR-referenced consistency.
+            </p>
+            <p>
+                <strong>Independent human evaluation:</strong> For 40 held-out RealSR inputs, five expert annotators compared LucidFlux with LucidFlux(+LucidNFT) using LR faithfulness rather than sharpness or aesthetics. They preferred the LucidNFT outputs in <strong>72.5% of 200 comparisons</strong>.
             </p>
 
             <figure>
@@ -227,17 +235,18 @@
 
                 <div class="table-wrap compact-table">
                     <table>
-                        <caption>Ablation study on RealLQ250 using LucidFlux.</caption>
+                        <caption>Controlled ablation on RealLQ250 using LucidFlux. The baseline row gives absolute scores; other rows are changes relative to that baseline.</caption>
                         <thead>
                             <tr><th>Method</th><th>UniPercept ↑</th><th>VQ-R1 ↑</th><th>NIQE ↓</th><th>LucidConsistency ↑</th></tr>
                         </thead>
                         <tbody>
                             <tr><td>LucidFlux baseline</td><td>70.930</td><td>4.547</td><td>3.741</td><td>0.9237</td></tr>
-                            <tr><td>(A) IQA-only RL</td><td>71.538</td><td>4.601</td><td>3.514</td><td>0.9259</td></tr>
-                            <tr><td>(B) + Frozen semantic reward</td><td>71.366</td><td>4.596</td><td>3.529</td><td>0.9298</td></tr>
-                            <tr><td>(C) + LucidConsistency reward</td><td>71.214</td><td>4.593</td><td>3.547</td><td>0.9341</td></tr>
-                            <tr><td>(D) + Decoupled norm.</td><td>72.703</td><td>4.633</td><td>3.372</td><td><strong>0.9356</strong></td></tr>
-                            <tr><td><strong>(E) + LucidLR</strong></td><td><strong>73.479</strong></td><td><strong>4.651</strong></td><td><strong>3.253</strong></td><td>0.9345</td></tr>
+                            <tr><td>(A) UniPercept IQA reward</td><td>+0.608</td><td>+0.054</td><td>−0.227</td><td>+0.0022</td></tr>
+                            <tr><td>(B) (A) + frozen semantic reward</td><td>+0.436</td><td>+0.049</td><td>−0.212</td><td>+0.0061</td></tr>
+                            <tr><td>(C) (B), semantic → LucidConsistency</td><td>+0.284</td><td>+0.046</td><td>−0.194</td><td>+0.0104</td></tr>
+                            <tr><td>(D) (C), LSDIR → LucidLR</td><td>+1.40</td><td>+0.062</td><td>−0.345</td><td>+0.0114</td></tr>
+                            <tr><td>(E) (C), scalar-first → decoupled</td><td>+1.773</td><td>+0.086</td><td>−0.369</td><td><strong>+0.0119</strong></td></tr>
+                            <tr><td><strong>(F) (E), LSDIR → LucidLR (full)</strong></td><td><strong>+2.549</strong></td><td><strong>+0.104</strong></td><td><strong>−0.488</strong></td><td>+0.0108</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -354,10 +363,10 @@
 
         <section id="citation" class="paper-citation">
             <h2>Citation</h2>
-            <pre><code>@article{fei2026lucidnft,
+            <pre><code>@inproceedings{fei2026lucidnft,
   title={LucidNFT: LR-Anchored Multi-Reward Preference Optimization for Flow-Based Real-World Super-Resolution},
   author={Fei, Song and Ye, Tian and Chen, Sixiang and Xing, Zhaohu and Lai, Jianyu and Zhu, Lei},
-  journal={arXiv},
+  booktitle={Advances in Neural Information Processing Systems},
   year={2026}
 }</code></pre>
         </section>
